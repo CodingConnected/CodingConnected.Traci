@@ -87,7 +87,62 @@ void TraCIControlSimStep()
    
     TraCIResults results = SendTraCIMessage(command);
     // TODO: handle response
+
+    // Free!
+    free(command.Contents);
     FreeResults(results);
+}
+
+double TraCIGetLaneAreaLastStepOccupancy(const char * id)
+{
+    TraCICommand command;
+    command.Identifier = CMD_GET_LANEAREA_VARIABLE;
+    command.ContentsLength = 5 + strlen(id);
+    command.Contents = (unsigned char *)malloc(sizeof(unsigned char) * command.ContentsLength);
+    *command.Contents = LAST_STEP_OCCUPANCY;
+    int n = strlen(id);
+    *(command.Contents + 1) = (n >> 24) & 0xFF;
+    *(command.Contents + 2) = (n >> 16) & 0xFF;
+    *(command.Contents + 3) = (n >> 8) & 0xFF;
+    *(command.Contents + 4) = n & 0xFF;
+    for (int i = 5; i < command.ContentsLength; i++)
+    {
+        *(command.Contents + i) = *(id + (i - 5));
+    }
+
+    TraCIResults results = SendTraCIMessage(command);
+
+    if (results.Count > 0)
+    {
+        for (int i = 0; i < results.Count; i++)
+        {
+            TraCIResult result = *(results.Results + i);
+            if (result.Identifier == RESPONSE_GET_LANEAREA_VARIABLE &&
+                *result.Contents == LAST_STEP_OCCUPANCY)
+            {
+                int32_t idLength = 0;
+                for (int j = 0; j < 4; j++) {
+                    idLength <<= 4;
+                    idLength |= *(result.Contents + j + 1);
+                }
+                //var ids = BitConverter.ToString(r.Response, 5, idl);
+                unsigned char type = *(result.Contents + 5 + idLength);
+                double perOcc = 0;
+                unsigned char dbl[8];
+                dbl[7] = *(result.Contents + 6 + idLength);
+                dbl[6] = *(result.Contents + 7 + idLength);
+                dbl[5] = *(result.Contents + 8 + idLength);
+                dbl[4] = *(result.Contents + 9 + idLength);
+                dbl[3] = *(result.Contents + 10 + idLength);
+                dbl[2] = *(result.Contents + 11 + idLength);
+                dbl[1] = *(result.Contents + 12 + idLength);
+                dbl[0] = *(result.Contents + 13 + idLength);
+                memcpy(&perOcc, dbl, 8);
+                return perOcc;
+            }
+        }
+    }
+    return -1;
 }
 
 TraCIResults SendTraCIMessage(TraCICommand command)
@@ -111,7 +166,7 @@ TraCIResults SendTraCIMessage(TraCICommand command)
     if (iResult > 0)
     {
         messageLength = 0;
-        for (int i = 3; i >= 0; i--) {
+        for (int i = 0; i < 4; i++) {
             messageLength <<= 4;
             messageLength |= IncomingBytesBuffer[i];
         }
@@ -120,9 +175,8 @@ TraCIResults SendTraCIMessage(TraCICommand command)
 
         TraCIResult temp[32];
         int resultIndex = 0;
-        for (int curIndex = 4; curIndex < messageLength; curIndex++)
+        for (int curIndex = 4; curIndex < messageLength; )
         {
-            TraCIResult result;
             int curMsgIndex = 0;
             int len = IncomingBytesBuffer[curIndex + curMsgIndex++];
             if (len == 0)
@@ -130,11 +184,11 @@ TraCIResults SendTraCIMessage(TraCICommand command)
                 if (curMsgIndex + 3 < len)
                 {
                     int32_t _curMsgLength = 0;
-                    for (int i = 3; i >= 0; i--) {
-                        messageLength <<= 4;
-                        messageLength |= IncomingBytesBuffer[curIndex + curMsgIndex + i];
+                    for (int i = 0; i < 4; i++) {
+                        _curMsgLength <<= 4;
+                        _curMsgLength |= IncomingBytesBuffer[curIndex + curMsgIndex + i];
                     }
-                    result.ContentsLength = _curMsgLength - 6;
+                    temp[resultIndex].ContentsLength = _curMsgLength - 6;
                     curMsgIndex += 4;
                 }
                 else
@@ -144,19 +198,21 @@ TraCIResults SendTraCIMessage(TraCICommand command)
             }
             else
             {
-                result.ContentsLength = len - 2; // bytes lenght will be: msg - length - id
+                temp[resultIndex].ContentsLength = len - 2; // bytes lenght will be: msg - length - id
             }
-            result.Contents = (char *)malloc(sizeof(char) * result.ContentsLength);
-            result.Identifier = IncomingBytesBuffer[curIndex + curMsgIndex++];
+            if (temp[resultIndex].ContentsLength > 0)
+                temp[resultIndex].Contents = (unsigned char *)malloc(sizeof(unsigned char) * temp[resultIndex].ContentsLength);
+            temp[resultIndex].Identifier = (unsigned char)IncomingBytesBuffer[curIndex + curMsgIndex++];
+            int k = 0;
             while (curMsgIndex < len)
             {
-                *(result.Contents + curMsgIndex) = IncomingBytesBuffer[curIndex + curMsgIndex++];
+                *(temp[resultIndex].Contents + k) = IncomingBytesBuffer[curIndex + curMsgIndex++];
+                k++;
             }
             curIndex += curMsgIndex;
-            temp[resultIndex++] = result;
-
+            resultIndex++;
         }
-        TraCIResult * ttemp = (TraCIResult *)malloc(sizeof(TraCIResult) * resultIndex);
+        TraCIResult * ttemp = (TraCIResult *)malloc(sizeof(TraCIResult) * (resultIndex + 1));
         for (int i = 0; i < resultIndex; i++)
         {
             *(ttemp + i) = temp[i];
@@ -175,7 +231,8 @@ static void FreeResults(TraCIResults results)
     for (int i = 0; i < results.Count; i++)
     {
         TraCIResult result = *(results.Results + i);
-        free(result.Contents);
+        if (result.ContentsLength > 0)
+            free(result.Contents);
     }
     free(results.Results);
 }

@@ -5,16 +5,16 @@
 
 typedef struct TraCICommandStruct
 {
-    char Identifier;
+    unsigned char Identifier;
     int ContentsLength;
-    char * Contents;
+    unsigned char * Contents;
 } TraCICommand;
 
 typedef struct TraCIResultStruct
 {
-    char Identifier;
+    unsigned char Identifier;
     int ContentsLength;
-    char * Contents;
+    unsigned char * Contents;
 } TraCIResult;
 
 typedef struct TraCIResultsStruct
@@ -27,6 +27,8 @@ int TraCIConnect(char * hostname, char * port);
 void TraCICloseConnection();
 
 void TraCIControlSimStep();
+double TraCIGetLaneAreaLastStepOccupancy(const char * id);
+
 TraCIResults SendTraCIMessage(TraCICommand command);
 
 static void FreeResults(TraCIResults results);

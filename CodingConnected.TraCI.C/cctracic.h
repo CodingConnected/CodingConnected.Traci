@@ -20,5 +20,5 @@ char * Port;
 char * Hostname;
 
 char Connected = 0;
-char OutgoingBytesBuffer[MAXTCPBUFFER];
-char IncomingBytesBuffer[MAXTCPBUFFER];
+unsigned char OutgoingBytesBuffer[MAXTCPBUFFER];
+unsigned char IncomingBytesBuffer[MAXTCPBUFFER];
