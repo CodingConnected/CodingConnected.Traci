@@ -28,6 +28,7 @@ void TraCICloseConnection();
 
 void TraCIControlSimStep();
 double TraCIGetLaneAreaLastStepOccupancy(const char * id);
+void TraCISetTrafficLightState(const char * trafficLightId, const char * state);
 
 TraCIResults SendTraCIMessage(TraCICommand command);
 

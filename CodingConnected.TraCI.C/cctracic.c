@@ -97,10 +97,10 @@ double TraCIGetLaneAreaLastStepOccupancy(const char * id)
 {
     TraCICommand command;
     command.Identifier = CMD_GET_LANEAREA_VARIABLE;
-    command.ContentsLength = 5 + strlen(id);
+    int n = strlen(id);
+    command.ContentsLength = 5 + n;
     command.Contents = (unsigned char *)malloc(sizeof(unsigned char) * command.ContentsLength);
     *command.Contents = LAST_STEP_OCCUPANCY;
-    int n = strlen(id);
     *(command.Contents + 1) = (n >> 24) & 0xFF;
     *(command.Contents + 2) = (n >> 16) & 0xFF;
     *(command.Contents + 3) = (n >> 8) & 0xFF;
@@ -143,6 +143,40 @@ double TraCIGetLaneAreaLastStepOccupancy(const char * id)
         }
     }
     return -1;
+}
+
+void TraCISetTrafficLightState(const char * trafficLightId, const char * state)
+{
+    TraCICommand command;
+    command.Identifier = CMD_SET_TL_VARIABLE;
+    int idLen = strlen(trafficLightId);
+    int stLen = strlen(state);
+    command.ContentsLength = 10 + idLen + stLen;
+    command.Contents = (unsigned char *)malloc(sizeof(unsigned char) * command.ContentsLength);
+    *command.Contents = TL_RED_YELLOW_GREEN_STATE;
+    *(command.Contents + 1) = (idLen >> 24) & 0xFF;
+    *(command.Contents + 2) = (idLen >> 16) & 0xFF;
+    *(command.Contents + 3) = (idLen >> 8) & 0xFF;
+    *(command.Contents + 4) = idLen & 0xFF;
+    int i = 5;
+    for (; i < idLen + 5; i++)
+    {
+        *(command.Contents + i) = *(trafficLightId + (i - 5));
+    }
+    *(command.Contents + i) = TYPE_STRING;
+    *(command.Contents + i + 1) = (stLen >> 24) & 0xFF;
+    *(command.Contents + i + 2) = (stLen >> 16) & 0xFF;
+    *(command.Contents + i + 3) = (stLen >> 8) & 0xFF;
+    *(command.Contents + i + 4) = stLen & 0xFF;
+    int p = idLen + stLen + 10;
+    int k = 0;
+    for (i = i + 5; i < p; i++)
+    {
+        *(command.Contents + i) = *(state + k);
+        k++;
+    }
+
+    TraCIResults results = SendTraCIMessage(command);
 }
 
 TraCIResults SendTraCIMessage(TraCICommand command)
