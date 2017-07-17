@@ -63,7 +63,7 @@ namespace CodingConnected.TraCI.NET
         {
             var command = new TraCICommand
             {
-                Identifier = TraCIConstants.CMD_GETVERSION,
+                Identifier = TraCIConstants.CMD_GETVERSION, 
                 Contents = null
             };
             var response = SendMessage(command);
