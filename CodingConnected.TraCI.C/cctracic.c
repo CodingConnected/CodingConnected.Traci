@@ -93,6 +93,27 @@ void TraCIControlSimStep()
     FreeResults(results);
 }
 
+void TraCISetOrder(int order)
+{
+    TraCICommand command;
+    command.Identifier = 0x03;
+    command.Contents = (char *)malloc(sizeof(char) * 4);
+    command.ContentsLength = 4;
+    
+    int n = order;
+    *(command.Contents + 3) = n & 0xFF;
+    *(command.Contents + 2) = (n >> 8) & 0xFF;
+    *(command.Contents + 1) = (n >> 16) & 0xFF;
+    *(command.Contents) = (n >> 24) & 0xFF;
+
+    TraCIResults results = SendTraCIMessage(command);
+    // TODO: handle response
+
+    // Free!
+    free(command.Contents);
+    FreeResults(results);
+}
+
 double TraCIGetLaneAreaLastStepOccupancy(const char * id)
 {
     TraCICommand command;

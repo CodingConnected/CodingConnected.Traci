@@ -27,6 +27,7 @@ int TraCIConnect(char * hostname, char * port);
 void TraCICloseConnection();
 
 void TraCIControlSimStep();
+void TraCISetOrder(int order);
 double TraCIGetLaneAreaLastStepOccupancy(const char * id);
 void TraCISetTrafficLightState(const char * trafficLightId, const char * state);
 

@@ -464,6 +464,8 @@
         // traffic light states, encoded as rRgGyYoO tuple (get: traffic lights)
         public const byte TL_RED_YELLOW_GREEN_STATE = 0x20;
 
+        public const byte TL_RED_YELLOW_GREEN_SINGLESTATE = 0x21;
+
         // index of the phase (set: traffic lights)
         public const byte TL_PHASE_INDEX = 0x22;
 
