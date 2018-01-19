@@ -308,7 +308,7 @@ namespace CodingConnected.TraCI.NET.Helpers
                     trresult.Length = len - 2; // bytes lenght will be: msg - length - id
                     if (len == 0)
                     {
-                        if (j + 3 < len)
+                        if (j + i + 3 < totlength)
                         {
                             revLength = new byte[4];
                             revLength[0] = response[i + j + 3];
