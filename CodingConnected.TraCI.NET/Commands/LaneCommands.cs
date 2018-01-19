@@ -1,7 +1,5 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using CodingConnected.TraCI.NET.Helpers;
-using CodingConnected.TraCI.NET.Types;
 
 namespace CodingConnected.TraCI.NET.Commands
 {
@@ -103,13 +101,13 @@ namespace CodingConnected.TraCI.NET.Commands
 		{
 			// TODO; handle compound data (see http://sumo.dlr.de/wiki/TraCI/Traffic_Lights_Value_Retrieval)
 			// Question here: is it returned as compound data, or as a shape?
-			throw new NotSupportedException("TODO: interpret compound object");
-			//return 
-			//	TraCICommandHelper.ExecuteCommand<int>(
-			//		Client, 
-			//		id, 
-			//		TraCIConstants.CMD_GET_LANE_VARIABLE,
-			//		TraCIConstants.VAR_SHAPE);
+			//throw new NotSupportedException("TODO: interpret compound object");
+			return 
+				TraCICommandHelper.ExecuteCommand<int>(
+					Client, 
+					id, 
+					TraCIConstants.CMD_GET_LANE_VARIABLE,
+					TraCIConstants.VAR_SHAPE);
 		}
 
 		public double GetWidth(string id)

@@ -606,6 +606,8 @@ namespace CodingConnected.TraCI.NET.Commands
 					0x7f);
 		}
 
+		// TODO: 'extended retrieval', see: http://sumo.dlr.de/wiki/TraCI/Vehicle_Value_Retrieval
+
 		#endregion // Public Methods
 
 		#region Constructor

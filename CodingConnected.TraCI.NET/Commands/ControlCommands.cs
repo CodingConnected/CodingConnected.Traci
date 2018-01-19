@@ -53,12 +53,13 @@ namespace CodingConnected.TraCI.NET.Commands
 		/// Instruct SUMO to execute a single simulation step
 		/// Note: the size of the step is set via the relevant .sumcfg file
 		/// </summary>
-		public void SimStep()
+		/// <param name="targetTime">If this is not 0, SUMO will run until target time is reached</param>
+		public void SimStep(int targetTime = 0)
 		{
 			var command = new TraCICommand
 			{
 				Identifier = TraCIConstants.CMD_SIMSTEP,
-				Contents = BitConverter.GetBytes(0)
+				Contents = TraCIDataConverter.GetTraCIBytesFromInt32(targetTime)
 			};
 			// ReSharper disable once UnusedVariable
 			var response = Client.SendMessage(command);

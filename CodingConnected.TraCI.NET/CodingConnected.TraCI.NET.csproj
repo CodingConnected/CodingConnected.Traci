@@ -42,14 +42,22 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Commands\ControlCommands.cs" />
+    <Compile Include="Commands\EdgeCommands.cs" />
+    <Compile Include="Commands\GuiCommands.cs" />
     <Compile Include="Commands\InductionLoopCommands.cs" />
+    <Compile Include="Commands\JunctionCommands.cs" />
     <Compile Include="Commands\LaneAreaDetectorCommands.cs" />
     <Compile Include="Commands\LaneCommands.cs" />
     <Compile Include="Commands\MultiEntryExitDetectorCommands.cs" />
     <Compile Include="Commands\PersonCommands.cs" />
+    <Compile Include="Commands\POICommands.cs" />
+    <Compile Include="Commands\PolygonCommands.cs" />
+    <Compile Include="Commands\RouteCommands.cs" />
+    <Compile Include="Commands\SimulationCommands.cs" />
     <Compile Include="Commands\TraCICommandsBase.cs" />
     <Compile Include="Commands\TrafficLightCommands.cs" />
     <Compile Include="Commands\VehicleCommands.cs" />
+    <Compile Include="Commands\VehicleTypeCommands.cs" />
     <Compile Include="Helpers\TraCICommandHelper.cs" />
     <Compile Include="Helpers\TraCIDataConverter.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

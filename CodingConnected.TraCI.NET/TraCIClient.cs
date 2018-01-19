@@ -31,21 +31,60 @@ namespace CodingConnected.TraCI.NET
         private TcpClient _client;
         private NetworkStream _stream;
         private readonly byte[] _receiveBuffer = new byte[32768];
+	    private ControlCommands _control;
+	    private InductionLoopCommands _inductionLoop;
+	    private LaneAreaDetectorCommands _laneAreaDetector;
+	    private MultiEntryExitDetectorCommands _multiEntryExitDetector;
+	    private LaneCommands _lane;
+	    private TrafficLightCommands _trafficLight;
+	    private VehicleCommands _vehicle;
+	    private PersonCommands _person;
+	    private VehicleTypeCommands _vehicleType;
+	    private RouteCommands _route;
+	    private POICommands _POI;
+	    private PolygonCommands _polygon;
+	    private GuiCommands _gui;
+	    private JunctionCommands _junction;
+	    private EdgeCommands _edge;
+	    private SimulationCommands _simulation;
 
 	    #endregion // Fields
 
         #region Properties
 
-		public ControlCommands Control { get; }
-		public InductionLoopCommands InductionLoop { get; }
-		public LaneAreaDetectorCommands LaneAreaDetector { get; }
-		public MultiEntryExitDetectorCommands MultiEntryExitDetector { get; }
-	    public LaneCommands Lane { get; }
-		public TrafficLightCommands TrafficLight { get; }
-		public VehicleCommands Vehicle { get; }
-	    public PersonCommands Person { get; }
+	    public ControlCommands Control => _control ?? (_control = new ControlCommands(this));
 
-        #endregion // Properties
+	    public InductionLoopCommands InductionLoop => _inductionLoop ?? (_inductionLoop = new InductionLoopCommands(this));
+
+	    public LaneAreaDetectorCommands LaneAreaDetector => _laneAreaDetector ?? (_laneAreaDetector = new LaneAreaDetectorCommands(this));
+
+	    public MultiEntryExitDetectorCommands MultiEntryExitDetector => _multiEntryExitDetector ?? (_multiEntryExitDetector = new MultiEntryExitDetectorCommands(this));
+
+	    public LaneCommands Lane => _lane ?? (_lane = new LaneCommands(this));
+
+	    public TrafficLightCommands TrafficLight => _trafficLight ?? (_trafficLight = new TrafficLightCommands(this));
+
+	    public VehicleCommands Vehicle => _vehicle ?? (_vehicle = new VehicleCommands(this));
+
+	    public PersonCommands Person => _person ?? (_person = new PersonCommands(this));
+	    
+	    public VehicleTypeCommands VehicleType => _vehicleType ?? (_vehicleType = new VehicleTypeCommands(this));
+
+		public RouteCommands Route => _route ?? (_route = new RouteCommands(this));
+
+		public POICommands POI => _POI ?? (_POI = new POICommands(this));
+
+		public PolygonCommands Polygon => _polygon ?? (_polygon = new PolygonCommands(this));
+
+	    public JunctionCommands Junction => _junction ?? (_junction = new JunctionCommands(this));
+
+	    public EdgeCommands Edge => _edge ?? (_edge = new EdgeCommands(this));
+
+	    public SimulationCommands Simulation => _simulation ?? (_simulation = new SimulationCommands(this));
+
+	    public GuiCommands Gui => _gui ?? (_gui = new GuiCommands(this));
+
+	    #endregion // Properties
 
         #region Public Methods
 
@@ -147,14 +186,6 @@ namespace CodingConnected.TraCI.NET
 
 		public TraCIClient()
 	    {
-		    Control = new ControlCommands(this);
-			InductionLoop = new InductionLoopCommands(this);
-			LaneAreaDetector = new LaneAreaDetectorCommands(this);
-			MultiEntryExitDetector = new MultiEntryExitDetectorCommands(this);
-		    Lane = new LaneCommands(this);
-		    TrafficLight = new TrafficLightCommands(this);
-			Vehicle = new VehicleCommands(this);
-			Person = new PersonCommands(this);
 	    }
 
 	    #endregion // Constructor
