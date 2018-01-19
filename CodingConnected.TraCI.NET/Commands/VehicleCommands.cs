@@ -9,7 +9,7 @@ namespace CodingConnected.TraCI.NET.Commands
 	{
 		#region Public Methods
 
-		public List<string> GetIDList()
+		public List<string> GetIdList()
 		{
 			return
 				TraCICommandHelper.ExecuteCommand<List<string>>(
@@ -19,7 +19,7 @@ namespace CodingConnected.TraCI.NET.Commands
 					TraCIConstants.ID_LIST);
 		}
 
-		public int GetIDCount()
+		public int GetIdCount()
 		{
 			return
 				TraCICommandHelper.ExecuteCommand<int>(

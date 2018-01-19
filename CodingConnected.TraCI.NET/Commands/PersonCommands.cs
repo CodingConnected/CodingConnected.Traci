@@ -8,7 +8,7 @@ namespace CodingConnected.TraCI.NET.Commands
 	{
 		#region Public Methods
 
-		public List<string> GetIDList()
+		public List<string> GetIdList()
 		{
 			return
 				TraCICommandHelper.ExecuteCommand<List<string>>(
@@ -18,7 +18,7 @@ namespace CodingConnected.TraCI.NET.Commands
 					TraCIConstants.ID_LIST);
 		}
  
-		public int GetIDCount()
+		public int GetIdCount()
 		{
 			return
 				TraCICommandHelper.ExecuteCommand<int>(
@@ -177,6 +177,8 @@ namespace CodingConnected.TraCI.NET.Commands
 					TraCIConstants.CMD_GET_PERSON_VARIABLE,
 					TraCIConstants.VAR_VEHICLE);
 		}
+
+		// TODO: 'extended retrieval', see: http://sumo.dlr.de/wiki/TraCI/Person_Value_Retrieval
 
 		#endregion // Public Methods
 

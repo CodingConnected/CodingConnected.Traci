@@ -10,26 +10,58 @@ namespace CodingConnected.TraCI.NET.Helpers
 	{
 		#region Static Methods
 
-		internal static bool ExtractDataFromResponse(TraCIResult[] response, byte commandType, byte messageType, out object data)
+		internal static object ExtractDataFromResponse(TraCIResult[] response, byte commandType, byte messageType)
 		{
 			if (response?.Length > 0)
 			{
-				var r = response.FirstOrDefault(x => x.Identifier == commandType + 0x10);
-				// check if first byte is as requested (it gives the type of data requested)
-				if (r?.Response[0] == messageType)
+				var r1 = response.FirstOrDefault(x => x.Identifier == commandType);
+				if (r1?.Response[0] == 0x00) // Success
 				{
-					// after the type of data, there is the length of the id (a string that we will skip)
-					var take = r.Response.Skip(1).Take(4).Reverse().ToArray();
-					var idl = BitConverter.ToInt32(take, 0);
-					// after the string is the type of data returned
-					var type = r.Response[5 + idl];
-					// now read and translate the data
-					data = GetValueFromTypeAndArray(type, r.Response.Skip(6 + idl).ToArray());
-					return true;
+					// check if first byte is as requested (it gives the type of data requested)
+					var r2 = response.FirstOrDefault(x => x.Identifier == commandType + 0x10);
+					if (r2?.Response[0] == messageType)
+					{
+						// after the type of data, there is the length of the id (a string that we will skip)
+						var take = r2.Response.Skip(1).Take(4).Reverse().ToArray();
+						var idl = BitConverter.ToInt32(take, 0);
+						// after the string is the type of data returned
+						var type = r2.Response[5 + idl];
+						// now read and translate the data
+						return GetValueFromTypeAndArray(type, r2.Response.Skip(6 + idl).ToArray());
+					}
+
+					throw new TraCICommandException(commandType, messageType, "No TraCI response was found in the data");
+				}
+
+				if (r1?.Response[0] == 0xFF) // Failed
+				{
+					var take = r1.Response.Skip(1).Take(4).Reverse().ToArray();
+					var dlen = BitConverter.ToInt32(take, 0);
+					var sb = new StringBuilder();
+					var k1 = 5;
+					for (var j = 0; j < dlen; ++j)
+					{
+						sb.Append((char)r1.Response[k1]);
+						++k1;
+					}
+					throw new TraCICommandException(commandType, messageType, "TraCI reports command failure: " + sb);
+				}
+
+				if (r1?.Response[0] == 0x01) // Not implemented
+				{
+					var take = r1.Response.Skip(1).Take(4).Reverse().ToArray();
+					var dlen = BitConverter.ToInt32(take, 0);
+					var sb = new StringBuilder();
+					var k1 = 5;
+					for (var j = 0; j < dlen; ++j)
+					{
+						sb.Append((char)r1.Response[k1]);
+						++k1;
+					}
+					throw new TraCICommandException(commandType, messageType, "TraCI reports command not implemented: " + sb);
 				}
 			}
-			data = null;
-			return false;
+			return null;
 		}
 
 		internal static byte[] GetTraCIBytesFromInt32(int i)

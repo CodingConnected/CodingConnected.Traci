@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 
 namespace CodingConnected.TraCI.NET.Helpers
 {
@@ -20,13 +21,16 @@ namespace CodingConnected.TraCI.NET.Helpers
 		{
 			var command = GetCommand(id, commandType, messageType);
 			var response = client.SendMessage(command);
-			
-			if (TraCIDataConverter.ExtractDataFromResponse(response, commandType, messageType, out var data))
-			{
-				return (T) data;
-			}
 
-			throw new TraCICommandException(commandType, messageType);
+			try
+			{
+
+				return (T)TraCIDataConverter.ExtractDataFromResponse(response, commandType, messageType);
+			}
+			catch
+			{
+				throw;
+			}
 		}
 	}
 }
