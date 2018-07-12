@@ -28,6 +28,7 @@ void TraCICloseConnection();
 
 void TraCIControlSimStep();
 void TraCISetOrder(int order);
+int TraCIGetInductionLoopLastStepVehicleNumber(const char * id, const char * vehTypeId);
 double TraCIGetLaneAreaLastStepOccupancy(const char * id);
 void TraCISetTrafficLightState(const char * trafficLightId, const char * state);
 

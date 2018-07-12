@@ -114,6 +114,128 @@ void TraCISetOrder(int order)
     FreeResults(results);
 }
 
+int TraCIGetInductionLoopLastStepVehicleNumber(const char * id, const char * vehTypeId)
+{
+	TraCICommand command;
+	command.Identifier = CMD_GET_INDUCTIONLOOP_VARIABLE;
+	int n = strlen(id);
+	command.ContentsLength = 5 + n;
+	command.Contents = (unsigned char *)malloc(sizeof(unsigned char) * command.ContentsLength);
+	*command.Contents = LAST_STEP_VEHICLE_NUMBER;
+	*(command.Contents + 1) = (n >> 24) & 0xFF;
+	*(command.Contents + 2) = (n >> 16) & 0xFF;
+	*(command.Contents + 3) = (n >> 8) & 0xFF;
+	*(command.Contents + 4) = n & 0xFF;
+	for (int i = 5; i < command.ContentsLength; i++)
+	{
+		*(command.Contents + i) = *(id + (i - 5));
+	}
+
+	TraCIResults results = SendTraCIMessage(command);
+
+	if (results.Count > 0)
+	{
+		for (int i = 0; i < results.Count; ++i)
+		{
+			TraCIResult result = *(results.Results + i);
+			if (result.Identifier == RESPONSE_GET_INDUCTIONLOOP_VARIABLE &&
+				*result.Contents == LAST_STEP_VEHICLE_NUMBER)
+			{
+				int32_t idLength = 0;
+				for (int j = 0; j < 4; ++j) {
+					idLength <<= 4;
+					idLength |= *(result.Contents + j + 1);
+				}
+				//var ids = BitConverter.ToString(r.Response, 5, idl);
+				unsigned char type = *(result.Contents + 5 + idLength);
+				int perNumVeh = 0;
+				unsigned char integer[4];
+				integer[3] = *(result.Contents + 6 + idLength);
+				integer[2] = *(result.Contents + 7 + idLength);
+				integer[1] = *(result.Contents + 8 + idLength);
+				integer[0] = *(result.Contents + 9 + idLength);
+				memcpy(&perNumVeh, integer, 4);
+				return perNumVeh;
+			}
+		}
+	}
+	return 0;
+}
+
+/*
+int TraCIGetInductionLoopVehicleTypeLastStepOccupance(const char * id, const char * vehTypeId)
+{
+	TraCICommand command;
+	command.Identifier = CMD_GET_INDUCTIONLOOP_VARIABLE;
+	int n = strlen(id);
+	command.ContentsLength = 5 + n;
+	command.Contents = (unsigned char *)malloc(sizeof(unsigned char) * command.ContentsLength);
+	*command.Contents = LAST_STEP_VEHICLE_DATA;
+	*(command.Contents + 1) = (n >> 24) & 0xFF;
+	*(command.Contents + 2) = (n >> 16) & 0xFF;
+	*(command.Contents + 3) = (n >> 8) & 0xFF;
+	*(command.Contents + 4) = n & 0xFF;
+	for (int i = 5; i < command.ContentsLength; i++)
+	{
+		*(command.Contents + i) = *(id + (i - 5));
+	}
+
+	TraCIResults results = SendTraCIMessage(command);
+
+	if (results.Count > 0)
+	{
+		for (int i = 0; i < results.Count; ++i)
+		{
+			TraCIResult result = *(results.Results + i);
+			if (result.Identifier == RESPONSE_GET_INDUCTIONLOOP_VARIABLE &&
+				*result.Contents == LAST_STEP_VEHICLE_DATA)
+			{
+				int32_t numPacks = 0;
+				int j = 1;
+				for (j; j < 4; ++j)
+				{
+					numPacks <<= 4;
+					numPacks |= *(result.Contents + j);
+				}
+				for (int k = 0; k < numPacks; ++k)
+				{
+					// Vehicle ID
+					++j; // type identifier
+					int32_t idLength = 0;
+					for (int l = 0; l < 4; ++l, ++j) {
+						idLength <<= 4;
+						idLength |= *(result.Contents + j);
+					}
+					++j; // type identifier
+					j += 8; // Vehicle Length (double)
+					++j; // type identifier
+					j += 8; // Entry Time (double)
+					++j; // type identifier
+					j += 8; // Leave Time (double)
+					++j; // type identifier
+					// Vehicle Type ID (double)
+					int32_t vehIdLength = 0;
+					for (int l = 0; l < 4; ++l, ++j) {
+						vehIdLength <<= 4;
+						vehIdLength |= *(result.Contents + j);
+					}
+					char * vehIdString = (char*)malloc(sizeof(char) * (vehIdLength + 1));
+					for (int l = 0; l < vehIdLength; ++l, ++j) {
+						vehIdString[l] = *(result.Contents + j);
+					}
+
+					// Check!
+					if (strcmp(vehTypeId, vehIdString) != 0) {
+						return 1;
+					}
+				}
+			}
+		}
+	}
+	return 0;
+}
+*/
+
 double TraCIGetLaneAreaLastStepOccupancy(const char * id)
 {
     TraCICommand command;
@@ -126,7 +248,7 @@ double TraCIGetLaneAreaLastStepOccupancy(const char * id)
     *(command.Contents + 2) = (n >> 16) & 0xFF;
     *(command.Contents + 3) = (n >> 8) & 0xFF;
     *(command.Contents + 4) = n & 0xFF;
-    for (int i = 5; i < command.ContentsLength; i++)
+    for (int i = 5; i < command.ContentsLength; ++i)
     {
         *(command.Contents + i) = *(id + (i - 5));
     }
@@ -142,7 +264,7 @@ double TraCIGetLaneAreaLastStepOccupancy(const char * id)
                 *result.Contents == LAST_STEP_OCCUPANCY)
             {
                 int32_t idLength = 0;
-                for (int j = 0; j < 4; j++) {
+                for (int j = 0; j < 4; ++j) {
                     idLength <<= 4;
                     idLength |= *(result.Contents + j + 1);
                 }
