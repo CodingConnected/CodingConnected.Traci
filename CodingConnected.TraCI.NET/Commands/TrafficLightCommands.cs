@@ -11,7 +11,7 @@ namespace CodingConnected.TraCI.NET.Commands
 		public List<string> GetIdList()
 		{
 			return 
-				TraCICommandHelper.ExecuteCommand<List<string>>(
+				TraCICommandHelper.ExecuteGetCommand<List<string>>(
 					Client, 
 					"ignored", 
 					TraCIConstants.CMD_GET_TL_VARIABLE,
@@ -21,7 +21,7 @@ namespace CodingConnected.TraCI.NET.Commands
 		public int GetIdCount()
 		{
 			return 
-				TraCICommandHelper.ExecuteCommand<int>(
+				TraCICommandHelper.ExecuteGetCommand<int>(
 					Client, 
 					"ignored", 
 					TraCIConstants.CMD_GET_TL_VARIABLE,
@@ -31,7 +31,7 @@ namespace CodingConnected.TraCI.NET.Commands
 		public string GetState(string id)
 		{
 			return 
-				TraCICommandHelper.ExecuteCommand<string>(
+				TraCICommandHelper.ExecuteGetCommand<string>(
 					Client, 
 					id, 
 					TraCIConstants.CMD_GET_TL_VARIABLE,
@@ -41,7 +41,7 @@ namespace CodingConnected.TraCI.NET.Commands
 		public int GetPhaseDuration(string id)
 		{
 			return 
-				TraCICommandHelper.ExecuteCommand<int>(
+				TraCICommandHelper.ExecuteGetCommand<int>(
 					Client, 
 					id, 
 					TraCIConstants.CMD_GET_TL_VARIABLE,
@@ -51,7 +51,7 @@ namespace CodingConnected.TraCI.NET.Commands
 		public List<string> GetControlledLanes(string id)
 		{
 			return 
-				TraCICommandHelper.ExecuteCommand<List<string>>(
+				TraCICommandHelper.ExecuteGetCommand<List<string>>(
 					Client, 
 					id, 
 					TraCIConstants.CMD_GET_TL_VARIABLE,
@@ -73,7 +73,7 @@ namespace CodingConnected.TraCI.NET.Commands
 		public int GetCurrentPhase(string id)
 		{
 			return 
-				TraCICommandHelper.ExecuteCommand<int>(
+				TraCICommandHelper.ExecuteGetCommand<int>(
 					Client, 
 					id, 
 					TraCIConstants.CMD_GET_TL_VARIABLE,
@@ -83,7 +83,7 @@ namespace CodingConnected.TraCI.NET.Commands
 		public string GetCurrentProgram(string id)
 		{
 			return 
-				TraCICommandHelper.ExecuteCommand<string>(
+				TraCICommandHelper.ExecuteGetCommand<string>(
 					Client, 
 					id, 
 					TraCIConstants.CMD_GET_TL_VARIABLE,
@@ -105,7 +105,7 @@ namespace CodingConnected.TraCI.NET.Commands
 		public int GetNextSwitch(string id)
 		{
 			return 
-				TraCICommandHelper.ExecuteCommand<int>(
+				TraCICommandHelper.ExecuteGetCommand<int>(
 					Client, 
 					id, 
 					TraCIConstants.CMD_GET_TL_VARIABLE,

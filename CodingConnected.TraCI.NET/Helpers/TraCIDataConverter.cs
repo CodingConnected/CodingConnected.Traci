@@ -29,8 +29,12 @@ namespace CodingConnected.TraCI.NET.Helpers
 						// now read and translate the data
 						return GetValueFromTypeAndArray(type, r2.Response.Skip(6 + idl).ToArray());
 					}
+                    else
+                    {
+                        return true;
+                    }
 
-					throw new TraCICommandException(commandType, messageType, "No TraCI response was found in the data");
+					//throw new TraCICommandException(commandType, messageType, "No TraCI response was found in the data");
 				}
 
 				if (r1?.Response[0] == 0xFF) // Failed
@@ -63,10 +67,15 @@ namespace CodingConnected.TraCI.NET.Helpers
 			}
 			return null;
 		}
-
-		internal static byte[] GetTraCIBytesFromInt32(int i)
+        
+        internal static byte[] GetTraCIBytesFromInt32(int i)
         {
             return BitConverter.GetBytes(i).Reverse().ToArray();
+        }
+
+        internal static byte[] GetTraCIBytesFromDouble(double d)
+        {
+            return BitConverter.GetBytes(d).Reverse().ToArray();
         }
 
         internal static byte[] GetTraCIBytesFromASCIIString(string s)

@@ -11,7 +11,7 @@ namespace CodingConnected.TraCI.NET.Commands
 		public List<string> GetIdList()
 		{
 			return
-				TraCICommandHelper.ExecuteCommand<List<string>>(
+				TraCICommandHelper.ExecuteGetCommand<List<string>>(
 					Client,
 					"ignored",
 					TraCIConstants.CMD_GET_PERSON_VARIABLE,
@@ -21,7 +21,7 @@ namespace CodingConnected.TraCI.NET.Commands
 		public int GetIdCount()
 		{
 			return
-				TraCICommandHelper.ExecuteCommand<int>(
+				TraCICommandHelper.ExecuteGetCommand<int>(
 					Client,
 					"ignored",
 					TraCIConstants.CMD_GET_PERSON_VARIABLE,
@@ -31,7 +31,7 @@ namespace CodingConnected.TraCI.NET.Commands
 		public double GetSpeed(string id)
 		{
 			return
-				TraCICommandHelper.ExecuteCommand<double>(
+				TraCICommandHelper.ExecuteGetCommand<double>(
 					Client,
 					id,
 					TraCIConstants.CMD_GET_PERSON_VARIABLE,
@@ -41,7 +41,7 @@ namespace CodingConnected.TraCI.NET.Commands
 		public Position2D GetPosition(string id)
 		{
 			return
-				TraCICommandHelper.ExecuteCommand<Position2D>(
+				TraCICommandHelper.ExecuteGetCommand<Position2D>(
 					Client,
 					id,
 					TraCIConstants.CMD_GET_PERSON_VARIABLE,
@@ -51,7 +51,7 @@ namespace CodingConnected.TraCI.NET.Commands
 		public Position3D GetPosition3D(string id)
 		{
 			return
-				TraCICommandHelper.ExecuteCommand<Position3D>(
+				TraCICommandHelper.ExecuteGetCommand<Position3D>(
 					Client,
 					id,
 					TraCIConstants.CMD_GET_PERSON_VARIABLE,
@@ -61,7 +61,7 @@ namespace CodingConnected.TraCI.NET.Commands
 		public double GetAngle(string id)
 		{
 			return
-				TraCICommandHelper.ExecuteCommand<double>(
+				TraCICommandHelper.ExecuteGetCommand<double>(
 					Client,
 					id,
 					TraCIConstants.CMD_GET_PERSON_VARIABLE,
@@ -71,7 +71,7 @@ namespace CodingConnected.TraCI.NET.Commands
 		public string GetRoadID(string id)
 		{
 			return
-				TraCICommandHelper.ExecuteCommand<string>(
+				TraCICommandHelper.ExecuteGetCommand<string>(
 					Client,
 					id,
 					TraCIConstants.CMD_GET_PERSON_VARIABLE,
@@ -81,7 +81,7 @@ namespace CodingConnected.TraCI.NET.Commands
 		public string GetTypeID(string id)
 		{
 			return
-				TraCICommandHelper.ExecuteCommand<string>(
+				TraCICommandHelper.ExecuteGetCommand<string>(
 					Client,
 					id,
 					TraCIConstants.CMD_GET_PERSON_VARIABLE,
@@ -91,7 +91,7 @@ namespace CodingConnected.TraCI.NET.Commands
 		public Color GetColor(string id)
 		{
 			return
-				TraCICommandHelper.ExecuteCommand<Color>(
+				TraCICommandHelper.ExecuteGetCommand<Color>(
 					Client,
 					id,
 					TraCIConstants.CMD_GET_PERSON_VARIABLE,
@@ -101,7 +101,7 @@ namespace CodingConnected.TraCI.NET.Commands
 		public double GetLanePosition(string id)
 		{
 			return
-				TraCICommandHelper.ExecuteCommand<double>(
+				TraCICommandHelper.ExecuteGetCommand<double>(
 					Client,
 					id,
 					TraCIConstants.CMD_GET_PERSON_VARIABLE,
@@ -111,7 +111,7 @@ namespace CodingConnected.TraCI.NET.Commands
 		public double GetLength(string id)
 		{
 			return
-				TraCICommandHelper.ExecuteCommand<double>(
+				TraCICommandHelper.ExecuteGetCommand<double>(
 					Client,
 					id,
 					TraCIConstants.CMD_GET_PERSON_VARIABLE,
@@ -121,7 +121,7 @@ namespace CodingConnected.TraCI.NET.Commands
 		public double GetMinGap(string id)
 		{
 			return
-				TraCICommandHelper.ExecuteCommand<double>(
+				TraCICommandHelper.ExecuteGetCommand<double>(
 					Client,
 					id,
 					TraCIConstants.CMD_GET_PERSON_VARIABLE,
@@ -131,7 +131,7 @@ namespace CodingConnected.TraCI.NET.Commands
 		public double GetWidth(string id)
 		{
 			return
-				TraCICommandHelper.ExecuteCommand<double>(
+				TraCICommandHelper.ExecuteGetCommand<double>(
 					Client,
 					id,
 					TraCIConstants.CMD_GET_PERSON_VARIABLE,
@@ -141,7 +141,7 @@ namespace CodingConnected.TraCI.NET.Commands
 		public double GetWaitingTime(string id)
 		{
 			return
-				TraCICommandHelper.ExecuteCommand<double>(
+				TraCICommandHelper.ExecuteGetCommand<double>(
 					Client,
 					id,
 					TraCIConstants.CMD_GET_PERSON_VARIABLE,
@@ -151,7 +151,7 @@ namespace CodingConnected.TraCI.NET.Commands
 		public string GetNextEdge(string id)
 		{
 			return
-				TraCICommandHelper.ExecuteCommand<string>(
+				TraCICommandHelper.ExecuteGetCommand<string>(
 					Client,
 					id,
 					TraCIConstants.CMD_GET_PERSON_VARIABLE,
@@ -161,7 +161,7 @@ namespace CodingConnected.TraCI.NET.Commands
 		public int GetRemainingStages(string id)
 		{
 			return
-				TraCICommandHelper.ExecuteCommand<int>(
+				TraCICommandHelper.ExecuteGetCommand<int>(
 					Client,
 					id,
 					TraCIConstants.CMD_GET_PERSON_VARIABLE,
@@ -171,7 +171,7 @@ namespace CodingConnected.TraCI.NET.Commands
 		public string GetVehicle(string id)
 		{
 			return
-				TraCICommandHelper.ExecuteCommand<string>(
+				TraCICommandHelper.ExecuteGetCommand<string>(
 					Client,
 					id,
 					TraCIConstants.CMD_GET_PERSON_VARIABLE,

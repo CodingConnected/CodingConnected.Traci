@@ -104,6 +104,35 @@ namespace CodingConnected.TraCI.NET
             _stream = _client.GetStream();
         }
 
+
+        public bool Connect(string hostname, int port)
+        {
+            _client = new TcpClient
+            {
+                ReceiveBufferSize = 32768,
+                SendBufferSize = 32768
+            };
+
+            try
+            {
+                _client.Connect(hostname, port);
+            }
+            catch (Exception)
+            {
+                return false;
+            }
+
+            if (_client.Connected)
+            {
+                _stream = _client.GetStream();
+                return true;
+            }
+            else
+            {
+                return false;
+            }
+        }
+
         #endregion // Public Methods
 
         #region Set Variable Methods
