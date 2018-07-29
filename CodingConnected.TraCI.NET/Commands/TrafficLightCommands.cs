@@ -112,11 +112,56 @@ namespace CodingConnected.TraCI.NET.Commands
 					TraCIConstants.TL_NEXT_SWITCH);
 		}
 		
-		#endregion // Public Methods
-		
-		#region Constructor
 
-		public TrafficLightCommands(TraCIClient client) : base(client)
+        public void SetRedYellowGreenState(string id, string state)
+        {
+            TraCICommandHelper.ExecuteSetCommand<object, string>(
+                Client,
+                id,
+                TraCIConstants.CMD_SET_TL_VARIABLE,
+                TraCIConstants.TL_RED_YELLOW_GREEN_STATE,
+                state);
+        }
+
+        public void SetPhase(string id, int phaseIndex)
+        {
+            TraCICommandHelper.ExecuteSetCommand<object, int>(
+                Client,
+                id,
+                TraCIConstants.CMD_SET_TL_VARIABLE,
+                TraCIConstants.TL_PHASE_INDEX,
+                phaseIndex);
+        }
+
+        public void SetProgram(string id, string program)
+        {
+            TraCICommandHelper.ExecuteSetCommand<object, string>(
+                Client,
+                id,
+                TraCIConstants.CMD_SET_TL_VARIABLE,
+                TraCIConstants.TL_PROGRAM,
+                program);
+        }
+
+        public void SetDuration(string id, int phaseDuration)
+        {
+            TraCICommandHelper.ExecuteSetCommand<object, int>(
+                Client,
+                id,
+                TraCIConstants.CMD_SET_TL_VARIABLE,
+                TraCIConstants.TL_PHASE_DURATION,
+                phaseDuration);
+        }
+
+        public void SetCompleteRedYellowGreenDefinition()
+        {
+            throw new NotImplementedException();
+        }
+        #endregion // Public Methods
+
+        #region Constructor
+
+        public TrafficLightCommands(TraCIClient client) : base(client)
 		{
 		}
 
