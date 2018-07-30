@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using CodingConnected.TraCI.NET.Helpers;
+using CodingConnected.TraCI.NET.Types;
 
 namespace CodingConnected.TraCI.NET.Commands
 {
@@ -153,24 +154,24 @@ namespace CodingConnected.TraCI.NET.Commands
                 phaseDuration);
         }
 
-        public void SetCompleteRedYellowGreenDefinition(string id, string programId, int phaseIndex, List<TraCITrafficLightPhase> phases)
+        public void SetCompleteRedYellowGreenDefinition(string id, TrafficLightProgram program)
         {
             var bytes = new List<byte> { TraCIConstants.TL_COMPLETE_PROGRAM_RYG }; //messageType (0x2c)
             bytes.AddRange(TraCIDataConverter.GetTraCIBytesFromASCIIString(id));
             bytes.Add(TraCIConstants.TYPE_COMPOUND); //value type compound
-            bytes.AddRange(TraCIDataConverter.GetTraCIBytesFromInt32(5 + (phases.Count * 4))); //item number
+            bytes.AddRange(TraCIDataConverter.GetTraCIBytesFromInt32(5 + (program.Phases.Count * 4))); //item number
             bytes.Add(TraCIConstants.TYPE_STRING); //value type string
-            bytes.AddRange(TraCIDataConverter.GetTraCIBytesFromASCIIString(programId)); //program ID
+            bytes.AddRange(TraCIDataConverter.GetTraCIBytesFromASCIIString(program.ProgramId)); //program ID
             bytes.Add(TraCIConstants.TYPE_INTEGER); //value type integer
             bytes.AddRange(TraCIDataConverter.GetTraCIBytesFromInt32(0)); //Type (always 0)
             bytes.Add(TraCIConstants.TYPE_COMPOUND); //value type compound
             bytes.AddRange(TraCIDataConverter.GetTraCIBytesFromInt32(0));//Compound Length (always 0!)
             bytes.Add(TraCIConstants.TYPE_INTEGER); //value type integer
-            bytes.AddRange(TraCIDataConverter.GetTraCIBytesFromInt32(phaseIndex)); //Phase Index
+            bytes.AddRange(TraCIDataConverter.GetTraCIBytesFromInt32(program.PhaseIndex)); //Phase Index
             bytes.Add(TraCIConstants.TYPE_INTEGER); //value type integer
-            bytes.AddRange(TraCIDataConverter.GetTraCIBytesFromInt32(phases.Count)); //Phase Number
+            bytes.AddRange(TraCIDataConverter.GetTraCIBytesFromInt32(program.Phases.Count)); //Phase Number
 
-            foreach (var p in phases)//Phases
+            foreach (var p in program.Phases)//Phases
             {
                 bytes.Add(TraCIConstants.TYPE_INTEGER); //value type integer
                 bytes.AddRange(TraCIDataConverter.GetTraCIBytesFromInt32(p.Duration)); //Duration[ms]
