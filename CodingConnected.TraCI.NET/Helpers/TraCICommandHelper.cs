@@ -55,12 +55,40 @@ namespace CodingConnected.TraCI.NET.Helpers
             return command;
         }
 
+        internal static TraCICommand GetCommand(string id, byte commandType, byte messageType, string value)
+        {
+            var bytes = new List<byte> { messageType };
+            bytes.AddRange(TraCIDataConverter.GetTraCIBytesFromASCIIString(id));
+            bytes.Add(TraCIConstants.TYPE_STRING);
+            bytes.AddRange(TraCIDataConverter.GetTraCIBytesFromASCIIString(value));
+            var command = new TraCICommand
+            {
+                Identifier = commandType,
+                Contents = bytes.ToArray()
+            };
+            return command;
+        }
+
         internal static TraCICommand GetCommand(string id, byte commandType, byte messageType, double value)
         {
             var bytes = new List<byte> { messageType };
             bytes.AddRange(TraCIDataConverter.GetTraCIBytesFromASCIIString(id));
             bytes.Add(TraCIConstants.TYPE_DOUBLE);
             bytes.AddRange(TraCIDataConverter.GetTraCIBytesFromDouble(value));
+            var command = new TraCICommand
+            {
+                Identifier = commandType,
+                Contents = bytes.ToArray()
+            };
+            return command;
+        }
+
+        internal static TraCICommand GetCommand(string id, byte commandType, byte messageType, int value)
+        {
+            var bytes = new List<byte> { messageType };
+            bytes.AddRange(TraCIDataConverter.GetTraCIBytesFromASCIIString(id));
+            bytes.Add(TraCIConstants.TYPE_INTEGER);
+            bytes.AddRange(TraCIDataConverter.GetTraCIBytesFromInt32(value));
             var command = new TraCICommand
             {
                 Identifier = commandType,
@@ -79,10 +107,20 @@ namespace CodingConnected.TraCI.NET.Helpers
 
                 command = GetCommand(id, commandType, messageType, d);
             }
+            else if (value is string)
+            {
+                string s = value as string;
+                command = GetCommand(id, commandType, messageType, s);
+            }
             else if (value is List<string>)
             {
                 List<string> los = value as List<string>;
                 command = GetCommand(id, commandType, messageType, los);
+            }
+            else if(value is int)
+            {
+                int i = System.Convert.ToInt32(value);
+                command = GetCommand(id, commandType, messageType, i);
             }
 
             if (command != null)
