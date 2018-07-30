@@ -153,15 +153,59 @@ namespace CodingConnected.TraCI.NET.Commands
                 phaseDuration);
         }
 
-        public void SetCompleteRedYellowGreenDefinition()
+        public void SetCompleteRedYellowGreenDefinition(string id, string programId, int phaseIndex, List<TraCITrafficLightPhase> phases)
         {
-            throw new NotImplementedException();
+            var bytes = new List<byte> { TraCIConstants.TL_COMPLETE_PROGRAM_RYG }; //messageType (0x2c)
+            bytes.AddRange(TraCIDataConverter.GetTraCIBytesFromASCIIString(id));
+            bytes.Add(TraCIConstants.TYPE_COMPOUND); //value type compound
+            bytes.AddRange(TraCIDataConverter.GetTraCIBytesFromInt32(5 + (phases.Count * 4))); //item number
+            bytes.Add(TraCIConstants.TYPE_STRING); //value type string
+            bytes.AddRange(TraCIDataConverter.GetTraCIBytesFromASCIIString(programId)); //program ID
+            bytes.Add(TraCIConstants.TYPE_INTEGER); //value type integer
+            bytes.AddRange(TraCIDataConverter.GetTraCIBytesFromInt32(0)); //Type (always 0)
+            bytes.Add(TraCIConstants.TYPE_COMPOUND); //value type compound
+            bytes.AddRange(TraCIDataConverter.GetTraCIBytesFromInt32(0));//Compound Length (always 0!)
+            bytes.Add(TraCIConstants.TYPE_INTEGER); //value type integer
+            bytes.AddRange(TraCIDataConverter.GetTraCIBytesFromInt32(phaseIndex)); //Phase Index
+            bytes.Add(TraCIConstants.TYPE_INTEGER); //value type integer
+            bytes.AddRange(TraCIDataConverter.GetTraCIBytesFromInt32(phases.Count)); //Phase Number
+
+            foreach (var p in phases)//Phases
+            {
+                bytes.Add(TraCIConstants.TYPE_INTEGER); //value type integer
+                bytes.AddRange(TraCIDataConverter.GetTraCIBytesFromInt32(p.Duration)); //Duration[ms]
+                bytes.Add(TraCIConstants.TYPE_INTEGER); //value type integer
+                bytes.AddRange(TraCIDataConverter.GetTraCIBytesFromInt32(0)); //unused
+                bytes.Add(TraCIConstants.TYPE_INTEGER); //value type integer
+                bytes.AddRange(TraCIDataConverter.GetTraCIBytesFromInt32(0)); //unused
+                bytes.Add(TraCIConstants.TYPE_STRING); //value type string
+                bytes.AddRange(TraCIDataConverter.GetTraCIBytesFromASCIIString(p.State)); //State (light/priority-tuple)
+            }
+
+            var command = new TraCICommand
+            {
+                Identifier = TraCIConstants.CMD_SET_TL_VARIABLE,
+                Contents = bytes.ToArray()
+            };
+
+            var response = Client.SendMessage(command);
+
+            try
+            {
+                TraCIDataConverter.ExtractDataFromResponse(response, TraCIConstants.CMD_SET_TL_VARIABLE, TraCIConstants.TL_COMPLETE_PROGRAM_RYG);
+            }
+            catch
+            {
+                throw;
+            }
         }
-        #endregion // Public Methods
 
-        #region Constructor
+    
+    #endregion // Public Methods
 
-        public TrafficLightCommands(TraCIClient client) : base(client)
+    #region Constructor
+
+    public TrafficLightCommands(TraCIClient client) : base(client)
 		{
 		}
 
