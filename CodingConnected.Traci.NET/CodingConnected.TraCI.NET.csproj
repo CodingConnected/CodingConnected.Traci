@@ -1,0 +1,88 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="15.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProjectGuid>{2E2F7244-3E8C-41F0-8AD2-567ACF862B75}</ProjectGuid>
+    <OutputType>Library</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>CodingConnected.TraCI.NET</RootNamespace>
+    <AssemblyName>CodingConnected.TraCI.NET</AssemblyName>
+    <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
+    <FileAlignment>512</FileAlignment>
+    <TargetFrameworkProfile />
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+    <LangVersion>7.1</LangVersion>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+    <LangVersion>7.1</LangVersion>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="System" />
+    <Reference Include="System.Core" />
+    <Reference Include="System.Xml.Linq" />
+    <Reference Include="System.Data.DataSetExtensions" />
+    <Reference Include="Microsoft.CSharp" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.Net.Http" />
+    <Reference Include="System.Xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="Commands\ControlCommands.cs" />
+    <Compile Include="Commands\EdgeCommands.cs" />
+    <Compile Include="Commands\GuiCommands.cs" />
+    <Compile Include="Commands\InductionLoopCommands.cs" />
+    <Compile Include="Commands\JunctionCommands.cs" />
+    <Compile Include="Commands\LaneAreaDetectorCommands.cs" />
+    <Compile Include="Commands\LaneCommands.cs" />
+    <Compile Include="Commands\MultiEntryExitDetectorCommands.cs" />
+    <Compile Include="Commands\PersonCommands.cs" />
+    <Compile Include="Commands\POICommands.cs" />
+    <Compile Include="Commands\PolygonCommands.cs" />
+    <Compile Include="Commands\RouteCommands.cs" />
+    <Compile Include="Commands\SimulationCommands.cs" />
+    <Compile Include="Commands\TraCICommandsBase.cs" />
+    <Compile Include="Commands\TrafficLightCommands.cs" />
+    <Compile Include="Commands\VehicleCommands.cs" />
+    <Compile Include="Commands\VehicleTypeCommands.cs" />
+    <Compile Include="Helpers\TraCICommandHelper.cs" />
+    <Compile Include="Helpers\TraCIDataConverter.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="TraCIClient.cs" />
+    <Compile Include="TraCICommand.cs" />
+    <Compile Include="TraCICommandException.cs" />
+    <Compile Include="TraCIConstants.cs" />
+    <Compile Include="TraCIResult.cs" />
+    <Compile Include="Types\TrafficLightProgram.cs" />
+    <Compile Include="Types\BoundaryBox.cs" />
+    <Compile Include="Types\Color.cs" />
+    <Compile Include="Types\ComposedTypeBase.cs" />
+    <Compile Include="Types\LonLatAltPosition.cs" />
+    <Compile Include="Types\LonLatPosition.cs" />
+    <Compile Include="Types\Polygon.cs" />
+    <Compile Include="Types\RoadMapPosition.cs" />
+    <Compile Include="Types\Position3D.cs" />
+    <Compile Include="Types\Position2D.cs" />
+    <Compile Include="Types\TrafficLightPhaseList.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="LICENSE.md" />
+    <None Include="README.md" />
+  </ItemGroup>
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+</Project>

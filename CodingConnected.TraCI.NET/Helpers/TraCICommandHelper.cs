@@ -9,34 +9,23 @@ namespace CodingConnected.TraCI.NET.Helpers
         {
             TraCICommand command = null;
 
-            switch (Type.GetTypeCode(typeof(Tvalue)))
+            switch (value)
             {
-                case TypeCode.Int32:
-                    {
-                        int i = Convert.ToInt32(value);
-                        command = GetCommand(id, commandType, messageType, i);
-                        break;
-                    }
-                case TypeCode.Double:
-                    {
-                        double d = Convert.ToDouble(value);
-                        command = GetCommand(id, commandType, messageType, d);
-                        break;
-                    }
-                case TypeCode.String:
-                    {
-                        string s = value as string;
-                        command = GetCommand(id, commandType, messageType, s);
-                        break;
-                    }
+                case int i:
+                    command = GetCommand(id, commandType, messageType, i);
+                    break;
+                case double d:
+                    command = GetCommand(id, commandType, messageType, d);
+                    break;
+                case string s:
+                    command = GetCommand(id, commandType, messageType, s);
+                    break;
+                case List<string> los:
+                    command = GetCommand(id, commandType, messageType, los);
+                    break;
                 default:
                     {
-                        if (value is List<string>)
-                        {
-                            List<string> los = value as List<string>;
-                            command = GetCommand(id, commandType, messageType, los);
-                        }
-                        break;
+                        throw new InvalidCastException($"Type {value.GetType().Name} is not implemented in method TraCICommandHelper.ExecuteSetCommand().");
                     }
             }
 
