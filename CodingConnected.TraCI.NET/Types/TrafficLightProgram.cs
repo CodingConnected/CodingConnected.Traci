@@ -10,7 +10,7 @@ namespace CodingConnected.TraCI.NET.Types
     /// <summary>
     /// see http://sumo.dlr.de/wiki/Simulation/Traffic_Lights#Defining_New_TLS-Programs
     /// </summary>
-    public class TrafficLightProgram
+    public class TrafficLightProgram : ComposedTypeBase
     {
         /// <summary>
         /// Name of the program
