@@ -10,7 +10,7 @@ namespace CodingConnected.TraCI.NET.Commands
 		public List<string> GetIdList ()
 		{
 			return
-				TraCICommandHelper.ExecuteCommand<List<string>>(
+				TraCICommandHelper.ExecuteGetCommand<List<string>>(
 					Client,
 					"ignored",
 					TraCIConstants.CMD_GET_EDGE_VARIABLE,
@@ -20,7 +20,7 @@ namespace CodingConnected.TraCI.NET.Commands
 		public int GetIdCount ()
 		{
 			return
-				TraCICommandHelper.ExecuteCommand<int>(
+				TraCICommandHelper.ExecuteGetCommand<int>(
 					Client,
 					"ignored",
 					TraCIConstants.CMD_GET_EDGE_VARIABLE,
@@ -30,7 +30,7 @@ namespace CodingConnected.TraCI.NET.Commands
 		public int GetLaneNumber (string id)
 		{
 			return
-				TraCICommandHelper.ExecuteCommand<int>(
+				TraCICommandHelper.ExecuteGetCommand<int>(
 					Client,
 					id,
 					TraCIConstants.CMD_GET_EDGE_VARIABLE,
@@ -40,7 +40,7 @@ namespace CodingConnected.TraCI.NET.Commands
 		public double GetTraveltime (string id)
 		{
 			return
-				TraCICommandHelper.ExecuteCommand<double>(
+				TraCICommandHelper.ExecuteGetCommand<double>(
 					Client,
 					id,
 					TraCIConstants.CMD_GET_EDGE_VARIABLE,
@@ -50,7 +50,7 @@ namespace CodingConnected.TraCI.NET.Commands
 		public double GetCO2Emission (string id)
 		{
 			return
-				TraCICommandHelper.ExecuteCommand<double>(
+				TraCICommandHelper.ExecuteGetCommand<double>(
 					Client,
 					id,
 					TraCIConstants.CMD_GET_EDGE_VARIABLE,
@@ -60,7 +60,7 @@ namespace CodingConnected.TraCI.NET.Commands
 		public double GetCOEmission (string id)
 		{
 			return
-				TraCICommandHelper.ExecuteCommand<double>(
+				TraCICommandHelper.ExecuteGetCommand<double>(
 					Client,
 					id,
 					TraCIConstants.CMD_GET_EDGE_VARIABLE,
@@ -70,7 +70,7 @@ namespace CodingConnected.TraCI.NET.Commands
 		public double GetHCEmission (string id)
 		{
 			return
-				TraCICommandHelper.ExecuteCommand<double>(
+				TraCICommandHelper.ExecuteGetCommand<double>(
 					Client,
 					id,
 					TraCIConstants.CMD_GET_EDGE_VARIABLE,
@@ -80,7 +80,7 @@ namespace CodingConnected.TraCI.NET.Commands
 		public double GetPMxEmission (string id)
 		{
 			return
-				TraCICommandHelper.ExecuteCommand<double>(
+				TraCICommandHelper.ExecuteGetCommand<double>(
 					Client,
 					id,
 					TraCIConstants.CMD_GET_EDGE_VARIABLE,
@@ -90,7 +90,7 @@ namespace CodingConnected.TraCI.NET.Commands
 		public double GetNOxEmission (string id)
 		{
 			return
-				TraCICommandHelper.ExecuteCommand<double>(
+				TraCICommandHelper.ExecuteGetCommand<double>(
 					Client,
 					id,
 					TraCIConstants.CMD_GET_EDGE_VARIABLE,
@@ -100,7 +100,7 @@ namespace CodingConnected.TraCI.NET.Commands
 		public double GetFuelConsumption (string id)
 		{
 			return
-				TraCICommandHelper.ExecuteCommand<double>(
+				TraCICommandHelper.ExecuteGetCommand<double>(
 					Client,
 					id,
 					TraCIConstants.CMD_GET_EDGE_VARIABLE,
@@ -110,7 +110,7 @@ namespace CodingConnected.TraCI.NET.Commands
 		public double GetNoiseEmission (string id)
 		{
 			return
-				TraCICommandHelper.ExecuteCommand<double>(
+				TraCICommandHelper.ExecuteGetCommand<double>(
 					Client,
 					id,
 					TraCIConstants.CMD_GET_EDGE_VARIABLE,
@@ -120,7 +120,7 @@ namespace CodingConnected.TraCI.NET.Commands
 		public double GetElectricityConsumption (string id)
 		{
 			return
-				TraCICommandHelper.ExecuteCommand<double>(
+				TraCICommandHelper.ExecuteGetCommand<double>(
 					Client,
 					id,
 					TraCIConstants.CMD_GET_EDGE_VARIABLE,
@@ -130,7 +130,7 @@ namespace CodingConnected.TraCI.NET.Commands
 		public int GetLastStepVehicleNumber (string id)
 		{
 			return
-				TraCICommandHelper.ExecuteCommand<int>(
+				TraCICommandHelper.ExecuteGetCommand<int>(
 					Client,
 					id,
 					TraCIConstants.CMD_GET_EDGE_VARIABLE,
@@ -140,7 +140,7 @@ namespace CodingConnected.TraCI.NET.Commands
 		public double GetLastStepMeanSpeed (string id)
 		{
 			return
-				TraCICommandHelper.ExecuteCommand<double>(
+				TraCICommandHelper.ExecuteGetCommand<double>(
 					Client,
 					id,
 					TraCIConstants.CMD_GET_EDGE_VARIABLE,
@@ -150,7 +150,7 @@ namespace CodingConnected.TraCI.NET.Commands
 		public List<string> GetLastStepVehicleIDs (string id)
 		{
 			return
-				TraCICommandHelper.ExecuteCommand<List<string>>(
+				TraCICommandHelper.ExecuteGetCommand<List<string>>(
 					Client,
 					id,
 					TraCIConstants.CMD_GET_EDGE_VARIABLE,
@@ -160,7 +160,7 @@ namespace CodingConnected.TraCI.NET.Commands
 		public double GetLastStepOccupancy (string id)
 		{
 			return
-				TraCICommandHelper.ExecuteCommand<double>(
+				TraCICommandHelper.ExecuteGetCommand<double>(
 					Client,
 					id,
 					TraCIConstants.CMD_GET_EDGE_VARIABLE,
@@ -170,7 +170,7 @@ namespace CodingConnected.TraCI.NET.Commands
 		public double GetLastStepLength (string id)
 		{
 			return
-				TraCICommandHelper.ExecuteCommand<double>(
+				TraCICommandHelper.ExecuteGetCommand<double>(
 					Client,
 					id,
 					TraCIConstants.CMD_GET_EDGE_VARIABLE,
@@ -180,7 +180,7 @@ namespace CodingConnected.TraCI.NET.Commands
 		public double GetWaitingTime (string id)
 		{
 			return
-				TraCICommandHelper.ExecuteCommand<double>(
+				TraCICommandHelper.ExecuteGetCommand<double>(
 					Client,
 					id,
 					TraCIConstants.CMD_GET_EDGE_VARIABLE,
@@ -190,7 +190,7 @@ namespace CodingConnected.TraCI.NET.Commands
 		public List<string> GetLastStepPersonIDs (string id)
 		{
 			return
-				TraCICommandHelper.ExecuteCommand<List<string>>(
+				TraCICommandHelper.ExecuteGetCommand<List<string>>(
 					Client,
 					id,
 					TraCIConstants.CMD_GET_EDGE_VARIABLE,
@@ -200,7 +200,7 @@ namespace CodingConnected.TraCI.NET.Commands
 		public int GetLastStepHaltingNumber(string id)
 		{
 			return
-				TraCICommandHelper.ExecuteCommand<int>(
+				TraCICommandHelper.ExecuteGetCommand<int>(
 					Client,
 					id,
 					TraCIConstants.CMD_GET_EDGE_VARIABLE,

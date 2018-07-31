@@ -11,7 +11,7 @@ namespace CodingConnected.TraCI.NET.Commands
 		public double GetZoom(string id)
 		{
 			return
-				TraCICommandHelper.ExecuteCommand<double>(
+				TraCICommandHelper.ExecuteGetCommand<double>(
 					Client,
 					id,
 					TraCIConstants.CMD_GET_GUI_VARIABLE,
@@ -21,7 +21,7 @@ namespace CodingConnected.TraCI.NET.Commands
 		public Position2D GetOffset(string id)
 		{
 			return
-				TraCICommandHelper.ExecuteCommand<Position2D>(
+				TraCICommandHelper.ExecuteGetCommand<Position2D>(
 				Client,
 				id,
 				TraCIConstants.CMD_GET_GUI_VARIABLE,
@@ -31,7 +31,7 @@ namespace CodingConnected.TraCI.NET.Commands
 		public string GetSchema(string id)
 		{
 			return
-				TraCICommandHelper.ExecuteCommand<string>(
+				TraCICommandHelper.ExecuteGetCommand<string>(
 					Client,
 					id,
 					TraCIConstants.CMD_GET_GUI_VARIABLE,
@@ -41,7 +41,7 @@ namespace CodingConnected.TraCI.NET.Commands
 		public Polygon GetBoundary(string id)
 		{
 			return
-				TraCICommandHelper.ExecuteCommand<Polygon>(
+				TraCICommandHelper.ExecuteGetCommand<Polygon>(
 				Client,
 				id,
 				TraCIConstants.CMD_GET_GUI_VARIABLE,

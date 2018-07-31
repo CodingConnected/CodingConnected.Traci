@@ -10,7 +10,7 @@ namespace CodingConnected.TraCI.NET.Commands
 		public List<string> GetIdList()
 		{
 			return 
-				TraCICommandHelper.ExecuteCommand<List<string>>(
+				TraCICommandHelper.ExecuteGetCommand<List<string>>(
 					Client, 
 					"ignored", 
 					TraCIConstants.CMD_GET_LANE_VARIABLE,
@@ -20,7 +20,7 @@ namespace CodingConnected.TraCI.NET.Commands
 		public int GetIdCount()
 		{
 			return 
-				TraCICommandHelper.ExecuteCommand<int>(
+				TraCICommandHelper.ExecuteGetCommand<int>(
 					Client, 
 					"ignored", 
 					TraCIConstants.CMD_GET_LANE_VARIABLE,
@@ -30,7 +30,7 @@ namespace CodingConnected.TraCI.NET.Commands
 		public byte GetLinkNumber(string id)
 		{
 			return 
-				TraCICommandHelper.ExecuteCommand<byte>(
+				TraCICommandHelper.ExecuteGetCommand<byte>(
 					Client, 
 					id, 
 					TraCIConstants.CMD_GET_LANE_VARIABLE,
@@ -40,7 +40,7 @@ namespace CodingConnected.TraCI.NET.Commands
 		public string GetEdgeId(string id)
 		{
 			return 
-				TraCICommandHelper.ExecuteCommand<string>(
+				TraCICommandHelper.ExecuteGetCommand<string>(
 					Client, 
 					id, 
 					TraCIConstants.CMD_GET_LANE_VARIABLE,
@@ -50,7 +50,7 @@ namespace CodingConnected.TraCI.NET.Commands
 		public object GetLinks(string id)
 		{
 			return 
-				TraCICommandHelper.ExecuteCommand<object>(
+				TraCICommandHelper.ExecuteGetCommand<object>(
 					Client, 
 					id, 
 					TraCIConstants.CMD_GET_LANE_VARIABLE,
@@ -60,7 +60,7 @@ namespace CodingConnected.TraCI.NET.Commands
 		public List<string> GetAllowed(string id)
 		{
 			return 
-				TraCICommandHelper.ExecuteCommand<List<string>>(
+				TraCICommandHelper.ExecuteGetCommand<List<string>>(
 					Client, 
 					id, 
 					TraCIConstants.CMD_GET_LANE_VARIABLE,
@@ -70,7 +70,7 @@ namespace CodingConnected.TraCI.NET.Commands
 		public List<string> GetDisallowed(string id)
 		{
 			return 
-				TraCICommandHelper.ExecuteCommand<List<string>>(
+				TraCICommandHelper.ExecuteGetCommand<List<string>>(
 					Client, 
 					id, 
 					TraCIConstants.CMD_GET_LANE_VARIABLE,
@@ -80,7 +80,7 @@ namespace CodingConnected.TraCI.NET.Commands
 		public double GetLength(string id)
 		{
 			return 
-				TraCICommandHelper.ExecuteCommand<double>(
+				TraCICommandHelper.ExecuteGetCommand<double>(
 					Client, 
 					id, 
 					TraCIConstants.CMD_GET_LANE_VARIABLE,
@@ -90,7 +90,7 @@ namespace CodingConnected.TraCI.NET.Commands
 		public double GetMaxSpeed(string id)
 		{
 			return 
-				TraCICommandHelper.ExecuteCommand<double>(
+				TraCICommandHelper.ExecuteGetCommand<double>(
 					Client, 
 					id, 
 					TraCIConstants.CMD_GET_LANE_VARIABLE,
@@ -103,7 +103,7 @@ namespace CodingConnected.TraCI.NET.Commands
 			// Question here: is it returned as compound data, or as a shape?
 			//throw new NotSupportedException("TODO: interpret compound object");
 			return 
-				TraCICommandHelper.ExecuteCommand<int>(
+				TraCICommandHelper.ExecuteGetCommand<int>(
 					Client, 
 					id, 
 					TraCIConstants.CMD_GET_LANE_VARIABLE,
@@ -113,7 +113,7 @@ namespace CodingConnected.TraCI.NET.Commands
 		public double GetWidth(string id)
 		{
 			return 
-				TraCICommandHelper.ExecuteCommand<double>(
+				TraCICommandHelper.ExecuteGetCommand<double>(
 					Client, 
 					id, 
 					TraCIConstants.CMD_GET_LANE_VARIABLE,
@@ -123,7 +123,7 @@ namespace CodingConnected.TraCI.NET.Commands
 		public double GetCO2Emission(string id)
 		{
 			return 
-				TraCICommandHelper.ExecuteCommand<double>(
+				TraCICommandHelper.ExecuteGetCommand<double>(
 					Client, 
 					id, 
 					TraCIConstants.CMD_GET_LANE_VARIABLE,
@@ -133,7 +133,7 @@ namespace CodingConnected.TraCI.NET.Commands
 		public double GetCOEmission(string id)
 		{
 			return 
-				TraCICommandHelper.ExecuteCommand<double>(
+				TraCICommandHelper.ExecuteGetCommand<double>(
 					Client, 
 					id, 
 					TraCIConstants.CMD_GET_LANE_VARIABLE,
@@ -143,7 +143,7 @@ namespace CodingConnected.TraCI.NET.Commands
 		public double GetHCEmission(string id)
 		{
 			return 
-				TraCICommandHelper.ExecuteCommand<double>(
+				TraCICommandHelper.ExecuteGetCommand<double>(
 					Client, 
 					id, 
 					TraCIConstants.CMD_GET_LANE_VARIABLE,
@@ -153,7 +153,7 @@ namespace CodingConnected.TraCI.NET.Commands
 		public double GetPMxEmission(string id)
 		{
 			return 
-				TraCICommandHelper.ExecuteCommand<double>(
+				TraCICommandHelper.ExecuteGetCommand<double>(
 					Client, 
 					id, 
 					TraCIConstants.CMD_GET_LANE_VARIABLE,
@@ -163,7 +163,7 @@ namespace CodingConnected.TraCI.NET.Commands
 		public double GetNOxEmission(string id)
 		{
 			return 
-				TraCICommandHelper.ExecuteCommand<double>(
+				TraCICommandHelper.ExecuteGetCommand<double>(
 					Client, 
 					id, 
 					TraCIConstants.CMD_GET_LANE_VARIABLE,
@@ -173,7 +173,7 @@ namespace CodingConnected.TraCI.NET.Commands
 		public double GetFuelConsumption(string id)
 		{
 			return 
-				TraCICommandHelper.ExecuteCommand<double>(
+				TraCICommandHelper.ExecuteGetCommand<double>(
 					Client, 
 					id, 
 					TraCIConstants.CMD_GET_LANE_VARIABLE,
@@ -183,7 +183,7 @@ namespace CodingConnected.TraCI.NET.Commands
 		public double GetNoiseEmission(string id)
 		{
 			return 
-				TraCICommandHelper.ExecuteCommand<double>(
+				TraCICommandHelper.ExecuteGetCommand<double>(
 					Client, 
 					id, 
 					TraCIConstants.CMD_GET_LANE_VARIABLE,
@@ -193,7 +193,7 @@ namespace CodingConnected.TraCI.NET.Commands
 		public double GetElectricityConsumption(string id)
 		{
 			return 
-				TraCICommandHelper.ExecuteCommand<double>(
+				TraCICommandHelper.ExecuteGetCommand<double>(
 					Client, 
 					id, 
 					TraCIConstants.CMD_GET_LANE_VARIABLE,
@@ -203,7 +203,7 @@ namespace CodingConnected.TraCI.NET.Commands
 		public int GetLastStepVehicleNumber(string id)
 		{
 			return 
-				TraCICommandHelper.ExecuteCommand<int>(
+				TraCICommandHelper.ExecuteGetCommand<int>(
 					Client, 
 					id, 
 					TraCIConstants.CMD_GET_LANE_VARIABLE,
@@ -213,7 +213,7 @@ namespace CodingConnected.TraCI.NET.Commands
 		public double GetLastStepMeanSpeed(string id)
 		{
 			return 
-				TraCICommandHelper.ExecuteCommand<double>(
+				TraCICommandHelper.ExecuteGetCommand<double>(
 					Client, 
 					id, 
 					TraCIConstants.CMD_GET_LANE_VARIABLE,
@@ -223,7 +223,7 @@ namespace CodingConnected.TraCI.NET.Commands
 		public List<string> GetLastStepVehicleIds(string id)
 		{
 			return 
-				TraCICommandHelper.ExecuteCommand<List<string>>(
+				TraCICommandHelper.ExecuteGetCommand<List<string>>(
 					Client, 
 					id, 
 					TraCIConstants.CMD_GET_LANE_VARIABLE,
@@ -233,7 +233,7 @@ namespace CodingConnected.TraCI.NET.Commands
 		public double GetLastStepOccupancy(string id)
 		{
 			return 
-				TraCICommandHelper.ExecuteCommand<int>(
+				TraCICommandHelper.ExecuteGetCommand<int>(
 					Client, 
 					id, 
 					TraCIConstants.CMD_GET_LANE_VARIABLE,
@@ -243,7 +243,7 @@ namespace CodingConnected.TraCI.NET.Commands
 		public double GetLastStepLength(string id)
 		{
 			return 
-				TraCICommandHelper.ExecuteCommand<double>(
+				TraCICommandHelper.ExecuteGetCommand<double>(
 					Client, 
 					id, 
 					TraCIConstants.CMD_GET_LANE_VARIABLE,
@@ -253,7 +253,7 @@ namespace CodingConnected.TraCI.NET.Commands
 		public double GetWaitingTime(string id)
 		{
 			return 
-				TraCICommandHelper.ExecuteCommand<double>(
+				TraCICommandHelper.ExecuteGetCommand<double>(
 					Client, 
 					id, 
 					TraCIConstants.CMD_GET_LANE_VARIABLE,
@@ -263,7 +263,7 @@ namespace CodingConnected.TraCI.NET.Commands
 		public double GetTravelTime(string id)
 		{
 			return 
-				TraCICommandHelper.ExecuteCommand<double>(
+				TraCICommandHelper.ExecuteGetCommand<double>(
 					Client, 
 					id, 
 					TraCIConstants.CMD_GET_LANE_VARIABLE,
@@ -273,18 +273,69 @@ namespace CodingConnected.TraCI.NET.Commands
 		public int GetLastStepHaltingNumber(string id)
 		{
 			return 
-				TraCICommandHelper.ExecuteCommand<int>(
+				TraCICommandHelper.ExecuteGetCommand<int>(
 					Client, 
 					id, 
 					TraCIConstants.CMD_GET_LANE_VARIABLE,
 					TraCIConstants.LAST_STEP_VEHICLE_HALTING_NUMBER);
 		}
-				
-		#endregion // Public Methods
-		
-		#region Constructor
 
-		public LaneCommands(TraCIClient client) : base(client)
+        /// <summary>
+        /// Sets a list of allowed vehicle classes.
+        /// </summary>
+        public void SetAllowed(string laneId, List<string> allowedVehicleClasses)
+        {
+            TraCICommandHelper.ExecuteSetCommand<object, List<string>>(
+                Client,
+                laneId,
+                TraCIConstants.CMD_SET_LANE_VARIABLE,
+                TraCIConstants.LANE_ALLOWED,
+                allowedVehicleClasses);
+        }
+
+        /// <summary>
+        /// Sets a list of disallowed vehicle classes.
+        /// </summary>
+        public void SetDisallowed(string laneId, List<string> disallowedVehicleClasses)
+        {
+            TraCICommandHelper.ExecuteSetCommand<object, List<string>>(
+                Client,
+                laneId,
+                TraCIConstants.CMD_SET_LANE_VARIABLE,
+                TraCIConstants.LANE_DISALLOWED,
+                disallowedVehicleClasses);
+        }
+
+        /// <summary>
+        /// Sets the length of the lane in m
+        /// </summary>
+        public void SetLength(string laneId, double length)
+        {
+            TraCICommandHelper.ExecuteSetCommand<object, double>(
+                Client,
+                laneId,
+                TraCIConstants.CMD_SET_LANE_VARIABLE,
+                TraCIConstants.VAR_LENGTH,
+                length);
+        }
+
+        /// <summary>
+        /// Sets a new maximum allowed speed on the lane in m/s.
+        /// </summary>
+        public void SetMaxSpeed(string laneId, double maxSpeed)
+        {
+            TraCICommandHelper.ExecuteSetCommand<object, double>(
+                Client,
+                laneId,
+                TraCIConstants.CMD_SET_LANE_VARIABLE,
+                TraCIConstants.VAR_MAXSPEED,
+                maxSpeed);
+        }
+        #endregion // Public Methods
+
+        #region Constructor
+
+        public LaneCommands(TraCIClient client) : base(client)
 		{
 		}
 

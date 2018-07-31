@@ -11,7 +11,7 @@ namespace CodingConnected.TraCI.NET.Commands
 		public int GetCurrentTime (string id)
 		{
 			return
-				TraCICommandHelper.ExecuteCommand<int>(
+				TraCICommandHelper.ExecuteGetCommand<int>(
 					Client,
 					id,
 					TraCIConstants.CMD_GET_SIM_VARIABLE,
@@ -21,7 +21,7 @@ namespace CodingConnected.TraCI.NET.Commands
 		public int GetLoadedNumber (string id)
 		{
 			return
-				TraCICommandHelper.ExecuteCommand<int>(
+				TraCICommandHelper.ExecuteGetCommand<int>(
 					Client,
 					id,
 					TraCIConstants.CMD_GET_SIM_VARIABLE,
@@ -31,7 +31,7 @@ namespace CodingConnected.TraCI.NET.Commands
 		public List<string> GetLoadedIDList (string id)
 		{
 			return
-				TraCICommandHelper.ExecuteCommand<List<string>>(
+				TraCICommandHelper.ExecuteGetCommand<List<string>>(
 					Client,
 					id,
 					TraCIConstants.CMD_GET_SIM_VARIABLE,
@@ -41,7 +41,7 @@ namespace CodingConnected.TraCI.NET.Commands
 		public int GetDepartedNumber (string id)
 		{
 			return
-				TraCICommandHelper.ExecuteCommand<int>(
+				TraCICommandHelper.ExecuteGetCommand<int>(
 					Client,
 					id,
 					TraCIConstants.CMD_GET_SIM_VARIABLE,
@@ -51,7 +51,7 @@ namespace CodingConnected.TraCI.NET.Commands
 		public List<string> GetDepartedIDList (string id)
 		{
 			return
-				TraCICommandHelper.ExecuteCommand<List<string>>(
+				TraCICommandHelper.ExecuteGetCommand<List<string>>(
 					Client,
 					id,
 					TraCIConstants.CMD_GET_SIM_VARIABLE,
@@ -61,7 +61,7 @@ namespace CodingConnected.TraCI.NET.Commands
 		public int GetStartingTeleportNumber (string id)
 		{
 			return
-				TraCICommandHelper.ExecuteCommand<int>(
+				TraCICommandHelper.ExecuteGetCommand<int>(
 					Client,
 					id,
 					TraCIConstants.CMD_GET_SIM_VARIABLE,
@@ -71,7 +71,7 @@ namespace CodingConnected.TraCI.NET.Commands
 		public List<string> GetStartingTeleportIDList (string id)
 		{
 			return
-				TraCICommandHelper.ExecuteCommand<List<string>>(
+				TraCICommandHelper.ExecuteGetCommand<List<string>>(
 					Client,
 					id,
 					TraCIConstants.CMD_GET_SIM_VARIABLE,
@@ -81,7 +81,7 @@ namespace CodingConnected.TraCI.NET.Commands
 		public int GetEndingTeleportNumber(string id)
 		{
 			return
-				TraCICommandHelper.ExecuteCommand<int>(
+				TraCICommandHelper.ExecuteGetCommand<int>(
 					Client,
 					id,
 					TraCIConstants.CMD_GET_SIM_VARIABLE,
@@ -91,7 +91,7 @@ namespace CodingConnected.TraCI.NET.Commands
 		public List<string> GetEndingTeleportIDList (string id)
 		{
 			return
-				TraCICommandHelper.ExecuteCommand<List<string>>(
+				TraCICommandHelper.ExecuteGetCommand<List<string>>(
 					Client,
 					id,
 					TraCIConstants.CMD_GET_SIM_VARIABLE,
@@ -101,7 +101,7 @@ namespace CodingConnected.TraCI.NET.Commands
 		public int GetArrivedNumber (string id)
 		{
 			return
-				TraCICommandHelper.ExecuteCommand<int>(
+				TraCICommandHelper.ExecuteGetCommand<int>(
 					Client,
 					id,
 					TraCIConstants.CMD_GET_SIM_VARIABLE,
@@ -111,7 +111,7 @@ namespace CodingConnected.TraCI.NET.Commands
 		public List<string> GetArrivedIDList (string id)
 		{
 			return
-				TraCICommandHelper.ExecuteCommand<List<string>>(
+				TraCICommandHelper.ExecuteGetCommand<List<string>>(
 					Client,
 					id,
 					TraCIConstants.CMD_GET_SIM_VARIABLE,
@@ -121,7 +121,7 @@ namespace CodingConnected.TraCI.NET.Commands
 		public BoundaryBox GetNetBoundary (string id)
 		{
 			return
-				TraCICommandHelper.ExecuteCommand<BoundaryBox>(
+				TraCICommandHelper.ExecuteGetCommand<BoundaryBox>(
 					Client,
 					id,
 					TraCIConstants.CMD_GET_SIM_VARIABLE,
@@ -131,7 +131,7 @@ namespace CodingConnected.TraCI.NET.Commands
 		public int GetMinExpectedNumber (string id)
 		{
 			return
-				TraCICommandHelper.ExecuteCommand<int>(
+				TraCICommandHelper.ExecuteGetCommand<int>(
 					Client,
 					id,
 					TraCIConstants.CMD_GET_SIM_VARIABLE,
@@ -141,7 +141,7 @@ namespace CodingConnected.TraCI.NET.Commands
 		public int GetStopStartingVehiclesNumber (string id)
 		{
 			return
-				TraCICommandHelper.ExecuteCommand<int>(
+				TraCICommandHelper.ExecuteGetCommand<int>(
 					Client,
 					id,
 					TraCIConstants.CMD_GET_SIM_VARIABLE,
@@ -151,7 +151,7 @@ namespace CodingConnected.TraCI.NET.Commands
 		public List<string> GetStopStartingVehiclesIDList (string id)
 		{
 			return
-				TraCICommandHelper.ExecuteCommand<List<string>>(
+				TraCICommandHelper.ExecuteGetCommand<List<string>>(
 					Client,
 					id,
 					TraCIConstants.CMD_GET_SIM_VARIABLE,
@@ -161,7 +161,7 @@ namespace CodingConnected.TraCI.NET.Commands
 		public int GetStopEndingVehiclesNumber (string id)
 		{
 			return
-				TraCICommandHelper.ExecuteCommand<int>(
+				TraCICommandHelper.ExecuteGetCommand<int>(
 					Client,
 					id,
 					TraCIConstants.CMD_GET_SIM_VARIABLE,
@@ -171,7 +171,7 @@ namespace CodingConnected.TraCI.NET.Commands
 		public List<string> GetStopEndingVehiclesIDList (string id)
 		{
 			return
-				TraCICommandHelper.ExecuteCommand<List<string>>(
+				TraCICommandHelper.ExecuteGetCommand<List<string>>(
 					Client,
 					id,
 					TraCIConstants.CMD_GET_SIM_VARIABLE,
@@ -181,7 +181,7 @@ namespace CodingConnected.TraCI.NET.Commands
 		public int GetCollidingVehiclesNumber (string id)
 		{
 			return
-				TraCICommandHelper.ExecuteCommand<int>(
+				TraCICommandHelper.ExecuteGetCommand<int>(
 					Client,
 					id,
 					TraCIConstants.CMD_GET_SIM_VARIABLE,
@@ -192,7 +192,7 @@ namespace CodingConnected.TraCI.NET.Commands
 		public List<string> GetCollidingVehiclesIDList (string id)
 		{
 			return
-				TraCICommandHelper.ExecuteCommand<List<string>>(
+				TraCICommandHelper.ExecuteGetCommand<List<string>>(
 					Client,
 					id,
 					TraCIConstants.CMD_GET_SIM_VARIABLE,
@@ -203,7 +203,7 @@ namespace CodingConnected.TraCI.NET.Commands
 		public int GetParkingStartingVehiclesNumber (string id)
 		{
 			return
-				TraCICommandHelper.ExecuteCommand<int>(
+				TraCICommandHelper.ExecuteGetCommand<int>(
 					Client,
 					id,
 					TraCIConstants.CMD_GET_SIM_VARIABLE,
@@ -213,7 +213,7 @@ namespace CodingConnected.TraCI.NET.Commands
 		public List<string> GetParkingStartingVehiclesIDList (string id)
 		{
 			return
-				TraCICommandHelper.ExecuteCommand<List<string>>(
+				TraCICommandHelper.ExecuteGetCommand<List<string>>(
 					Client,
 					id,
 					TraCIConstants.CMD_GET_SIM_VARIABLE,
@@ -223,7 +223,7 @@ namespace CodingConnected.TraCI.NET.Commands
 		public int GetParkingEndingVehiclesNumber (string id)
 		{
 			return
-				TraCICommandHelper.ExecuteCommand<int>(
+				TraCICommandHelper.ExecuteGetCommand<int>(
 					Client,
 					id,
 					TraCIConstants.CMD_GET_SIM_VARIABLE,
@@ -233,7 +233,7 @@ namespace CodingConnected.TraCI.NET.Commands
 		public List<string> GetParkingEndingVehiclesIDList (string id)
 		{
 			return
-				TraCICommandHelper.ExecuteCommand<List<string>>(
+				TraCICommandHelper.ExecuteGetCommand<List<string>>(
 					Client,
 					id,
 					TraCIConstants.CMD_GET_SIM_VARIABLE,
@@ -243,7 +243,7 @@ namespace CodingConnected.TraCI.NET.Commands
 		public int GetBusStopWaiting (string id)
 		{
 			return
-				TraCICommandHelper.ExecuteCommand<int>(
+				TraCICommandHelper.ExecuteGetCommand<int>(
 					Client,
 					id,
 					TraCIConstants.CMD_GET_SIM_VARIABLE,
@@ -253,7 +253,7 @@ namespace CodingConnected.TraCI.NET.Commands
 		public int GetDeltaT (string id)
 		{
 			return
-				TraCICommandHelper.ExecuteCommand<int>(
+				TraCICommandHelper.ExecuteGetCommand<int>(
 					Client,
 					id,
 					TraCIConstants.CMD_GET_SIM_VARIABLE,
@@ -263,7 +263,7 @@ namespace CodingConnected.TraCI.NET.Commands
 		public string GetParameter(string id)
 		{
 			return
-				TraCICommandHelper.ExecuteCommand<string>(
+				TraCICommandHelper.ExecuteGetCommand<string>(
 					Client,
 					id,
 					TraCIConstants.CMD_GET_SIM_VARIABLE,

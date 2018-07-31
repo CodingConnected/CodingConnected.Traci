@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using CodingConnected.TraCI.NET.Helpers;
+using CodingConnected.TraCI.NET.Types;
 
 namespace CodingConnected.TraCI.NET.Commands
 {
@@ -11,7 +12,7 @@ namespace CodingConnected.TraCI.NET.Commands
 		public List<string> GetIdList()
 		{
 			return 
-				TraCICommandHelper.ExecuteCommand<List<string>>(
+				TraCICommandHelper.ExecuteGetCommand<List<string>>(
 					Client, 
 					"ignored", 
 					TraCIConstants.CMD_GET_TL_VARIABLE,
@@ -21,7 +22,7 @@ namespace CodingConnected.TraCI.NET.Commands
 		public int GetIdCount()
 		{
 			return 
-				TraCICommandHelper.ExecuteCommand<int>(
+				TraCICommandHelper.ExecuteGetCommand<int>(
 					Client, 
 					"ignored", 
 					TraCIConstants.CMD_GET_TL_VARIABLE,
@@ -31,7 +32,7 @@ namespace CodingConnected.TraCI.NET.Commands
 		public string GetState(string id)
 		{
 			return 
-				TraCICommandHelper.ExecuteCommand<string>(
+				TraCICommandHelper.ExecuteGetCommand<string>(
 					Client, 
 					id, 
 					TraCIConstants.CMD_GET_TL_VARIABLE,
@@ -41,7 +42,7 @@ namespace CodingConnected.TraCI.NET.Commands
 		public int GetPhaseDuration(string id)
 		{
 			return 
-				TraCICommandHelper.ExecuteCommand<int>(
+				TraCICommandHelper.ExecuteGetCommand<int>(
 					Client, 
 					id, 
 					TraCIConstants.CMD_GET_TL_VARIABLE,
@@ -51,7 +52,7 @@ namespace CodingConnected.TraCI.NET.Commands
 		public List<string> GetControlledLanes(string id)
 		{
 			return 
-				TraCICommandHelper.ExecuteCommand<List<string>>(
+				TraCICommandHelper.ExecuteGetCommand<List<string>>(
 					Client, 
 					id, 
 					TraCIConstants.CMD_GET_TL_VARIABLE,
@@ -73,7 +74,7 @@ namespace CodingConnected.TraCI.NET.Commands
 		public int GetCurrentPhase(string id)
 		{
 			return 
-				TraCICommandHelper.ExecuteCommand<int>(
+				TraCICommandHelper.ExecuteGetCommand<int>(
 					Client, 
 					id, 
 					TraCIConstants.CMD_GET_TL_VARIABLE,
@@ -83,7 +84,7 @@ namespace CodingConnected.TraCI.NET.Commands
 		public string GetCurrentProgram(string id)
 		{
 			return 
-				TraCICommandHelper.ExecuteCommand<string>(
+				TraCICommandHelper.ExecuteGetCommand<string>(
 					Client, 
 					id, 
 					TraCIConstants.CMD_GET_TL_VARIABLE,
@@ -105,18 +106,107 @@ namespace CodingConnected.TraCI.NET.Commands
 		public int GetNextSwitch(string id)
 		{
 			return 
-				TraCICommandHelper.ExecuteCommand<int>(
+				TraCICommandHelper.ExecuteGetCommand<int>(
 					Client, 
 					id, 
 					TraCIConstants.CMD_GET_TL_VARIABLE,
 					TraCIConstants.TL_NEXT_SWITCH);
 		}
 		
-		#endregion // Public Methods
-		
-		#region Constructor
 
-		public TrafficLightCommands(TraCIClient client) : base(client)
+        public void SetRedYellowGreenState(string id, string state)
+        {
+            TraCICommandHelper.ExecuteSetCommand<object, string>(
+                Client,
+                id,
+                TraCIConstants.CMD_SET_TL_VARIABLE,
+                TraCIConstants.TL_RED_YELLOW_GREEN_STATE,
+                state);
+        }
+
+        public void SetPhase(string id, int phaseIndex)
+        {
+            TraCICommandHelper.ExecuteSetCommand<object, int>(
+                Client,
+                id,
+                TraCIConstants.CMD_SET_TL_VARIABLE,
+                TraCIConstants.TL_PHASE_INDEX,
+                phaseIndex);
+        }
+
+        public void SetProgram(string id, string program)
+        {
+            TraCICommandHelper.ExecuteSetCommand<object, string>(
+                Client,
+                id,
+                TraCIConstants.CMD_SET_TL_VARIABLE,
+                TraCIConstants.TL_PROGRAM,
+                program);
+        }
+
+        public void SetDuration(string id, int phaseDuration)
+        {
+            TraCICommandHelper.ExecuteSetCommand<object, int>(
+                Client,
+                id,
+                TraCIConstants.CMD_SET_TL_VARIABLE,
+                TraCIConstants.TL_PHASE_DURATION,
+                phaseDuration);
+        }
+
+        public void SetCompleteRedYellowGreenDefinition(string id, TrafficLightProgram program)
+        {
+            var bytes = new List<byte> { TraCIConstants.TL_COMPLETE_PROGRAM_RYG }; //messageType (0x2c)
+            bytes.AddRange(TraCIDataConverter.GetTraCIBytesFromASCIIString(id));
+            bytes.Add(TraCIConstants.TYPE_COMPOUND); //value type compound
+            bytes.AddRange(TraCIDataConverter.GetTraCIBytesFromInt32(5 + (program.Phases.Count * 4))); //item number
+            bytes.Add(TraCIConstants.TYPE_STRING); //value type string
+            bytes.AddRange(TraCIDataConverter.GetTraCIBytesFromASCIIString(program.ProgramId)); //program ID
+            bytes.Add(TraCIConstants.TYPE_INTEGER); //value type integer
+            bytes.AddRange(TraCIDataConverter.GetTraCIBytesFromInt32(0)); //Type (always 0)
+            bytes.Add(TraCIConstants.TYPE_COMPOUND); //value type compound
+            bytes.AddRange(TraCIDataConverter.GetTraCIBytesFromInt32(0));//Compound Length (always 0!)
+            bytes.Add(TraCIConstants.TYPE_INTEGER); //value type integer
+            bytes.AddRange(TraCIDataConverter.GetTraCIBytesFromInt32(program.PhaseIndex)); //Phase Index
+            bytes.Add(TraCIConstants.TYPE_INTEGER); //value type integer
+            bytes.AddRange(TraCIDataConverter.GetTraCIBytesFromInt32(program.Phases.Count)); //Phase Number
+
+            foreach (var p in program.Phases)//Phases
+            {
+                bytes.Add(TraCIConstants.TYPE_INTEGER); //value type integer
+                bytes.AddRange(TraCIDataConverter.GetTraCIBytesFromInt32(p.Duration)); //Duration[ms]
+                bytes.Add(TraCIConstants.TYPE_INTEGER); //value type integer
+                bytes.AddRange(TraCIDataConverter.GetTraCIBytesFromInt32(0)); //unused
+                bytes.Add(TraCIConstants.TYPE_INTEGER); //value type integer
+                bytes.AddRange(TraCIDataConverter.GetTraCIBytesFromInt32(0)); //unused
+                bytes.Add(TraCIConstants.TYPE_STRING); //value type string
+                bytes.AddRange(TraCIDataConverter.GetTraCIBytesFromASCIIString(p.State)); //State (light/priority-tuple)
+            }
+
+            var command = new TraCICommand
+            {
+                Identifier = TraCIConstants.CMD_SET_TL_VARIABLE,
+                Contents = bytes.ToArray()
+            };
+
+            var response = Client.SendMessage(command);
+
+            try
+            {
+                TraCIDataConverter.ExtractDataFromResponse(response, TraCIConstants.CMD_SET_TL_VARIABLE, TraCIConstants.TL_COMPLETE_PROGRAM_RYG);
+            }
+            catch
+            {
+                throw;
+            }
+        }
+
+    
+    #endregion // Public Methods
+
+    #region Constructor
+
+    public TrafficLightCommands(TraCIClient client) : base(client)
 		{
 		}
 

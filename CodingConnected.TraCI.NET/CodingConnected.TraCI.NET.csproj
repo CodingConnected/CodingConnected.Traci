@@ -66,6 +66,7 @@
     <Compile Include="TraCICommandException.cs" />
     <Compile Include="TraCIConstants.cs" />
     <Compile Include="TraCIResult.cs" />
+    <Compile Include="Types\TrafficLightProgram.cs" />
     <Compile Include="Types\BoundaryBox.cs" />
     <Compile Include="Types\Color.cs" />
     <Compile Include="Types\ComposedTypeBase.cs" />
