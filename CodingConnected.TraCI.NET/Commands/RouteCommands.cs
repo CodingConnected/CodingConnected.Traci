@@ -7,7 +7,7 @@ namespace CodingConnected.TraCI.NET.Commands
 	{
 		#region Public Methods
 
-		public List<string> GetIdList()
+		public TraCIResponse<List<string>> GetIdList()
 		{
 			return
 				TraCICommandHelper.ExecuteGetCommand<List<string>>(
@@ -17,7 +17,7 @@ namespace CodingConnected.TraCI.NET.Commands
 					TraCIConstants.ID_LIST);
 		}
 
-		public int GetIdCount()
+		public TraCIResponse<int> GetIdCount()
 		{
 			return
 				TraCICommandHelper.ExecuteGetCommand<int>(
@@ -27,7 +27,7 @@ namespace CodingConnected.TraCI.NET.Commands
 					TraCIConstants.ID_COUNT);
 		}
 
-		public List<string> GetEdges(string id)
+		public TraCIResponse<List<string>> GetEdges(string id)
 		{
 			return
 				TraCICommandHelper.ExecuteGetCommand<List<string>>(

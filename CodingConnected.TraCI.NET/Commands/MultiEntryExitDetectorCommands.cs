@@ -8,7 +8,7 @@ namespace CodingConnected.TraCI.NET.Commands
 	{
 		#region Public Methods
 
-		public List<string> GetIdList()
+		public TraCIResponse<List<string>> GetIdList()
 		{
 			return 
 				TraCICommandHelper.ExecuteGetCommand<List<string>>(
@@ -18,7 +18,7 @@ namespace CodingConnected.TraCI.NET.Commands
 					TraCIConstants.ID_LIST);
 		}
 		
-		public int GetIdCount()
+		public TraCIResponse<int> GetIdCount()
 		{
 			return 
 				TraCICommandHelper.ExecuteGetCommand<int>(
@@ -28,7 +28,7 @@ namespace CodingConnected.TraCI.NET.Commands
 					TraCIConstants.ID_COUNT);
 		}
 		
-		public int GetLastStepVehicleNumber(string id)
+		public TraCIResponse<int> GetLastStepVehicleNumber(string id)
 		{
 			return 
 				TraCICommandHelper.ExecuteGetCommand<int>(
@@ -38,7 +38,7 @@ namespace CodingConnected.TraCI.NET.Commands
 					TraCIConstants.LAST_STEP_VEHICLE_NUMBER);
 		}
 
-		public double GetLastStepMeanSpeed(string id)
+		public TraCIResponse<double> GetLastStepMeanSpeed(string id)
 		{
 			return 
 				TraCICommandHelper.ExecuteGetCommand<double>(
@@ -48,7 +48,7 @@ namespace CodingConnected.TraCI.NET.Commands
 					TraCIConstants.LAST_STEP_MEAN_SPEED);
 		}
 
-		public List<string> GetLastStepVehicleIds(string id)
+		public TraCIResponse<List<string>> GetLastStepVehicleIds(string id)
 		{
 			return 
 				TraCICommandHelper.ExecuteGetCommand<List<string>>(
@@ -58,7 +58,7 @@ namespace CodingConnected.TraCI.NET.Commands
 					TraCIConstants.LAST_STEP_VEHICLE_ID_LIST);
 		}
 		
-		public int GetLastStepHaltingNumber(string id)
+		public TraCIResponse<int> GetLastStepHaltingNumber(string id)
 		{
 			return 
 				TraCICommandHelper.ExecuteGetCommand<int>(

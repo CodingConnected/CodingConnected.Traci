@@ -8,7 +8,7 @@ namespace CodingConnected.TraCI.NET.Commands
 	{
 		#region Public Methods
 
-		public List<string> GetIdList()
+		public TraCIResponse<List<string>> GetIdList()
 		{
 			return
 				TraCICommandHelper.ExecuteGetCommand<List<string>>(
@@ -18,7 +18,7 @@ namespace CodingConnected.TraCI.NET.Commands
 					TraCIConstants.ID_LIST);
 		}
 
-		public int GetIdCount()
+		public TraCIResponse<int> GetIdCount()
 		{
 			return
 				TraCICommandHelper.ExecuteGetCommand<int>(
@@ -28,7 +28,7 @@ namespace CodingConnected.TraCI.NET.Commands
 					TraCIConstants.ID_COUNT);
 		}
 
-		public Position2D GetPosition(string id)
+		public TraCIResponse<Position2D> GetPosition(string id)
 		{
 			return
 				TraCICommandHelper.ExecuteGetCommand<Position2D>(
@@ -38,7 +38,7 @@ namespace CodingConnected.TraCI.NET.Commands
 					TraCIConstants.VAR_POSITION);
 		}
 
-		public Polygon GetShape(string id)
+		public TraCIResponse<Polygon> GetShape(string id)
 		{
 			return
 				TraCICommandHelper.ExecuteGetCommand<Polygon>(

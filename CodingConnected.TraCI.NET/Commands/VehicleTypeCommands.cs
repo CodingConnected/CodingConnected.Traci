@@ -8,7 +8,7 @@ namespace CodingConnected.TraCI.NET.Commands
 	{
 		#region Public Methods
 
-		public List<string> GetIdList()
+		public TraCIResponse<List<string>> GetIdList()
 		{
 			return
 				TraCICommandHelper.ExecuteGetCommand<List<string>>(
@@ -18,7 +18,7 @@ namespace CodingConnected.TraCI.NET.Commands
 					TraCIConstants.ID_LIST);
 		}
 
-		public int GetIdCount()
+		public TraCIResponse<int> GetIdCount()
 		{
 			return
 				TraCICommandHelper.ExecuteGetCommand<int>(
@@ -28,7 +28,7 @@ namespace CodingConnected.TraCI.NET.Commands
 					TraCIConstants.ID_COUNT);
 		}
 
-		public double GetLength(string id)
+		public TraCIResponse<double> GetLength(string id)
 		{
 			return
 				TraCICommandHelper.ExecuteGetCommand<double>(
@@ -38,7 +38,7 @@ namespace CodingConnected.TraCI.NET.Commands
 					TraCIConstants.VAR_LENGTH);
 		}
 
-		public double GetMaxSpeed(string id)
+		public TraCIResponse<double> GetMaxSpeed(string id)
 		{
 			return
 				TraCICommandHelper.ExecuteGetCommand<double>(
@@ -48,7 +48,7 @@ namespace CodingConnected.TraCI.NET.Commands
 					TraCIConstants.VAR_MAXSPEED);
 		}
 
-		public double GetAccel(string id)
+		public TraCIResponse<double> GetAccel(string id)
 		{
 			return
 				TraCICommandHelper.ExecuteGetCommand<double>(
@@ -58,7 +58,7 @@ namespace CodingConnected.TraCI.NET.Commands
 					TraCIConstants.VAR_ACCEL);
 		}
 
-		public double GetDecel(string id)
+		public TraCIResponse<double> GetDecel(string id)
 		{
 			return
 				TraCICommandHelper.ExecuteGetCommand<double>(
@@ -68,7 +68,7 @@ namespace CodingConnected.TraCI.NET.Commands
 					TraCIConstants.VAR_DECEL);
 		}
 
-		public double GetTau(string id)
+		public TraCIResponse<double> GetTau(string id)
 		{
 			return
 				TraCICommandHelper.ExecuteGetCommand<double>(
@@ -78,7 +78,7 @@ namespace CodingConnected.TraCI.NET.Commands
 					TraCIConstants.VAR_TAU);
 		}
 
-		public double GetImperfection(string id)
+		public TraCIResponse<double> GetImperfection(string id)
 		{
 			return
 				TraCICommandHelper.ExecuteGetCommand<double>(
@@ -88,7 +88,7 @@ namespace CodingConnected.TraCI.NET.Commands
 					TraCIConstants.VAR_IMPERFECTION);
 		}
 
-		public double GetSpeedFactor(string id)
+		public TraCIResponse<double> GetSpeedFactor(string id)
 		{
 			return
 				TraCICommandHelper.ExecuteGetCommand<double>(
@@ -98,7 +98,7 @@ namespace CodingConnected.TraCI.NET.Commands
 					TraCIConstants.VAR_SPEED_FACTOR);
 		}
 
-		public double GetSpeedDeviation(string id)
+		public TraCIResponse<double> GetSpeedDeviation(string id)
 		{
 			return
 				TraCICommandHelper.ExecuteGetCommand<double>(
@@ -108,7 +108,7 @@ namespace CodingConnected.TraCI.NET.Commands
 					TraCIConstants.VAR_SPEED_DEVIATION);
 		}
 
-		public string GetVehicleClass(string id)
+		public TraCIResponse<string> GetVehicleClass(string id)
 		{
 			return
 				TraCICommandHelper.ExecuteGetCommand<string>(
@@ -118,7 +118,7 @@ namespace CodingConnected.TraCI.NET.Commands
 					TraCIConstants.VAR_VEHICLECLASS);
 		}
 
-		public string GetEmissionClass(string id)
+		public TraCIResponse<string> GetEmissionClass(string id)
 		{
 			return
 				TraCICommandHelper.ExecuteGetCommand<string>(
@@ -128,7 +128,7 @@ namespace CodingConnected.TraCI.NET.Commands
 					TraCIConstants.VAR_EMISSIONCLASS);
 		}
 
-		public string GetShapeClass(string id)
+		public TraCIResponse<string> GetShapeClass(string id)
 		{
 			return
 				TraCICommandHelper.ExecuteGetCommand<string>(
@@ -138,7 +138,7 @@ namespace CodingConnected.TraCI.NET.Commands
 					TraCIConstants.VAR_SHAPECLASS);
 		}
 
-		public double GetMinGap(string id)
+		public TraCIResponse<double> GetMinGap(string id)
 		{
 			return
 				TraCICommandHelper.ExecuteGetCommand<double>(
@@ -148,7 +148,7 @@ namespace CodingConnected.TraCI.NET.Commands
 					TraCIConstants.VAR_MINGAP);
 		}
 
-		public double GetWidth(string id)
+		public TraCIResponse<double> GetWidth(string id)
 		{
 			return
 				TraCICommandHelper.ExecuteGetCommand<double>(
@@ -158,7 +158,7 @@ namespace CodingConnected.TraCI.NET.Commands
 					TraCIConstants.VAR_WIDTH);
 		}
 
-		public double GetHeight(string id)
+		public TraCIResponse<double> GetHeight(string id)
 		{
 			return
 				TraCICommandHelper.ExecuteGetCommand<double>(
@@ -168,7 +168,7 @@ namespace CodingConnected.TraCI.NET.Commands
 					TraCIConstants.VAR_HEIGHT);
 		}
 
-		public Color GetColor(string id)
+		public TraCIResponse<Color> GetColor(string id)
 		{
 			return
 				TraCICommandHelper.ExecuteGetCommand<Color>(
@@ -178,7 +178,7 @@ namespace CodingConnected.TraCI.NET.Commands
 					TraCIConstants.VAR_COLOR);
 		}
 
-		public double GetMaxSpeedLat(string id)
+		public TraCIResponse<double> GetMaxSpeedLat(string id)
 		{
 			return
 				TraCICommandHelper.ExecuteGetCommand<double>(
@@ -188,7 +188,7 @@ namespace CodingConnected.TraCI.NET.Commands
 					TraCIConstants.VAR_MAXSPEED_LAT);
 		}
 
-		public double GetMinGapLat(string id)
+		public TraCIResponse<double> GetMinGapLat(string id)
 		{
 			return
 				TraCICommandHelper.ExecuteGetCommand<double>(
@@ -198,7 +198,7 @@ namespace CodingConnected.TraCI.NET.Commands
 					TraCIConstants.VAR_MINGAP_LAT);
 		}
 
-		public string GetLateralAlignment(string id)
+		public TraCIResponse<string> GetLateralAlignment(string id)
 		{
 			return
 				TraCICommandHelper.ExecuteGetCommand<string>(
@@ -208,7 +208,7 @@ namespace CodingConnected.TraCI.NET.Commands
 					TraCIConstants.VAR_LATALIGNMENT);
 		}
 
-		public double GetActionStepLength(string id)
+		public TraCIResponse<double> GetActionStepLength(string id)
 		{
 			return
 				TraCICommandHelper.ExecuteGetCommand<double>(

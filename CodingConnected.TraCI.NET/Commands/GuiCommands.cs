@@ -8,7 +8,7 @@ namespace CodingConnected.TraCI.NET.Commands
 	{
 		#region Public Methods
 
-		public double GetZoom(string id)
+		public TraCIResponse<double> GetZoom(string id)
 		{
 			return
 				TraCICommandHelper.ExecuteGetCommand<double>(
@@ -18,7 +18,7 @@ namespace CodingConnected.TraCI.NET.Commands
 					TraCIConstants.VAR_VIEW_ZOOM);
 		}
 
-		public Position2D GetOffset(string id)
+		public TraCIResponse<Position2D> GetOffset(string id)
 		{
 			return
 				TraCICommandHelper.ExecuteGetCommand<Position2D>(
@@ -28,7 +28,7 @@ namespace CodingConnected.TraCI.NET.Commands
 				TraCIConstants.VAR_VIEW_OFFSET);
 		}
 
-		public string GetSchema(string id)
+		public TraCIResponse<string> GetSchema(string id)
 		{
 			return
 				TraCICommandHelper.ExecuteGetCommand<string>(
@@ -38,7 +38,7 @@ namespace CodingConnected.TraCI.NET.Commands
 					TraCIConstants.VAR_VIEW_SCHEMA);
 		}
 
-		public Polygon GetBoundary(string id)
+		public TraCIResponse<Polygon> GetBoundary(string id)
 		{
 			return
 				TraCICommandHelper.ExecuteGetCommand<Polygon>(
