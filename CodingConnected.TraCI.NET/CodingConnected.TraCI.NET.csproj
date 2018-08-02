@@ -67,7 +67,16 @@
     <Compile Include="TraCICommand.cs" />
     <Compile Include="TraCICommandException.cs" />
     <Compile Include="TraCIConstants.cs" />
+    <Compile Include="TraCIResponse.cs" />
     <Compile Include="TraCIResult.cs" />
+    <Compile Include="Types\ControlledLinks.cs" />
+    <Compile Include="Types\TraCIByte.cs" />
+    <Compile Include="Types\TraCIDouble.cs" />
+    <Compile Include="Types\TraCIFloat.cs" />
+    <Compile Include="Types\TraCIInteger.cs" />
+    <Compile Include="Types\TraCIString.cs" />
+    <Compile Include="Types\TraCIStringList.cs" />
+    <Compile Include="Types\TraCIUByte.cs" />
     <Compile Include="Types\TrafficLightProgram.cs" />
     <Compile Include="Types\BoundaryBox.cs" />
     <Compile Include="Types\Color.cs" />

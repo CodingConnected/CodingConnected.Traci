@@ -5,7 +5,7 @@ namespace CodingConnected.TraCI.NET.Helpers
 {
 	internal static class TraCICommandHelper
 	{
-        internal static Tres ExecuteSetCommand<Tres, Tvalue>(TraCIClient client, string id, byte commandType, byte messageType, Tvalue value)
+        internal static TraCIResponse<Tres> ExecuteSetCommand<Tres, Tvalue>(TraCIClient client, string id, byte commandType, byte messageType, Tvalue value)
         {
             TraCICommand command = null;
 
@@ -35,7 +35,7 @@ namespace CodingConnected.TraCI.NET.Helpers
 
                 try
                 {
-                    return (Tres)TraCIDataConverter.ExtractDataFromResponse(response, commandType, messageType);
+                    return TraCIDataConverter.ExtractDataFromResponse<Tres>(response, commandType, messageType);
                 }
                 catch
                 {
@@ -44,19 +44,18 @@ namespace CodingConnected.TraCI.NET.Helpers
             }
             else
             {
-                return default(Tres);
+                return default;
             }
         }
 
-        internal static T ExecuteGetCommand<T>(TraCIClient client, string id, byte commandType, byte messageType)
+        internal static TraCIResponse<T> ExecuteGetCommand<T>(TraCIClient client, string id, byte commandType, byte messageType)
         {
             var command = GetCommand(id, commandType, messageType);
             var response = client.SendMessage(command);
 
             try
             {
-
-                return (T)TraCIDataConverter.ExtractDataFromResponse(response, commandType, messageType);
+                return TraCIDataConverter.ExtractDataFromResponse<T>(response, commandType, messageType); 
             }
             catch
             {

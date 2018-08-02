@@ -8,7 +8,7 @@ namespace CodingConnected.TraCI.NET.Commands
 	{
 		#region Public Methods
 
-		public List<string> GetIdList()
+		public TraCIResponse<List<string>> GetIdList()
 		{
 			return
 				TraCICommandHelper.ExecuteGetCommand<List<string>>(
@@ -18,7 +18,7 @@ namespace CodingConnected.TraCI.NET.Commands
 					TraCIConstants.ID_LIST);
 		}
  
-		public int GetIdCount()
+		public TraCIResponse<int> GetIdCount()
 		{
 			return
 				TraCICommandHelper.ExecuteGetCommand<int>(
@@ -28,7 +28,7 @@ namespace CodingConnected.TraCI.NET.Commands
 					TraCIConstants.ID_COUNT);
 		}
  
-		public double GetSpeed(string id)
+		public TraCIResponse<double> GetSpeed(string id)
 		{
 			return
 				TraCICommandHelper.ExecuteGetCommand<double>(
@@ -38,7 +38,7 @@ namespace CodingConnected.TraCI.NET.Commands
 					TraCIConstants.VAR_SPEED);
 		}
  
-		public Position2D GetPosition(string id)
+		public TraCIResponse<Position2D> GetPosition(string id)
 		{
 			return
 				TraCICommandHelper.ExecuteGetCommand<Position2D>(
@@ -48,7 +48,7 @@ namespace CodingConnected.TraCI.NET.Commands
 					TraCIConstants.VAR_POSITION);
 		}
  
-		public Position3D GetPosition3D(string id)
+		public TraCIResponse<Position3D> GetPosition3D(string id)
 		{
 			return
 				TraCICommandHelper.ExecuteGetCommand<Position3D>(
@@ -58,7 +58,7 @@ namespace CodingConnected.TraCI.NET.Commands
 					TraCIConstants.VAR_POSITION3D);
 		}
  
-		public double GetAngle(string id)
+		public TraCIResponse<double> GetAngle(string id)
 		{
 			return
 				TraCICommandHelper.ExecuteGetCommand<double>(
@@ -68,7 +68,7 @@ namespace CodingConnected.TraCI.NET.Commands
 					TraCIConstants.VAR_ANGLE);
 		}
  
-		public string GetRoadID(string id)
+		public TraCIResponse<string> GetRoadID(string id)
 		{
 			return
 				TraCICommandHelper.ExecuteGetCommand<string>(
@@ -78,7 +78,7 @@ namespace CodingConnected.TraCI.NET.Commands
 					TraCIConstants.VAR_ROAD_ID);
 		}
  
-		public string GetTypeID(string id)
+		public TraCIResponse<string> GetTypeID(string id)
 		{
 			return
 				TraCICommandHelper.ExecuteGetCommand<string>(
@@ -88,7 +88,7 @@ namespace CodingConnected.TraCI.NET.Commands
 					TraCIConstants.VAR_TYPE);
 		}
  
-		public Color GetColor(string id)
+		public TraCIResponse<Color> GetColor(string id)
 		{
 			return
 				TraCICommandHelper.ExecuteGetCommand<Color>(
@@ -98,7 +98,7 @@ namespace CodingConnected.TraCI.NET.Commands
 					TraCIConstants.VAR_COLOR);
 		}
  
-		public double GetLanePosition(string id)
+		public TraCIResponse<double> GetLanePosition(string id)
 		{
 			return
 				TraCICommandHelper.ExecuteGetCommand<double>(
@@ -108,7 +108,7 @@ namespace CodingConnected.TraCI.NET.Commands
 					TraCIConstants.VAR_LANEPOSITION);
 		}
  
-		public double GetLength(string id)
+		public TraCIResponse<double> GetLength(string id)
 		{
 			return
 				TraCICommandHelper.ExecuteGetCommand<double>(
@@ -118,7 +118,7 @@ namespace CodingConnected.TraCI.NET.Commands
 					TraCIConstants.VAR_LENGTH);
 		}
  
-		public double GetMinGap(string id)
+		public TraCIResponse<double> GetMinGap(string id)
 		{
 			return
 				TraCICommandHelper.ExecuteGetCommand<double>(
@@ -128,7 +128,7 @@ namespace CodingConnected.TraCI.NET.Commands
 					TraCIConstants.VAR_MINGAP);
 		}
  
-		public double GetWidth(string id)
+		public TraCIResponse<double> GetWidth(string id)
 		{
 			return
 				TraCICommandHelper.ExecuteGetCommand<double>(
@@ -138,7 +138,7 @@ namespace CodingConnected.TraCI.NET.Commands
 					TraCIConstants.VAR_WIDTH);
 		}
  
-		public double GetWaitingTime(string id)
+		public TraCIResponse<double> GetWaitingTime(string id)
 		{
 			return
 				TraCICommandHelper.ExecuteGetCommand<double>(
@@ -148,7 +148,7 @@ namespace CodingConnected.TraCI.NET.Commands
 					TraCIConstants.VAR_WAITING_TIME);
 		}
  
-		public string GetNextEdge(string id)
+		public TraCIResponse<string> GetNextEdge(string id)
 		{
 			return
 				TraCICommandHelper.ExecuteGetCommand<string>(
@@ -158,7 +158,7 @@ namespace CodingConnected.TraCI.NET.Commands
 					TraCIConstants.VAR_NEXT_EDGE);
 		}
  
-		public int GetRemainingStages(string id)
+		public TraCIResponse<int> GetRemainingStages(string id)
 		{
 			return
 				TraCICommandHelper.ExecuteGetCommand<int>(
@@ -168,7 +168,7 @@ namespace CodingConnected.TraCI.NET.Commands
 					TraCIConstants.VAR_STAGES_REMAINING);
 		}
  
-		public string GetVehicle(string id)
+		public TraCIResponse<string> GetVehicle(string id)
 		{
 			return
 				TraCICommandHelper.ExecuteGetCommand<string>(

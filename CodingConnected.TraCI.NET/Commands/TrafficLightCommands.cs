@@ -9,7 +9,7 @@ namespace CodingConnected.TraCI.NET.Commands
 	{
 		#region Public Methods
 
-		public List<string> GetIdList()
+		public TraCIResponse<List<string>> GetIdList()
 		{
 			return 
 				TraCICommandHelper.ExecuteGetCommand<List<string>>(
@@ -19,7 +19,7 @@ namespace CodingConnected.TraCI.NET.Commands
 					TraCIConstants.ID_LIST);
 		}
 
-		public int GetIdCount()
+		public TraCIResponse<int> GetIdCount()
 		{
 			return 
 				TraCICommandHelper.ExecuteGetCommand<int>(
@@ -29,7 +29,7 @@ namespace CodingConnected.TraCI.NET.Commands
 					TraCIConstants.ID_COUNT);
 		}
 
-		public string GetState(string id)
+		public TraCIResponse<string> GetState(string id)
 		{
 			return 
 				TraCICommandHelper.ExecuteGetCommand<string>(
@@ -39,7 +39,7 @@ namespace CodingConnected.TraCI.NET.Commands
 					TraCIConstants.TL_RED_YELLOW_GREEN_STATE);
 		}
 
-		public int GetPhaseDuration(string id)
+		public TraCIResponse<int> GetPhaseDuration(string id)
 		{
 			return 
 				TraCICommandHelper.ExecuteGetCommand<int>(
@@ -49,7 +49,7 @@ namespace CodingConnected.TraCI.NET.Commands
 					TraCIConstants.TL_PHASE_DURATION);
 		}
 
-		public List<string> GetControlledLanes(string id)
+		public TraCIResponse<List<string>> GetControlledLanes(string id)
 		{
 			return 
 				TraCICommandHelper.ExecuteGetCommand<List<string>>(
@@ -59,19 +59,30 @@ namespace CodingConnected.TraCI.NET.Commands
 					TraCIConstants.TL_CONTROLLED_LANES);
 		}
 
-		public object GetControlledLinks(string id)
+		public TraCIResponse<ControlledLinks> GetControlledLinks(string id)
 		{
-			// TODO; handle compound data (see http://sumo.dlr.de/wiki/TraCI/Traffic_Lights_Value_Retrieval)
-			throw new NotSupportedException("TODO: interpret compound object");
-			//return 
-			//	TraCICommandHelper.ExecuteCommand<List<string>>(
-			//		Client, 
-			//		id, 
-			//		TraCIConstants.CMD_GET_TL_VARIABLE,
-			//		TraCIConstants.TL_CONTROLLED_LINKS);
-		}
+            var tmp = TraCICommandHelper.ExecuteGetCommand<List<ComposedTypeBase>>(
+                    Client,
+                    id,
+                    TraCIConstants.CMD_GET_TL_VARIABLE,
+                    TraCIConstants.TL_CONTROLLED_LINKS);
 
-		public int GetCurrentPhase(string id)
+            var controlledLinks = TraCIDataConverter.ConvertToControlledLinks(tmp.Content);
+
+            var ret = new TraCIResponse<ControlledLinks>
+            {
+                Content = controlledLinks,
+                ErrorMessage = tmp.ErrorMessage,
+                Identifier = tmp.Identifier,
+                ResponseIdentifier = tmp.ResponseIdentifier,
+                Result = tmp.Result,
+                Variable = tmp.Variable
+            };
+
+            return ret;
+        }
+
+		public TraCIResponse<int> GetCurrentPhase(string id)
 		{
 			return 
 				TraCICommandHelper.ExecuteGetCommand<int>(
@@ -81,7 +92,7 @@ namespace CodingConnected.TraCI.NET.Commands
 					TraCIConstants.TL_CURRENT_PHASE);
 		}
 
-		public string GetCurrentProgram(string id)
+		public TraCIResponse<string> GetCurrentProgram(string id)
 		{
 			return 
 				TraCICommandHelper.ExecuteGetCommand<string>(
@@ -91,7 +102,7 @@ namespace CodingConnected.TraCI.NET.Commands
 					TraCIConstants.TL_CURRENT_PROGRAM);
 		}
 
-		public object GetCompleteDefinition(string id)
+		public TraCIResponse<object> GetCompleteDefinition(string id)
 		{
 			// TODO; handle compound data (see http://sumo.dlr.de/wiki/TraCI/Traffic_Lights_Value_Retrieval)
 			throw new NotSupportedException("TODO: interpret compound object");
@@ -103,7 +114,7 @@ namespace CodingConnected.TraCI.NET.Commands
 			//		TraCIConstants.TL_COMPLETE_DEFINITION_RYG);
 		}
 		
-		public int GetNextSwitch(string id)
+		public TraCIResponse<int> GetNextSwitch(string id)
 		{
 			return 
 				TraCICommandHelper.ExecuteGetCommand<int>(
@@ -114,9 +125,9 @@ namespace CodingConnected.TraCI.NET.Commands
 		}
 		
 
-        public void SetRedYellowGreenState(string id, string state)
+        public TraCIResponse<object> SetRedYellowGreenState(string id, string state)
         {
-            TraCICommandHelper.ExecuteSetCommand<object, string>(
+            return TraCICommandHelper.ExecuteSetCommand<object, string>(
                 Client,
                 id,
                 TraCIConstants.CMD_SET_TL_VARIABLE,
@@ -124,9 +135,9 @@ namespace CodingConnected.TraCI.NET.Commands
                 state);
         }
 
-        public void SetPhase(string id, int phaseIndex)
+        public TraCIResponse<object> SetPhase(string id, int phaseIndex)
         {
-            TraCICommandHelper.ExecuteSetCommand<object, int>(
+            return TraCICommandHelper.ExecuteSetCommand<object, int>(
                 Client,
                 id,
                 TraCIConstants.CMD_SET_TL_VARIABLE,
@@ -134,9 +145,9 @@ namespace CodingConnected.TraCI.NET.Commands
                 phaseIndex);
         }
 
-        public void SetProgram(string id, string program)
+        public TraCIResponse<object> SetProgram(string id, string program)
         {
-            TraCICommandHelper.ExecuteSetCommand<object, string>(
+            return TraCICommandHelper.ExecuteSetCommand<object, string>(
                 Client,
                 id,
                 TraCIConstants.CMD_SET_TL_VARIABLE,
@@ -144,9 +155,9 @@ namespace CodingConnected.TraCI.NET.Commands
                 program);
         }
 
-        public void SetDuration(string id, int phaseDuration)
+        public TraCIResponse<object> SetDuration(string id, int phaseDuration)
         {
-            TraCICommandHelper.ExecuteSetCommand<object, int>(
+            return TraCICommandHelper.ExecuteSetCommand<object, int>(
                 Client,
                 id,
                 TraCIConstants.CMD_SET_TL_VARIABLE,
@@ -154,7 +165,7 @@ namespace CodingConnected.TraCI.NET.Commands
                 phaseDuration);
         }
 
-        public void SetCompleteRedYellowGreenDefinition(string id, TrafficLightProgram program)
+        public TraCIResponse<object>SetCompleteRedYellowGreenDefinition(string id, TrafficLightProgram program)
         {
             var bytes = new List<byte> { TraCIConstants.TL_COMPLETE_PROGRAM_RYG }; //messageType (0x2c)
             bytes.AddRange(TraCIDataConverter.GetTraCIBytesFromASCIIString(id));
@@ -191,9 +202,10 @@ namespace CodingConnected.TraCI.NET.Commands
 
             var response = Client.SendMessage(command);
 
+#warning is the try catch necessary?
             try
             {
-                TraCIDataConverter.ExtractDataFromResponse(response, TraCIConstants.CMD_SET_TL_VARIABLE, TraCIConstants.TL_COMPLETE_PROGRAM_RYG);
+                return TraCIDataConverter.ExtractDataFromResponse<object>(response, TraCIConstants.CMD_SET_TL_VARIABLE, TraCIConstants.TL_COMPLETE_PROGRAM_RYG);
             }
             catch
             {

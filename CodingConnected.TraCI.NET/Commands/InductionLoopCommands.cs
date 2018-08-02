@@ -8,7 +8,7 @@ namespace CodingConnected.TraCI.NET.Commands
 	{
 		#region Public Methods
 
-		public List<string> GetIdList()
+		public TraCIResponse<List<string>> GetIdList()
 		{
 			return 
 				TraCICommandHelper.ExecuteGetCommand<List<string>>(
@@ -18,7 +18,7 @@ namespace CodingConnected.TraCI.NET.Commands
 					TraCIConstants.ID_LIST);
 		}
 
-		public int GetIdCount()
+		public TraCIResponse<int> GetIdCount()
 		{
 			return 
 				TraCICommandHelper.ExecuteGetCommand<int>(
@@ -28,7 +28,7 @@ namespace CodingConnected.TraCI.NET.Commands
 					TraCIConstants.ID_COUNT);
 		}
 
-		public double GetPosition(string id)
+		public TraCIResponse<double> GetPosition(string id)
 		{
 			return 
 				TraCICommandHelper.ExecuteGetCommand<double>(
@@ -38,7 +38,7 @@ namespace CodingConnected.TraCI.NET.Commands
 					TraCIConstants.VAR_POSITION);
 		}
 
-		public string GetLaneId(string id)
+		public TraCIResponse<string> GetLaneId(string id)
 		{
 			return 
 				TraCICommandHelper.ExecuteGetCommand<string>(
@@ -48,7 +48,7 @@ namespace CodingConnected.TraCI.NET.Commands
 					TraCIConstants.VAR_LANE_ID);
 		}
 
-		public int GetLastStepVehicleNumber(string id)
+		public TraCIResponse<int> GetLastStepVehicleNumber(string id)
 		{
 			return 
 				TraCICommandHelper.ExecuteGetCommand<int>(
@@ -58,7 +58,7 @@ namespace CodingConnected.TraCI.NET.Commands
 					TraCIConstants.LAST_STEP_VEHICLE_NUMBER);
 		}
 
-		public double GetLastStepMeanSpeed(string id)
+		public TraCIResponse<double> GetLastStepMeanSpeed(string id)
 		{
 			return 
 				TraCICommandHelper.ExecuteGetCommand<double>(
@@ -68,7 +68,7 @@ namespace CodingConnected.TraCI.NET.Commands
 					TraCIConstants.LAST_STEP_MEAN_SPEED);
 		}
 
-		public List<string> GetLastStepVehicleIds(string id)
+		public TraCIResponse<List<string>> GetLastStepVehicleIds(string id)
 		{
 			return 
 				TraCICommandHelper.ExecuteGetCommand<List<string>>(
@@ -78,7 +78,7 @@ namespace CodingConnected.TraCI.NET.Commands
 					TraCIConstants.LAST_STEP_VEHICLE_ID_LIST);
 		}
 
-		public double GetLastStepOccupancy(string id)
+		public TraCIResponse<double> GetLastStepOccupancy(string id)
 		{
 			return 
 				TraCICommandHelper.ExecuteGetCommand<double>(
@@ -88,7 +88,7 @@ namespace CodingConnected.TraCI.NET.Commands
 					TraCIConstants.LAST_STEP_OCCUPANCY);
 		}
 
-		public double GetLastStepMeanLength(string id)
+		public TraCIResponse<double> GetLastStepMeanLength(string id)
 		{
 			return 
 				TraCICommandHelper.ExecuteGetCommand<double>(
@@ -98,7 +98,7 @@ namespace CodingConnected.TraCI.NET.Commands
 					TraCIConstants.LAST_STEP_LENGTH);
 		}
 
-		public double GetTimeSinceDetection(string id)
+		public TraCIResponse<double> GetTimeSinceDetection(string id)
 		{
 			return 
 				TraCICommandHelper.ExecuteGetCommand<double>(
@@ -108,7 +108,7 @@ namespace CodingConnected.TraCI.NET.Commands
 					TraCIConstants.LAST_STEP_TIME_SINCE_DETECTION);
 		}
 
-		public List<object> GetVehicleData(string id)
+		public TraCIResponse<List<object>> GetVehicleData(string id)
 		{
 			// TODO: implement reading this data (http://sumo.dlr.de/wiki/TraCI/Induction_Loop_Value_Retrieval#Response_to_.22last_step.27s_vehicle_data.22_.280x17.29)
 			throw new NotSupportedException("This method return complex data; TODO");

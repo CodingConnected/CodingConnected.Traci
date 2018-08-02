@@ -9,7 +9,7 @@ namespace CodingConnected.TraCI.NET.Commands
 	{
 		#region Public Methods
 
-		public List<string> GetIdList()
+		public TraCIResponse<List<string>> GetIdList()
 		{
 			return 
 				TraCICommandHelper.ExecuteGetCommand<List<string>>(
@@ -19,7 +19,7 @@ namespace CodingConnected.TraCI.NET.Commands
 					TraCIConstants.ID_LIST);
 		}
 		
-		public int GetIdCount()
+		public TraCIResponse<int> GetIdCount()
 		{
 			return 
 				TraCICommandHelper.ExecuteGetCommand<int>(
@@ -29,7 +29,7 @@ namespace CodingConnected.TraCI.NET.Commands
 					TraCIConstants.ID_COUNT);
 		}
 
-		public double GetPosition(string id)
+		public TraCIResponse<double> GetPosition(string id)
 		{
 			return 
 				TraCICommandHelper.ExecuteGetCommand<double>(
@@ -39,7 +39,7 @@ namespace CodingConnected.TraCI.NET.Commands
 					TraCIConstants.VAR_POSITION);
 		}
 
-		public double GetLength(string id)
+		public TraCIResponse<double> GetLength(string id)
 		{
 			return 
 				TraCICommandHelper.ExecuteGetCommand<double>(
@@ -49,7 +49,7 @@ namespace CodingConnected.TraCI.NET.Commands
 					TraCIConstants.VAR_LENGTH);
 		}
 
-		public string GetLaneId(string id)
+		public TraCIResponse<string> GetLaneId(string id)
 		{
 			return 
 				TraCICommandHelper.ExecuteGetCommand<string>(
@@ -59,7 +59,7 @@ namespace CodingConnected.TraCI.NET.Commands
 					TraCIConstants.VAR_LANE_ID);
 		}
 		
-		public int GetLastStepVehicleNumber(string id)
+		public TraCIResponse<int> GetLastStepVehicleNumber(string id)
 		{
 			return 
 				TraCICommandHelper.ExecuteGetCommand<int>(
@@ -69,7 +69,7 @@ namespace CodingConnected.TraCI.NET.Commands
 					TraCIConstants.LAST_STEP_VEHICLE_NUMBER);
 		}
 
-		public double GetLastStepMeanSpeed(string id)
+		public TraCIResponse<double> GetLastStepMeanSpeed(string id)
 		{
 			return 
 				TraCICommandHelper.ExecuteGetCommand<double>(
@@ -79,7 +79,7 @@ namespace CodingConnected.TraCI.NET.Commands
 					TraCIConstants.LAST_STEP_MEAN_SPEED);
 		}
 
-		public List<string> GetLastStepVehicleIds(string id)
+		public TraCIResponse<List<string>> GetLastStepVehicleIds(string id)
 		{
 			return 
 				TraCICommandHelper.ExecuteGetCommand<List<string>>(
@@ -89,7 +89,7 @@ namespace CodingConnected.TraCI.NET.Commands
 					TraCIConstants.LAST_STEP_VEHICLE_ID_LIST);
 		}
 		
-		public double GetLastStepOccupancy(string id)
+		public TraCIResponse<double> GetLastStepOccupancy(string id)
 		{
 			return 
 				TraCICommandHelper.ExecuteGetCommand<double>(
@@ -99,7 +99,7 @@ namespace CodingConnected.TraCI.NET.Commands
 					TraCIConstants.LAST_STEP_OCCUPANCY);
 		}
 		
-		public double GetJamLengthMeters(string id)
+		public TraCIResponse<double> GetJamLengthMeters(string id)
 		{
 			return 
 				TraCICommandHelper.ExecuteGetCommand<double>(
@@ -109,7 +109,7 @@ namespace CodingConnected.TraCI.NET.Commands
 					TraCIConstants.JAM_LENGTH_METERS);
 		}
 
-		public double GetJamLengthVehicle(string id)
+		public TraCIResponse<double> GetJamLengthVehicle(string id)
 		{
 			return 
 				TraCICommandHelper.ExecuteGetCommand<double>(
