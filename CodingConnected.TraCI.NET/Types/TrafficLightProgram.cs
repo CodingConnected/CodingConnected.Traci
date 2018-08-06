@@ -34,6 +34,36 @@ namespace CodingConnected.TraCI.NET.Types
 
     }
 
+    public class TrafficCompleteLightProgram : ComposedTypeBase
+    {
+
+        public int NumberOfLogics;
+
+        public List<TrafficLightLogics> TrafficLightLogics;
+
+        public TrafficCompleteLightProgram()
+        {
+            TrafficLightLogics = new List<TrafficLightLogics>();
+        }
+
+    }
+
+    public class TrafficLightLogics
+    {
+        public string SubId;
+        public int Type;
+        public CompoundObject SubParameter; 
+        public int CurrentPhaseIndex;
+        public int NumberOfPhases;
+        public List<TrafficLightProgramPhase> TrafficLightPhases;
+
+        public TrafficLightLogics()
+        {
+            TrafficLightPhases = new List<TrafficLightProgramPhase>();
+        }
+
+    }
+
     public class TrafficLightProgramPhase
     {
         /// <summary>
@@ -41,6 +71,10 @@ namespace CodingConnected.TraCI.NET.Types
         /// </summary>
         public int Duration;
 
-        public string State;
+        public int MinDuration;
+
+        public int MaxDuration;
+
+        public string Definition;
     }
 }

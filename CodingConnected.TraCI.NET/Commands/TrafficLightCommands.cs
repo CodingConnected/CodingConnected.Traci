@@ -61,13 +61,13 @@ namespace CodingConnected.TraCI.NET.Commands
 
 		public TraCIResponse<ControlledLinks> GetControlledLinks(string id)
 		{
-            var tmp = TraCICommandHelper.ExecuteGetCommand<List<ComposedTypeBase>>(
+            var tmp = TraCICommandHelper.ExecuteGetCommand<CompoundObject>(
                     Client,
                     id,
                     TraCIConstants.CMD_GET_TL_VARIABLE,
                     TraCIConstants.TL_CONTROLLED_LINKS);
 
-            var controlledLinks = TraCIDataConverter.ConvertToControlledLinks(tmp.Content);
+            var controlledLinks = TraCIDataConverter.ConvertToControlledLinks(tmp.Content.Value);
 
             var ret = new TraCIResponse<ControlledLinks>
             {
@@ -102,17 +102,28 @@ namespace CodingConnected.TraCI.NET.Commands
 					TraCIConstants.TL_CURRENT_PROGRAM);
 		}
 
-		public TraCIResponse<object> GetCompleteDefinition(string id)
+		public TraCIResponse<TrafficCompleteLightProgram> GetCompleteDefinition(string id)
 		{
-			// TODO; handle compound data (see http://sumo.dlr.de/wiki/TraCI/Traffic_Lights_Value_Retrieval)
-			throw new NotSupportedException("TODO: interpret compound object");
-			//return 
-			//	TraCICommandHelper.ExecuteCommand<string>(
-			//		Client, 
-			//		id, 
-			//		TraCIConstants.CMD_GET_TL_VARIABLE,
-			//		TraCIConstants.TL_COMPLETE_DEFINITION_RYG);
-		}
+            var tmp = TraCICommandHelper.ExecuteGetCommand<CompoundObject>(
+                    Client,
+                    id,
+                    TraCIConstants.CMD_GET_TL_VARIABLE,
+                    TraCIConstants.TL_COMPLETE_DEFINITION_RYG);
+
+            var tmp2 = TraCIDataConverter.ConvertToTrafficLightCompleteProgramm(tmp.Content);
+
+            var ret = new TraCIResponse<TrafficCompleteLightProgram>
+            {
+                Content = tmp2,
+                ErrorMessage = tmp.ErrorMessage,
+                Identifier = tmp.Identifier,
+                ResponseIdentifier = tmp.ResponseIdentifier,
+                Result = tmp.Result,
+                Variable = tmp.Variable
+            };
+
+            return ret;
+        }
 		
 		public TraCIResponse<int> GetNextSwitch(string id)
 		{
@@ -191,7 +202,7 @@ namespace CodingConnected.TraCI.NET.Commands
                 bytes.Add(TraCIConstants.TYPE_INTEGER); //value type integer
                 bytes.AddRange(TraCIDataConverter.GetTraCIBytesFromInt32(0)); //unused
                 bytes.Add(TraCIConstants.TYPE_STRING); //value type string
-                bytes.AddRange(TraCIDataConverter.GetTraCIBytesFromASCIIString(p.State)); //State (light/priority-tuple)
+                bytes.AddRange(TraCIDataConverter.GetTraCIBytesFromASCIIString(p.Definition)); //State (light/priority-tuple)
             }
 
             var command = new TraCICommand

@@ -69,6 +69,7 @@
     <Compile Include="TraCIConstants.cs" />
     <Compile Include="TraCIResponse.cs" />
     <Compile Include="TraCIResult.cs" />
+    <Compile Include="Types\CompoundObject.cs" />
     <Compile Include="Types\ControlledLinks.cs" />
     <Compile Include="Types\TraCIByte.cs" />
     <Compile Include="Types\TraCIDouble.cs" />
