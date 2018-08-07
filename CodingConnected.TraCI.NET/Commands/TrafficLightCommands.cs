@@ -166,7 +166,7 @@ namespace CodingConnected.TraCI.NET.Commands
                 program);
         }
 
-        public TraCIResponse<object> SetDuration(string id, int phaseDuration)
+        public TraCIResponse<object> SetPhaseDuration(string id, int phaseDuration)
         {
             return TraCICommandHelper.ExecuteSetCommand<object, int>(
                 Client,
@@ -176,7 +176,7 @@ namespace CodingConnected.TraCI.NET.Commands
                 phaseDuration);
         }
 
-        public TraCIResponse<object>SetCompleteRedYellowGreenDefinition(string id, TrafficLightProgram program)
+        public TraCIResponse<object> SetCompleteRedYellowGreenDefinition(string id, TrafficLightProgram program)
         {
             var bytes = new List<byte> { TraCIConstants.TL_COMPLETE_PROGRAM_RYG }; //messageType (0x2c)
             bytes.AddRange(TraCIDataConverter.GetTraCIBytesFromASCIIString(id));
