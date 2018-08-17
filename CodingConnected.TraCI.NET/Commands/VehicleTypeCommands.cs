@@ -310,6 +310,7 @@ namespace CodingConnected.TraCI.NET.Commands
                     minGap
                     );
         }
+
         public TraCIResponse<object> SetShapeClass(string id, string shapeClass)
         {
             return TraCICommandHelper.ExecuteSetCommand<object, string>(
@@ -320,6 +321,7 @@ namespace CodingConnected.TraCI.NET.Commands
                     shapeClass
                     );
         }
+
         public TraCIResponse<object> SetAccel(string id, double acceleration)
         {
             return TraCICommandHelper.ExecuteSetCommand<object, double>(
@@ -330,6 +332,7 @@ namespace CodingConnected.TraCI.NET.Commands
                     acceleration
                     );
         }
+
         public TraCIResponse<object> SetDecel(string id, double decceleration)
         {
             return TraCICommandHelper.ExecuteSetCommand<object, double>(
@@ -351,6 +354,7 @@ namespace CodingConnected.TraCI.NET.Commands
                     imperfection
                     );
         }
+
         public TraCIResponse<object> SetTau(string id, double tau)
         {
             return TraCICommandHelper.ExecuteSetCommand<object, double>(
@@ -361,6 +365,7 @@ namespace CodingConnected.TraCI.NET.Commands
                     tau
                     );
         }
+
         public TraCIResponse<object> SetColor(string id, Color color)
         {
             return TraCICommandHelper.ExecuteSetCommand<object, Color>(
@@ -371,6 +376,7 @@ namespace CodingConnected.TraCI.NET.Commands
                     color
                     );
         }
+
         public TraCIResponse<object> SetMaxSpeedLat(string id, double maxSpeed)
         {
             return TraCICommandHelper.ExecuteSetCommand<object, double>(
@@ -381,6 +387,7 @@ namespace CodingConnected.TraCI.NET.Commands
                     maxSpeed
                     );
         }
+
         public TraCIResponse<object> SetMinGapLat(string id, double minGap)
         {
             return TraCICommandHelper.ExecuteSetCommand<object, double>(
@@ -391,6 +398,7 @@ namespace CodingConnected.TraCI.NET.Commands
                     minGap
                     );
         }
+
         public TraCIResponse<object> SetLateralAlignment(string id, string alignment)
         {
             return TraCICommandHelper.ExecuteSetCommand<object, string>(
@@ -401,6 +409,7 @@ namespace CodingConnected.TraCI.NET.Commands
                     alignment
                     );
         }
+
         public TraCIResponse<object> Copy(string id, string newId)
         {
             return TraCICommandHelper.ExecuteSetCommand<object, string>(
@@ -411,6 +420,7 @@ namespace CodingConnected.TraCI.NET.Commands
                     newId
                     );
         }
+
         public TraCIResponse<object> SetActionStepLengt(string id)
         {
             throw new NotImplementedException();
