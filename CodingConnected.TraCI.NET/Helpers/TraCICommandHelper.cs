@@ -36,6 +36,9 @@ namespace CodingConnected.TraCI.NET.Helpers
                 case Position2D p2d:
                     command = GetCommand(id, commandType, messageType, p2d);
                     break;
+                case Polygon p:
+                    command = GetCommand(id, commandType, messageType, p);
+                    break;
                 default:
                     {
                         throw new InvalidCastException($"Type {value.GetType().Name} is not implemented in method TraCICommandHelper.ExecuteSetCommand().");
@@ -172,6 +175,26 @@ namespace CodingConnected.TraCI.NET.Helpers
 			};
 			return command;
 		}
+
+        internal static TraCICommand GetCommand(string id, byte commandType, byte messageType, Polygon polygon)
+        {
+            var bytes = new List<byte> { messageType };
+            bytes.AddRange(TraCIDataConverter.GetTraCIBytesFromASCIIString(id));
+            bytes.Add(TraCIConstants.TYPE_POLYGON);
+            bytes.Add((byte)polygon.Points.Count);
+            foreach (var point in polygon.Points)
+            {
+                bytes.AddRange(TraCIDataConverter.GetTraCIBytesFromDouble(point.X));
+                bytes.AddRange(TraCIDataConverter.GetTraCIBytesFromDouble(point.Y));
+            }
+
+            var command = new TraCICommand
+            {
+                Identifier = commandType,
+                Contents = bytes.ToArray()
+            };
+            return command;
+        }
 
         internal static TraCICommand GetCommand(string id, byte commandType, byte messageType, Position2D position2D)
         {
