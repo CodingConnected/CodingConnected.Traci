@@ -2,7 +2,7 @@
 
 namespace CodingConnected.TraCI.NET.Types
 {
-	public enum PhaseState
+	public enum PhaseState:byte
 	{
 		Red = 0x01,
 		Yellow = 0x02,
@@ -12,7 +12,7 @@ namespace CodingConnected.TraCI.NET.Types
 	}
 
 	public class TrafficLightPhase
-	{
+    { 
 		public string PrecRoad { get; set; }
 		public string SuccRoad { get; set; }
 		public PhaseState Phase { get; set; }

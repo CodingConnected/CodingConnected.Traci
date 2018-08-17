@@ -2,6 +2,6 @@
 {
     public class TraCIByte : ComposedTypeBase
     {
-        public sbyte Value { get; set; }
+        public byte Value { get; set; }
     }
 }

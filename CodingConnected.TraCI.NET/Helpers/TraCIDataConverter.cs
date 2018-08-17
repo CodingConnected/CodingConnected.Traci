@@ -102,6 +102,47 @@ namespace CodingConnected.TraCI.NET.Helpers
 			return null;
 		}
 
+        internal static List<EdgeInformation> ConvertToListOfEdgeInformation(CompoundObject content)
+        {
+            var ret = new List<EdgeInformation>();
+
+            var numberOfEdges = (content.Value[0] as TraCIInteger).Value;
+
+            for (int i = 0; i < numberOfEdges; i++)
+            {
+                var edge = new EdgeInformation();
+                edge.LaneId = (content.Value[(6 * i) + 1] as TraCIString).Value;
+                edge.Length = (content.Value[(6 * i) + 2] as TraCIDouble).Value;
+                edge.Occupation = (content.Value[(6 * i) + 3] as TraCIDouble).Value;
+                edge.OffsetToBestLane = (content.Value[(6 * i) + 4] as TraCIByte).Value;
+                edge.laneInformation = (content.Value[(6 * i) + 5] as TraCIUByte).Value;
+                edge.BestSubsequentLanes = (content.Value[(6 * i) + 6] as TraCIStringList).Value;
+                ret.Add(edge);
+            }
+
+            return ret;
+        }
+        internal static List<TrafficLightSystem> ConvertToListOfTrafficLightSystem(CompoundObject content)
+        {
+            var ret = new List<TrafficLightSystem>();
+
+            var numberOfTLS = (content.Value[0] as TraCIInteger).Value;
+
+            for (int i = 0; i < numberOfTLS; i++)
+            {
+                var tls = new TrafficLightSystem();
+                tls.TrafficLightSystemId = (content.Value[(4 * i) + 1] as TraCIString).Value;
+                tls.TrafficLightSystemLinkIndex = (content.Value[(4 * i) + 2] as TraCIInteger).Value;
+                tls.DistanceToTrafficLightSystem = (content.Value[(4 * i) + 3] as TraCIDouble).Value;
+                tls.LinkState = (content.Value[(4 * i) + 4] as TraCIByte).Value;
+
+                ret.Add(tls);
+            }
+            
+            return ret;
+        }
+
+
         internal static TrafficCompleteLightProgram ConvertToTrafficLightCompleteProgramm(CompoundObject content)
         {
             var ret = new TrafficCompleteLightProgram();
@@ -151,6 +192,105 @@ namespace CodingConnected.TraCI.NET.Helpers
             return ret;
         }
 
+        internal static byte[] GetTraCIBytesFromTrafficLightPhaseList(TrafficLightPhaseList tlpl)
+        {
+            var bytes = new List<byte>();
+
+            bytes.AddRange(GetTraCIBytesFromUByte((byte)tlpl.Phases.Count));
+
+            foreach (var phase in tlpl.Phases)
+            {
+                bytes.AddRange(GetTraCIBytesFromASCIIString(phase.PrecRoad));
+                bytes.AddRange(GetTraCIBytesFromASCIIString(phase.SuccRoad));
+                bytes.AddRange(GetTraCIBytesFromUByte((byte)phase.Phase));
+            }
+
+            return bytes.ToArray();
+        }
+
+        internal static byte[] GetTraCIBytesFromBoundaryBox(BoundaryBox bb)
+        {
+            var bytes = new List<byte>();
+            bytes.AddRange(GetTraCIBytesFromDouble(bb.LowerLeftX));
+            bytes.AddRange(GetTraCIBytesFromDouble(bb.LowerLeftY));
+            bytes.AddRange(GetTraCIBytesFromDouble(bb.UpperRightX));
+            bytes.AddRange(GetTraCIBytesFromDouble(bb.UpperRightY));
+            return bytes.ToArray();
+        }
+
+        internal static byte[] GetTraCIBytesFromPolygon(Polygon p)
+        {
+            var bytes = new List<byte>();
+            bytes.AddRange(GetTraCIBytesFromUByte((byte)p.Points.Count));
+            foreach (var point in p.Points)
+            {
+                bytes.AddRange(GetTraCIBytesFromDouble(point.X));
+                bytes.AddRange(GetTraCIBytesFromDouble(point.Y));
+            }
+            
+            return bytes.ToArray();
+        }
+
+        internal static byte[] GetTraCIBytesFromLonLatAltPosition(LonLatAltPosition llap)
+        {
+            var bytes = new List<byte>();
+            bytes.AddRange(GetTraCIBytesFromDouble(llap.Longitude));
+            bytes.AddRange(GetTraCIBytesFromDouble(llap.Latitude));
+            bytes.AddRange(GetTraCIBytesFromDouble(llap.Altitude));
+            return bytes.ToArray();
+        }
+
+        internal static byte[] GetTraCIBytesFromLonLatPosition(LonLatPosition llp)
+        {
+            var bytes = new List<byte>();
+            bytes.AddRange(GetTraCIBytesFromDouble(llp.Longitude));
+            bytes.AddRange(GetTraCIBytesFromDouble(llp.Latitude));
+            return bytes.ToArray();
+        }
+
+        internal static byte[] GetTraCIBytesFromRoadMapPosition(RoadMapPosition rmp)
+        {
+            var bytes = new List<byte>();
+            bytes.AddRange(GetTraCIBytesFromASCIIString(rmp.RoadId));
+            bytes.AddRange(GetTraCIBytesFromDouble(rmp.Pos));
+            bytes.AddRange(GetTraCIBytesFromUByte(rmp.LaneId));
+            return bytes.ToArray();
+        }
+
+        internal static byte[] GetTraCIBytesFromPosition3D(Position3D p3d)
+        {
+            var bytes = new List<byte>();
+            bytes.AddRange(GetTraCIBytesFromDouble(p3d.X));
+            bytes.AddRange(GetTraCIBytesFromDouble(p3d.Y));
+            bytes.AddRange(GetTraCIBytesFromDouble(p3d.Z));
+            return bytes.ToArray();
+        }
+
+     
+
+        internal static byte[] GetTraCIBytesFromPosition2D(Position2D p2d)
+        {
+            var bytes = new List<byte>();
+            bytes.AddRange(GetTraCIBytesFromDouble(p2d.X));
+            bytes.AddRange(GetTraCIBytesFromDouble(p2d.Y));
+            return bytes.ToArray();
+        }
+
+        internal static byte[] GetTraCIBytesFromFloat(float f)
+        {
+            return BitConverter.GetBytes(f).Reverse().ToArray();
+        }
+
+        internal static byte[] GetTraCIBytesFromUByte(byte ub)
+        {
+            return BitConverter.GetBytes(ub).Reverse().ToArray();
+        }
+
+        internal static byte[] GetTraCIBytesFromByte(byte b)
+        {
+            return BitConverter.GetBytes(b).Reverse().ToArray();
+        }
+
         internal static byte[] GetTraCIBytesFromInt32(int i)
         {
             return BitConverter.GetBytes(i).Reverse().ToArray();
@@ -166,6 +306,18 @@ namespace CodingConnected.TraCI.NET.Helpers
             var bytes = new List<byte>();
             bytes.AddRange(BitConverter.GetBytes(s.Length).Reverse());
             bytes.AddRange(Encoding.ASCII.GetBytes(s));
+            return bytes.ToArray();
+        }
+
+        internal static byte[] GetTraCIBytesFromASCIIStringList(List<string> los)
+        {
+            var bytes = new List<byte>();
+            bytes.AddRange(BitConverter.GetBytes(los.Count).Reverse());
+            foreach (var str in los)
+            {
+                bytes.AddRange(GetTraCIBytesFromASCIIString(str));
+            }
+
             return bytes.ToArray();
         }
 
@@ -398,6 +550,8 @@ namespace CodingConnected.TraCI.NET.Helpers
             }
         }
 
+        
+
         private static int GetColor(byte[] array, int offset, out Color color)
         {
             color = new Color();
@@ -580,7 +734,7 @@ namespace CodingConnected.TraCI.NET.Helpers
         {
             Byte = new TraCIByte
             {
-                Value = Convert.ToSByte(array[offset])
+                Value = array[offset]
             };
             return offset + TraCIConstants.BYTE_SIZE;
         }
