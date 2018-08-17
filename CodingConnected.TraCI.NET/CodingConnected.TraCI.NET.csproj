@@ -71,6 +71,7 @@
     <Compile Include="TraCIResult.cs" />
     <Compile Include="Types\CompoundObject.cs" />
     <Compile Include="Types\ControlledLinks.cs" />
+    <Compile Include="Types\EdgeInformation.cs" />
     <Compile Include="Types\TraCIByte.cs" />
     <Compile Include="Types\TraCIDouble.cs" />
     <Compile Include="Types\TraCIFloat.cs" />
@@ -89,6 +90,7 @@
     <Compile Include="Types\Position3D.cs" />
     <Compile Include="Types\Position2D.cs" />
     <Compile Include="Types\TrafficLightPhaseList.cs" />
+    <Compile Include="Types\TrafficLightSystem.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="LICENSE.md" />
