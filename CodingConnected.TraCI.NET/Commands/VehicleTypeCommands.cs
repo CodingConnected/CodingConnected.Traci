@@ -219,6 +219,7 @@ namespace CodingConnected.TraCI.NET.Commands
 #warning Check this
                     TraCIConstants.VAR_MIN_EXPECTED_VEHICLES);
         }
+
         public TraCIResponse<object> SetLength(string id, double length)
         {
             return TraCICommandHelper.ExecuteSetCommand<object, double>(
@@ -229,6 +230,7 @@ namespace CodingConnected.TraCI.NET.Commands
                     length
                     );
         }
+
         public TraCIResponse<object> SetMaxSpeed(string id, double speed)
         {
             return TraCICommandHelper.ExecuteSetCommand<object, double>(
@@ -239,6 +241,7 @@ namespace CodingConnected.TraCI.NET.Commands
                     speed
                     );
         }
+
         public TraCIResponse<object> SetVehicleClass(string id, string vehicleClass)
         {
             return TraCICommandHelper.ExecuteSetCommand<object, string>(
@@ -249,6 +252,7 @@ namespace CodingConnected.TraCI.NET.Commands
                     vehicleClass
                     );
         }
+
         public TraCIResponse<object> SetSpeedFactor(string id, double speedFactor)
         {
             return TraCICommandHelper.ExecuteSetCommand<object, double>(
@@ -259,6 +263,7 @@ namespace CodingConnected.TraCI.NET.Commands
                     speedFactor
                     );
         }
+
         public TraCIResponse<object> SetSpeedDeviation(string id, double speedDeviation)
         {
             return TraCICommandHelper.ExecuteSetCommand<object, double>(
@@ -269,6 +274,7 @@ namespace CodingConnected.TraCI.NET.Commands
                     speedDeviation
                     );
         }
+
         public TraCIResponse<object> SetEmissionClass(string id, string emissionClass)
         {
             return TraCICommandHelper.ExecuteSetCommand<object, string>(
@@ -279,6 +285,7 @@ namespace CodingConnected.TraCI.NET.Commands
                     emissionClass
                     );
         }
+
         public TraCIResponse<object> SetWidth(string id, double width)
         {
             return TraCICommandHelper.ExecuteSetCommand<object, double>(
@@ -289,6 +296,7 @@ namespace CodingConnected.TraCI.NET.Commands
                     width
                     );
         }
+
         public TraCIResponse<object> SetHeight(string id, double height)
         {
             return TraCICommandHelper.ExecuteSetCommand<object, double>(

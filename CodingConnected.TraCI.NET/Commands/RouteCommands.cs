@@ -37,6 +37,16 @@ namespace CodingConnected.TraCI.NET.Commands
 					TraCIConstants.VAR_EDGES);
 		}
 
+        public TraCIResponse<object> Add(string id, List<string> edges)
+        {
+            return TraCICommandHelper.ExecuteSetCommand<object, List<string>>(
+                    Client,
+                    id,
+                    TraCIConstants.CMD_SET_ROUTE_VARIABLE,
+                    TraCIConstants.ADD,
+                    edges
+                    );
+        }
 		#endregion // Public Methods
 
 		#region Constructor
