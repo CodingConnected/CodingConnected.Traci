@@ -30,6 +30,9 @@ namespace CodingConnected.TraCI.NET.Helpers
                 case CompoundObject co:
                     command = GetCommand(id, commandType, messageType, co);
                     break;
+                case Color c:
+                    command = GetCommand(id, commandType, messageType, c);
+                    break;
                 default:
                     {
                         throw new InvalidCastException($"Type {value.GetType().Name} is not implemented in method TraCICommandHelper.ExecuteSetCommand().");
@@ -166,6 +169,24 @@ namespace CodingConnected.TraCI.NET.Helpers
 			};
 			return command;
 		}
+
+        internal static TraCICommand GetCommand(string id, byte commandType, byte messageType, Color color)
+        {
+            var bytes = new List<byte> { messageType };
+            bytes.AddRange(TraCIDataConverter.GetTraCIBytesFromASCIIString(id));
+            bytes.Add(TraCIConstants.TYPE_COLOR);
+            bytes.Add(color.R);
+            bytes.Add(color.G);
+            bytes.Add(color.B);
+            bytes.Add(color.A);
+
+            var command = new TraCICommand
+            {
+                Identifier = commandType,
+                Contents = bytes.ToArray()
+            };
+            return command;
+        }
 
         internal static TraCICommand GetCommand(string id, byte commandType, byte messageType, List<string> values)
         {

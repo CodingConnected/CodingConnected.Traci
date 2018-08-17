@@ -180,11 +180,181 @@ namespace CodingConnected.TraCI.NET.Commands
 
 		// TODO: 'extended retrieval', see: http://sumo.dlr.de/wiki/TraCI/Person_Value_Retrieval
 
-		#endregion // Public Methods
 
-		#region Constructor
+        public TraCIResponse<object> Add(string id, string typeId, string initialEdgeId, int departTime, double departPosition)
+        {
+            var tmp = new CompoundObject();
+            tmp.Value.Add(new TraCIString() { Value = typeId });
+            tmp.Value.Add(new TraCIString() { Value = initialEdgeId });
+            tmp.Value.Add(new TraCIInteger() { Value = departTime });
+            tmp.Value.Add(new TraCIDouble() { Value = departPosition });
 
-		public PersonCommands(TraCIClient client) : base(client)
+            return TraCICommandHelper.ExecuteSetCommand<object, CompoundObject>(
+                     Client,
+                     id,
+                     TraCIConstants.CMD_SET_PERSON_VARIABLE,
+                     TraCIConstants.ADD,
+                     tmp
+                     );
+        }
+
+        public TraCIResponse<object> AppendDrivingStage(string id, string destination, string lines, string stopId )
+        {
+            var tmp = new CompoundObject();
+            tmp.Value.Add(new TraCIInteger() { Value = 3 });
+            tmp.Value.Add(new TraCIString() { Value = destination });
+            tmp.Value.Add(new TraCIString() { Value = lines });
+            tmp.Value.Add(new TraCIString() { Value = stopId });
+            return TraCICommandHelper.ExecuteSetCommand<object, CompoundObject>(
+                Client,
+                id,
+                TraCIConstants.CMD_SET_PERSON_VARIABLE,
+                TraCIConstants.APPEND_STAGE,
+                tmp
+                );
+        }
+
+        public TraCIResponse<object> AppendWaitingStage(string id, int duration, string description, string stopId)
+        {
+            var tmp = new CompoundObject();
+            tmp.Value.Add(new TraCIInteger() { Value = 1 });
+            tmp.Value.Add(new TraCIInteger() { Value = duration });
+            tmp.Value.Add(new TraCIString() { Value = description });
+            tmp.Value.Add(new TraCIString() { Value = stopId });
+            return TraCICommandHelper.ExecuteSetCommand<object, CompoundObject>(
+                Client,
+                id,
+                TraCIConstants.CMD_SET_PERSON_VARIABLE,
+                TraCIConstants.APPEND_STAGE,
+                tmp
+                );
+        }
+
+        public TraCIResponse<object> AppendWalkingStage(string id,List<string> edges, double arrivalPosition, int duration,double speed, string stopId)
+        {
+            var tmp = new CompoundObject();
+            tmp.Value.Add(new TraCIInteger() { Value = 2 });
+            tmp.Value.Add(new TraCIStringList() { Value = edges });
+            tmp.Value.Add(new TraCIDouble() { Value = arrivalPosition });
+            tmp.Value.Add(new TraCIString() { Value = stopId });
+            return TraCICommandHelper.ExecuteSetCommand<object, CompoundObject>(
+                Client,
+                id,
+                TraCIConstants.CMD_SET_PERSON_VARIABLE,
+                TraCIConstants.APPEND_STAGE,
+                tmp
+                );
+        }
+
+        public TraCIResponse<object> RemoveStage(string id, int stageIndex)
+        {
+            return TraCICommandHelper.ExecuteSetCommand<object, int>(
+                Client,
+                id,
+                TraCIConstants.CMD_SET_PERSON_VARIABLE,
+                TraCIConstants.ADD,
+                stageIndex
+                );
+        }
+
+        public TraCIResponse<object> RerouteTraveltime(string id)
+        {
+
+            return TraCICommandHelper.ExecuteSetCommand<object, CompoundObject>(
+                Client,
+                id,
+                TraCIConstants.CMD_SET_PERSON_VARIABLE,
+                TraCIConstants.CMD_REROUTE_TRAVELTIME,
+                new CompoundObject()
+                );
+        }
+
+        public TraCIResponse<object> SetColor(string id, Color color)
+        {
+            return TraCICommandHelper.ExecuteSetCommand<object, Color>(
+                Client,
+                id,
+                TraCIConstants.CMD_SET_PERSON_VARIABLE,
+                TraCIConstants.VAR_COLOR,
+                color
+                );
+        }
+
+        public TraCIResponse<object> SetHeight(string id, double height)
+        {
+            return TraCICommandHelper.ExecuteSetCommand<object, double>(
+                Client,
+                id,
+                TraCIConstants.CMD_SET_PERSON_VARIABLE,
+                TraCIConstants.VAR_HEIGHT,
+                height
+                );
+        }
+
+        public TraCIResponse<object> SetLength(string id, double length)
+        {
+            return TraCICommandHelper.ExecuteSetCommand<object, double>(
+                Client,
+                id,
+                TraCIConstants.CMD_SET_PERSON_VARIABLE,
+                TraCIConstants.ADD,
+                length
+                );
+        }
+
+        public TraCIResponse<object> SetMinGap(string id, double minGap)
+        {
+            return TraCICommandHelper.ExecuteSetCommand<object, double>(
+                Client,
+                id,
+                TraCIConstants.CMD_SET_PERSON_VARIABLE,
+                TraCIConstants.VAR_MINGAP,
+                minGap
+                );
+        }
+
+        public TraCIResponse<object> SetSpeed(string id, double speed)
+        {
+            return TraCICommandHelper.ExecuteSetCommand<object, double>(
+                Client,
+                id,
+                TraCIConstants.CMD_SET_PERSON_VARIABLE,
+                TraCIConstants.VAR_SPEED_FACTOR,
+                speed
+                );
+        }
+
+        public TraCIResponse<object> SetType(string id, string typeId)
+        {
+            return TraCICommandHelper.ExecuteSetCommand<object, string>(
+                Client,
+                id,
+                TraCIConstants.CMD_SET_PERSON_VARIABLE,
+                TraCIConstants.VAR_TYPE,
+                typeId
+                );
+        }
+
+        public TraCIResponse<object> SetWidth(string id, double width)
+        {
+            return TraCICommandHelper.ExecuteSetCommand<object, double>(
+                Client,
+                id,
+                TraCIConstants.CMD_SET_PERSON_VARIABLE,
+                TraCIConstants.VAR_WIDTH,
+                width
+                );
+        }
+        
+            
+            
+            
+            
+        #endregion // Public Methods
+
+        #region Constructor
+
+        public PersonCommands(TraCIClient client) : base(client)
 		{
 		}
 
