@@ -33,6 +33,9 @@ namespace CodingConnected.TraCI.NET.Helpers
                 case Color c:
                     command = GetCommand(id, commandType, messageType, c);
                     break;
+                case Position2D p2d:
+                    command = GetCommand(id, commandType, messageType, p2d);
+                    break;
                 default:
                     {
                         throw new InvalidCastException($"Type {value.GetType().Name} is not implemented in method TraCICommandHelper.ExecuteSetCommand().");
@@ -169,6 +172,22 @@ namespace CodingConnected.TraCI.NET.Helpers
 			};
 			return command;
 		}
+
+        internal static TraCICommand GetCommand(string id, byte commandType, byte messageType, Position2D position2D)
+        {
+            var bytes = new List<byte> { messageType };
+            bytes.AddRange(TraCIDataConverter.GetTraCIBytesFromASCIIString(id));
+            bytes.Add(TraCIConstants.POSITION_2D);
+            bytes.AddRange(TraCIDataConverter.GetTraCIBytesFromDouble(position2D.X));
+            bytes.AddRange(TraCIDataConverter.GetTraCIBytesFromDouble(position2D.Y));
+
+            var command = new TraCICommand
+            {
+                Identifier = commandType,
+                Contents = bytes.ToArray()
+            };
+            return command;
+        }
 
         internal static TraCICommand GetCommand(string id, byte commandType, byte messageType, Color color)
         {

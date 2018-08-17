@@ -58,11 +58,71 @@ namespace CodingConnected.TraCI.NET.Commands
 				TraCIConstants.VAR_POSITION);
 		}
 
-		#endregion // Public Methods
+        public TraCIResponse<object> SetType(string id, string type)
+        {
+            return TraCICommandHelper.ExecuteSetCommand<object, string>(
+                    Client,
+                    id,
+                    TraCIConstants.CMD_SET_POI_VARIABLE,
+                    TraCIConstants.VAR_TYPE,
+                    type
+                    );
+        }
 
-		#region Constructor
+        public TraCIResponse<object> SetColor(string id, Color color)
+        {
+            return TraCICommandHelper.ExecuteSetCommand<object, Color>(
+                    Client,
+                    id,
+                    TraCIConstants.CMD_SET_POI_VARIABLE,
+                    TraCIConstants.VAR_COLOR,
+                    color
+                    );
+        }
 
-		public POICommands(TraCIClient client) : base(client)
+        public TraCIResponse<object> SetPosition(string id, Position2D position2D)
+        {
+            return TraCICommandHelper.ExecuteSetCommand<object, Position2D>(
+                    Client,
+                    id,
+                    TraCIConstants.CMD_SET_POI_VARIABLE,
+                    TraCIConstants.VAR_POSITION,
+                    position2D
+                    );
+        }
+
+        public TraCIResponse<object> Add(string id, string name, Color color, int layer, Position2D position2D)
+        {
+            var tmp = new CompoundObject();
+            tmp.Value.Add(new TraCIString() { Value = name });
+            tmp.Value.Add(color);
+            tmp.Value.Add(new TraCIInteger() { Value = layer });
+            tmp.Value.Add(position2D);
+            return TraCICommandHelper.ExecuteSetCommand<object, CompoundObject>(
+                    Client,
+                    id,
+                    TraCIConstants.CMD_SET_POI_VARIABLE,
+                    TraCIConstants.ADD,
+                    tmp
+                    );
+        }
+
+        public TraCIResponse<object> Remove(string id, int layer)
+        {
+            return TraCICommandHelper.ExecuteSetCommand<object, int>(
+                    Client,
+                    id,
+                    TraCIConstants.CMD_SET_POI_VARIABLE,
+                    TraCIConstants.REMOVE,
+                    layer
+                    );
+        }
+
+        #endregion // Public Methods
+
+        #region Constructor
+
+        public POICommands(TraCIClient client) : base(client)
 		{
 		}
 
