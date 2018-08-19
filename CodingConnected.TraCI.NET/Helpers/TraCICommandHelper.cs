@@ -39,6 +39,9 @@ namespace CodingConnected.TraCI.NET.Helpers
                 case Polygon p:
                     command = GetCommand(id, commandType, messageType, p);
                     break;
+                case BoundaryBox bb:
+                    command = GetCommand(id, commandType, messageType, bb);
+                    break;
                 default:
                     {
                         throw new InvalidCastException($"Type {value.GetType().Name} is not implemented in method TraCICommandHelper.ExecuteSetCommand().");
@@ -175,6 +178,24 @@ namespace CodingConnected.TraCI.NET.Helpers
 			};
 			return command;
 		}
+
+        internal static TraCICommand GetCommand(string id, byte commandType, byte messageType, BoundaryBox boundaryBox)
+        {
+            var bytes = new List<byte> { messageType };
+            bytes.AddRange(TraCIDataConverter.GetTraCIBytesFromASCIIString(id));
+            bytes.Add(TraCIConstants.TYPE_BOUNDINGBOX);
+            bytes.AddRange(TraCIDataConverter.GetTraCIBytesFromDouble(boundaryBox.LowerLeftX));
+            bytes.AddRange(TraCIDataConverter.GetTraCIBytesFromDouble(boundaryBox.LowerLeftY));
+            bytes.AddRange(TraCIDataConverter.GetTraCIBytesFromDouble(boundaryBox.UpperRightX));
+            bytes.AddRange(TraCIDataConverter.GetTraCIBytesFromDouble(boundaryBox.UpperRightY));
+
+            var command = new TraCICommand
+            {
+                Identifier = commandType,
+                Contents = bytes.ToArray()
+            };
+            return command;
+        }
 
         internal static TraCICommand GetCommand(string id, byte commandType, byte messageType, Polygon polygon)
         {

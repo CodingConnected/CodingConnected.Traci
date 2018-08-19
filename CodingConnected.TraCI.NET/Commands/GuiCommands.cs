@@ -48,11 +48,77 @@ namespace CodingConnected.TraCI.NET.Commands
 				TraCIConstants.VAR_VIEW_BOUNDARY);
 		}
 
-		#endregion // Public Methods
 
-		#region Constructor
+        public TraCIResponse<object> SetZoom(string id, double zoom)
+        {
+            return TraCICommandHelper.ExecuteSetCommand<object, double>(
+                    Client,
+                    id,
+                    TraCIConstants.CMD_SET_GUI_VARIABLE,
+                    TraCIConstants.VAR_VIEW_ZOOM,
+                    zoom
+                    );
+        }
 
-		public GuiCommands(TraCIClient client) : base(client)
+        public TraCIResponse<object> SetOffset(string id, Position2D position)
+        {
+            return TraCICommandHelper.ExecuteSetCommand<object, Position2D>(
+                    Client,
+                    id,
+                    TraCIConstants.CMD_SET_GUI_VARIABLE,
+                    TraCIConstants.VAR_VIEW_OFFSET,
+                    position
+                    );
+        }
+
+        public TraCIResponse<object> SetSchema(string id, string schema)
+        {
+            return TraCICommandHelper.ExecuteSetCommand<object, string>(
+                    Client,
+                    id,
+                    TraCIConstants.CMD_SET_GUI_VARIABLE,
+                    TraCIConstants.VAR_VIEW_SCHEMA,
+                    schema
+                    );
+        }
+
+        public TraCIResponse<object> SetBoundary(string id, BoundaryBox boundaryBox)
+        {
+            return TraCICommandHelper.ExecuteSetCommand<object, BoundaryBox>(
+                    Client,
+                    id,
+                    TraCIConstants.CMD_SET_GUI_VARIABLE,
+                    TraCIConstants.VAR_VIEW_BOUNDARY,
+                    boundaryBox
+                    );
+        }
+
+        public TraCIResponse<object> screenshot(string id, string filename)
+        {
+            return TraCICommandHelper.ExecuteSetCommand<object, string>(
+                    Client,
+                    id,
+                    TraCIConstants.CMD_SET_GUI_VARIABLE,
+                    TraCIConstants.VAR_SCREENSHOT,
+                    filename
+                    );
+        }
+
+        public TraCIResponse<object> TrackVehicle(string id, string vehicleId)
+        {
+            return TraCICommandHelper.ExecuteSetCommand<object, string>(
+                    Client,
+                    id,
+                    TraCIConstants.CMD_SET_GUI_VARIABLE,
+                    TraCIConstants.VAR_TRACK_VEHICLE,
+                    vehicleId
+                    );
+        }
+        #endregion // Public Methods
+
+        #region Constructor
+
+        public GuiCommands(TraCIClient client) : base(client)
 		{
 		}
 
