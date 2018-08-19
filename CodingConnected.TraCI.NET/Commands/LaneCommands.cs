@@ -6,9 +6,13 @@ namespace CodingConnected.TraCI.NET.Commands
 {
 	public class LaneCommands : TraCICommandsBase
 	{
-		#region Public Methods
+        #region Public Methods
 
-		public TraCIResponse<List<string>> GetIdList()
+        /// <summary>
+        /// Returns a list of ids of all lanes within the scenario (the given Lane ID is ignored)
+        /// </summary>
+        /// <returns></returns>
+        public TraCIResponse<List<string>> GetIdList()
 		{
 			return 
 				TraCICommandHelper.ExecuteGetCommand<List<string>>(
@@ -18,6 +22,10 @@ namespace CodingConnected.TraCI.NET.Commands
 					TraCIConstants.ID_LIST);
 		}
 
+        /// <summary>
+        /// Returns the number of lanes within the scenario (the given Lane ID is ignored)
+        /// </summary>
+        /// <returns></returns>
 		public TraCIResponse<int> GetIdCount()
 		{
 			return 
@@ -28,6 +36,11 @@ namespace CodingConnected.TraCI.NET.Commands
 					TraCIConstants.ID_COUNT);
 		}
 
+        /// <summary>
+        /// Returns the number of links outgoing from this lane [#]
+        /// </summary>
+        /// <param name="id"></param>
+        /// <returns></returns>
 		public TraCIResponse<byte> GetLinkNumber(string id)
 		{
 			return 
@@ -38,6 +51,11 @@ namespace CodingConnected.TraCI.NET.Commands
 					TraCIConstants.LANE_LINK_NUMBER);
 		}
 
+        /// <summary>
+        /// Returns the id of the edge this lane belongs to
+        /// </summary>
+        /// <param name="id"></param>
+        /// <returns></returns>
 		public TraCIResponse<string> GetEdgeId(string id)
 		{
 			return 
@@ -48,16 +66,26 @@ namespace CodingConnected.TraCI.NET.Commands
 					TraCIConstants.LANE_EDGE_ID);
 		}
 
-		public TraCIResponse<object> GetLinks(string id)
+        /// <summary>
+        /// Returns descriptions of the links outgoing from this lane [m]
+        /// </summary>
+        /// <param name="id"></param>
+        /// <returns></returns>
+		public TraCIResponse<CompoundObject> GetLinks(string id)
 		{
 			return 
-				TraCICommandHelper.ExecuteGetCommand<object>(
+				TraCICommandHelper.ExecuteGetCommand<CompoundObject>(
 					Client, 
 					id, 
 					TraCIConstants.CMD_GET_LANE_VARIABLE,
 					TraCIConstants.LANE_LINKS);
 		}
 
+        /// <summary>
+        /// Returns the mml-definitions of vehicle classes allowed on this lane
+        /// </summary>
+        /// <param name="id"></param>
+        /// <returns></returns>
 		public TraCIResponse<List<string>> GetAllowed(string id)
 		{
 			return 
@@ -68,6 +96,11 @@ namespace CodingConnected.TraCI.NET.Commands
 					TraCIConstants.LANE_ALLOWED);
 		}
 
+        /// <summary>
+        /// Returns the mml-definitions of vehicle classes not allowed on this lane
+        /// </summary>
+        /// <param name="id"></param>
+        /// <returns></returns>
 		public TraCIResponse<List<string>> GetDisallowed(string id)
 		{
 			return 
@@ -78,6 +111,11 @@ namespace CodingConnected.TraCI.NET.Commands
 					TraCIConstants.LANE_DISALLOWED);
 		}
 
+        /// <summary>
+        /// Returns the length of the named lane [m]
+        /// </summary>
+        /// <param name="id"></param>
+        /// <returns></returns>
 		public TraCIResponse<double> GetLength(string id)
 		{
 			return 
@@ -88,6 +126,11 @@ namespace CodingConnected.TraCI.NET.Commands
 					TraCIConstants.VAR_LENGTH);
 		}
 
+        /// <summary>
+        /// Returns the maximum speed allowed on this lane [m/s]
+        /// </summary>
+        /// <param name="id"></param>
+        /// <returns></returns>
 		public TraCIResponse<double> GetMaxSpeed(string id)
 		{
 			return 
@@ -98,6 +141,11 @@ namespace CodingConnected.TraCI.NET.Commands
 					TraCIConstants.VAR_MAXSPEED);
 		}
 
+        /// <summary>
+        /// Returns this lane's shape
+        /// </summary>
+        /// <param name="id"></param>
+        /// <returns></returns>
 		public TraCIResponse<Polygon> GetShape(string id)
 		{
             return 
@@ -108,6 +156,11 @@ namespace CodingConnected.TraCI.NET.Commands
 					TraCIConstants.VAR_SHAPE);
 		}
 
+        /// <summary>
+        /// Returns the width of the named lane [m]
+        /// </summary>
+        /// <param name="id"></param>
+        /// <returns></returns>
 		public TraCIResponse<double> GetWidth(string id)
 		{
 			return 
@@ -118,6 +171,11 @@ namespace CodingConnected.TraCI.NET.Commands
 					TraCIConstants.VAR_WIDTH);
 		}
 
+        /// <summary>
+        /// Sum of CO2 emissions on this lane in mg during this time step.
+        /// </summary>
+        /// <param name="id"></param>
+        /// <returns></returns>
 		public TraCIResponse<double> GetCO2Emission(string id)
 		{
 			return 
@@ -128,6 +186,11 @@ namespace CodingConnected.TraCI.NET.Commands
 					TraCIConstants.VAR_CO2EMISSION);
 		}
 
+        /// <summary>
+        /// Sum of CO emissions on this lane in mg during this time step.
+        /// </summary>
+        /// <param name="id"></param>
+        /// <returns></returns>
 		public TraCIResponse<double> GetCOEmission(string id)
 		{
 			return 
@@ -138,6 +201,11 @@ namespace CodingConnected.TraCI.NET.Commands
 					TraCIConstants.VAR_COEMISSION);
 		}
 
+        /// <summary>
+        /// Sum of HC emissions on this lane in mg during this time step.
+        /// </summary>
+        /// <param name="id"></param>
+        /// <returns></returns>
 		public TraCIResponse<double> GetHCEmission(string id)
 		{
 			return 
@@ -148,6 +216,11 @@ namespace CodingConnected.TraCI.NET.Commands
 					TraCIConstants.VAR_HCEMISSION);
 		}
 
+        /// <summary>
+        /// Sum of PMx emissions on this lane in mg during this time step.
+        /// </summary>
+        /// <param name="id"></param>
+        /// <returns></returns>
 		public TraCIResponse<double> GetPMxEmission(string id)
 		{
 			return 
@@ -158,6 +231,11 @@ namespace CodingConnected.TraCI.NET.Commands
 					TraCIConstants.VAR_PMXEMISSION);
 		}
 
+        /// <summary>
+        /// Sum of NOx emissions on this lane in mg during this time step.
+        /// </summary>
+        /// <param name="id"></param>
+        /// <returns></returns>
 		public TraCIResponse<double> GetNOxEmission(string id)
 		{
 			return 
@@ -168,6 +246,11 @@ namespace CodingConnected.TraCI.NET.Commands
 					TraCIConstants.VAR_NOXEMISSION);
 		}
 
+        /// <summary>
+        /// Sum of fuel consumption on this lane in ml during this time step.
+        /// </summary>
+        /// <param name="id"></param>
+        /// <returns></returns>
 		public TraCIResponse<double> GetFuelConsumption(string id)
 		{
 			return 
@@ -178,6 +261,11 @@ namespace CodingConnected.TraCI.NET.Commands
 					TraCIConstants.VAR_FUELCONSUMPTION);
 		}
 
+        /// <summary>
+        /// Sum of noise generated on this lane in dBA.
+        /// </summary>
+        /// <param name="id"></param>
+        /// <returns></returns>
 		public TraCIResponse<double> GetNoiseEmission(string id)
 		{
 			return 
@@ -188,6 +276,11 @@ namespace CodingConnected.TraCI.NET.Commands
 					TraCIConstants.VAR_NOISEEMISSION);
 		}
 
+        /// <summary>
+        /// Sum of electricity consumption on this lane in kWh during this time step.
+        /// </summary>
+        /// <param name="id"></param>
+        /// <returns></returns>
 		public TraCIResponse<double> GetElectricityConsumption(string id)
 		{
 			return 
@@ -198,6 +291,11 @@ namespace CodingConnected.TraCI.NET.Commands
 					TraCIConstants.VAR_ELECTRICITYCONSUMPTION);
 		}
 
+        /// <summary>
+        /// The number of vehicles on this lane within the last time step.
+        /// </summary>
+        /// <param name="id"></param>
+        /// <returns></returns>
 		public TraCIResponse<int> GetLastStepVehicleNumber(string id)
 		{
 			return 
@@ -208,6 +306,11 @@ namespace CodingConnected.TraCI.NET.Commands
 					TraCIConstants.LAST_STEP_VEHICLE_NUMBER);
 		}
 
+        /// <summary>
+        /// Returns the mean speed of vehicles that were on this lane within the last simulation step [m/s]
+        /// </summary>
+        /// <param name="id"></param>
+        /// <returns></returns>
 		public TraCIResponse<double> GetLastStepMeanSpeed(string id)
 		{
 			return 
@@ -218,6 +321,11 @@ namespace CodingConnected.TraCI.NET.Commands
 					TraCIConstants.LAST_STEP_MEAN_SPEED);
 		}
 
+        /// <summary>
+        /// Returns the list of ids of vehicles that were on this lane in the last simulation step
+        /// </summary>
+        /// <param name="id"></param>
+        /// <returns></returns>
 		public TraCIResponse<List<string>> GetLastStepVehicleIds(string id)
 		{
 			return 
@@ -228,6 +336,11 @@ namespace CodingConnected.TraCI.NET.Commands
 					TraCIConstants.LAST_STEP_VEHICLE_ID_LIST);
 		}
 
+        /// <summary>
+        /// Returns the total lengths of vehicles on this lane during the last simulation step divided by the length of this lane
+        /// </summary>
+        /// <param name="id"></param>
+        /// <returns></returns>
 		public TraCIResponse<double> GetLastStepOccupancy(string id)
 		{
 			return 
@@ -238,6 +351,11 @@ namespace CodingConnected.TraCI.NET.Commands
 					TraCIConstants.LAST_STEP_OCCUPANCY);
 		}
 
+        /// <summary>
+        /// The mean length of vehicles which were on this lane in the last step [m]
+        /// </summary>
+        /// <param name="id"></param>
+        /// <returns></returns>
 		public TraCIResponse<double> GetLastStepLength(string id)
 		{
 			return 
@@ -248,6 +366,11 @@ namespace CodingConnected.TraCI.NET.Commands
 					TraCIConstants.LAST_STEP_LENGTH);
 		}
 
+        /// <summary>
+        /// Returns the waiting time for all vehicles on the lane [s]
+        /// </summary>
+        /// <param name="id"></param>
+        /// <returns></returns>
 		public TraCIResponse<double> GetWaitingTime(string id)
 		{
 			return 
@@ -258,6 +381,11 @@ namespace CodingConnected.TraCI.NET.Commands
 					TraCIConstants.VAR_WAITING_TIME);
 		}
 
+        /// <summary>
+        /// Returns the estimated travel time for the last time step on the given lane [s]
+        /// </summary>
+        /// <param name="id"></param>
+        /// <returns></returns>
 		public TraCIResponse<double> GetTravelTime(string id)
 		{
 			return 
@@ -268,7 +396,13 @@ namespace CodingConnected.TraCI.NET.Commands
 					TraCIConstants.VAR_CURRENT_TRAVELTIME);
 		}
 
-		public TraCIResponse<int> GetLastStepHaltingNumber(string id)
+        /// <summary>
+        /// Returns the total number of halting vehicles for the last time step on the given lane.
+        /// A speed of less than 0.1 m/s is considered a halt.
+        /// </summary>
+        /// <param name="id"></param>
+        /// <returns></returns>
+        public TraCIResponse<int> GetLastStepHaltingNumber(string id)
 		{
 			return 
 				TraCICommandHelper.ExecuteGetCommand<int>(

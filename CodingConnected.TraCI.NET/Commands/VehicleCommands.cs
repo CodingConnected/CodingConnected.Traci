@@ -9,6 +9,10 @@ namespace CodingConnected.TraCI.NET.Commands
     {
         #region Public Methods
 
+        /// <summary>
+        /// Returns a list of ids of all vehicles currently running within the scenario (the given vehicle ID is ignored)
+        /// </summary>
+        /// <returns></returns>
         public TraCIResponse<List<string>> GetIdList()
         {
             return
@@ -19,6 +23,10 @@ namespace CodingConnected.TraCI.NET.Commands
                     TraCIConstants.ID_LIST);
         }
 
+        /// <summary>
+        /// Returns the number of vehicles currently running within the scenario (the given vehicle ID is ignored)
+        /// </summary>
+        /// <returns></returns>
         public TraCIResponse<int> GetIdCount()
         {
             return
@@ -29,6 +37,11 @@ namespace CodingConnected.TraCI.NET.Commands
                     TraCIConstants.ID_COUNT);
         }
 
+        /// <summary>
+        /// Returns the speed of the named vehicle within the last step [m/s]; error value: -2^30
+        /// </summary>
+        /// <param name="id"></param>
+        /// <returns></returns>
         public TraCIResponse<double> GetSpeed(string id)
         {
             return
@@ -39,6 +52,11 @@ namespace CodingConnected.TraCI.NET.Commands
                     TraCIConstants.VAR_SPEED);
         }
 
+        /// <summary>
+        /// Returns the position(two doubles) of the named vehicle (center of the front bumper) within the last step [m,m]; error value: [-2^30, -2^30].
+        /// </summary>
+        /// <param name="id"></param>
+        /// <returns></returns>
         public TraCIResponse<Position2D> GetPosition(string id)
         {
             return
@@ -49,6 +67,11 @@ namespace CodingConnected.TraCI.NET.Commands
                     TraCIConstants.VAR_POSITION);
         }
 
+        /// <summary>
+        /// Returns the 3D-position(three doubles) of the named vehicle (center of the front bumper) within the last step [m,m,m]; error value: [-2^30, -2^30, -2^30].
+        /// </summary>
+        /// <param name="id"></param>
+        /// <returns></returns>
         public TraCIResponse<Position3D> GetPosition3D(string id)
         {
             return
@@ -59,6 +82,11 @@ namespace CodingConnected.TraCI.NET.Commands
                     TraCIConstants.VAR_POSITION3D);
         }
 
+        /// <summary>
+        /// Returns the angle of the named vehicle within the last step [°]; error value: -2^30
+        /// </summary>
+        /// <param name="id"></param>
+        /// <returns></returns>
         public TraCIResponse<double> GetAngle(string id)
         {
             return
@@ -69,6 +97,11 @@ namespace CodingConnected.TraCI.NET.Commands
                     TraCIConstants.VAR_ANGLE);
         }
 
+        /// <summary>
+        /// Returns the id of the edge the named vehicle was at within the last step; error value: ""
+        /// </summary>
+        /// <param name="id"></param>
+        /// <returns></returns>
         public TraCIResponse<string> GetRoadID(string id)
         {
             return
@@ -79,6 +112,11 @@ namespace CodingConnected.TraCI.NET.Commands
                     TraCIConstants.VAR_ROAD_ID);
         }
 
+        /// <summary>
+        /// Returns the id of the lane the named vehicle was at within the last step; error value: ""
+        /// </summary>
+        /// <param name="id"></param>
+        /// <returns></returns>
         public TraCIResponse<string> GetLaneID(string id)
         {
             return
@@ -89,6 +127,11 @@ namespace CodingConnected.TraCI.NET.Commands
                     TraCIConstants.VAR_LANE_ID);
         }
 
+        /// <summary>
+        /// Returns the index of the lane the named vehicle was at within the last step; error value: -2^30
+        /// </summary>
+        /// <param name="id"></param>
+        /// <returns></returns>
         public TraCIResponse<int> GetLaneIndex(string id)
         {
             return
@@ -99,6 +142,11 @@ namespace CodingConnected.TraCI.NET.Commands
                     TraCIConstants.VAR_LANE_INDEX);
         }
 
+        /// <summary>
+        /// Returns the id of the type of the named vehicle
+        /// </summary>
+        /// <param name="id"></param>
+        /// <returns></returns>
         public TraCIResponse<string> GetTypeID(string id)
         {
             return
@@ -109,6 +157,11 @@ namespace CodingConnected.TraCI.NET.Commands
                     TraCIConstants.VAR_TYPE);
         }
 
+        /// <summary>
+        /// Returns the id of the route of the named vehicle
+        /// </summary>
+        /// <param name="id"></param>
+        /// <returns></returns>
         public TraCIResponse<string> GetRouteID(string id)
         {
             return
@@ -119,6 +172,11 @@ namespace CodingConnected.TraCI.NET.Commands
                     TraCIConstants.VAR_ROUTE_ID);
         }
 
+        /// <summary>
+        /// Returns the index of the current edge within the vehicles route or -1 if the vehicle has not yet departed
+        /// </summary>
+        /// <param name="id"></param>
+        /// <returns></returns>
         public TraCIResponse<int> GetRouteIndex(string id)
         {
             return
@@ -129,6 +187,11 @@ namespace CodingConnected.TraCI.NET.Commands
                     TraCIConstants.VAR_ROUTE_ID);
         }
 
+        /// <summary>
+        /// Returns the ids of the edges the vehicle's route is made of
+        /// </summary>
+        /// <param name="id"></param>
+        /// <returns></returns>
         public TraCIResponse<List<string>> GetRoute(string id)
         {
             return
@@ -139,6 +202,11 @@ namespace CodingConnected.TraCI.NET.Commands
                     TraCIConstants.VAR_ROUTE);
         }
 
+        /// <summary>
+        /// Returns the vehicle's color (RGBA).
+        /// </summary>
+        /// <param name="id"></param>
+        /// <returns></returns>
         public TraCIResponse<Color> GetColor(string id)
         {
             return
@@ -149,6 +217,11 @@ namespace CodingConnected.TraCI.NET.Commands
                     TraCIConstants.VAR_COLOR);
         }
 
+        /// <summary>
+        /// The position of the vehicle along the lane (the distance from the front bumper to the start of the lane in [m]); error value: -2^30
+        /// </summary>
+        /// <param name="id"></param>
+        /// <returns></returns>
         public TraCIResponse<double> GetLanePosition(string id)
         {
             return
@@ -159,6 +232,11 @@ namespace CodingConnected.TraCI.NET.Commands
                     TraCIConstants.VAR_LANEPOSITION);
         }
 
+        /// <summary>
+        /// The distance, the vehicle has already driven [m]); error value: -2^30
+        /// </summary>
+        /// <param name="id"></param>
+        /// <returns></returns>
         public TraCIResponse<double> GetDistance(string id)
         {
             return
@@ -169,8 +247,14 @@ namespace CodingConnected.TraCI.NET.Commands
                     TraCIConstants.VAR_DISTANCE);
         }
 
+        /// <summary>
+        /// An integer encoding the state of a vehicle's signals
+        /// </summary>
+        /// <param name="id"></param>
+        /// <returns></returns>
         public TraCIResponse<int> GetSignals(string id)
         {
+            // TODO: create enum for Vehicle Signalling
             return
                 TraCICommandHelper.ExecuteGetCommand<int>(
                     Client,
@@ -179,6 +263,11 @@ namespace CodingConnected.TraCI.NET.Commands
                     TraCIConstants.VAR_SIGNALS);
         }
 
+        /// <summary>
+        /// Vehicle's CO2 emissions in mg during this time step; error value: -2^30
+        /// </summary>
+        /// <param name="id"></param>
+        /// <returns></returns>
         public TraCIResponse<double> GetCO2Emission(string id)
         {
             return
@@ -189,6 +278,11 @@ namespace CodingConnected.TraCI.NET.Commands
                     TraCIConstants.VAR_CO2EMISSION);
         }
 
+        /// <summary>
+        /// Vehicle's CO emissions in mg during this time step; error value: -2^30
+        /// </summary>
+        /// <param name="id"></param>
+        /// <returns></returns>
         public TraCIResponse<double> GetCOEmission(string id)
         {
             return
@@ -199,6 +293,11 @@ namespace CodingConnected.TraCI.NET.Commands
                     TraCIConstants.VAR_COEMISSION);
         }
 
+        /// <summary>
+        /// Vehicle's HC emissions in mg during this time step; error value: -2^30
+        /// </summary>
+        /// <param name="id"></param>
+        /// <returns></returns>
         public TraCIResponse<double> GetHCEmission(string id)
         {
             return
@@ -209,6 +308,11 @@ namespace CodingConnected.TraCI.NET.Commands
                     TraCIConstants.VAR_HCEMISSION);
         }
 
+        /// <summary>
+        /// Vehicle's PMx emissions in mg during this time step; error value: -2^30
+        /// </summary>
+        /// <param name="id"></param>
+        /// <returns></returns>
         public TraCIResponse<double> GetPMxEmission(string id)
         {
             return
@@ -219,6 +323,11 @@ namespace CodingConnected.TraCI.NET.Commands
                     TraCIConstants.VAR_PMXEMISSION);
         }
 
+        /// <summary>
+        /// Vehicle's NOx emissions in mg during this time step; error value: -2^30
+        /// </summary>
+        /// <param name="id"></param>
+        /// <returns></returns>
         public TraCIResponse<double> GetNOxEmission(string id)
         {
             return
@@ -229,6 +338,11 @@ namespace CodingConnected.TraCI.NET.Commands
                     TraCIConstants.VAR_NOXEMISSION);
         }
 
+        /// <summary>
+        /// Vehicle's fuel consumption in ml during this time step; error value: -2^30
+        /// </summary>
+        /// <param name="id"></param>
+        /// <returns></returns>
         public TraCIResponse<double> GetFuelConsumption(string id)
         {
             return
@@ -239,6 +353,11 @@ namespace CodingConnected.TraCI.NET.Commands
                     TraCIConstants.VAR_FUELCONSUMPTION);
         }
 
+        /// <summary>
+        /// Noise generated by the vehicle in dBA; error value: -2^30
+        /// </summary>
+        /// <param name="id"></param>
+        /// <returns></returns>
         public TraCIResponse<double> GetNoiseEmission(string id)
         {
             return
@@ -249,6 +368,11 @@ namespace CodingConnected.TraCI.NET.Commands
                     TraCIConstants.VAR_NOISEEMISSION);
         }
 
+        /// <summary>
+        /// Vehicle's electricity consumption in kWh during this time step; error value: -2^30
+        /// </summary>
+        /// <param name="id"></param>
+        /// <returns></returns>
         public TraCIResponse<double> GetElectricityConsumption(string id)
         {
             return
@@ -259,6 +383,11 @@ namespace CodingConnected.TraCI.NET.Commands
                     TraCIConstants.VAR_ELECTRICITYCONSUMPTION);
         }
 
+        /// <summary>
+        /// For each lane on the current edge, the sequences of lanes that would be followed from that lane without lane-change as well as information regarding lane-change desirability are returned
+        /// </summary>
+        /// <param name="id"></param>
+        /// <returns></returns>
         public TraCIResponse<List<EdgeInformation>> GetBestLanes(string id)
         {
             var tmp = TraCICommandHelper.ExecuteGetCommand<CompoundObject>(
@@ -280,6 +409,11 @@ namespace CodingConnected.TraCI.NET.Commands
             };
         }
 
+        /// <summary>
+        /// value = 1 * stopped + 2 * parking + 4 * triggered + 8 * containerTriggered + 16 * atBusStop + 32 * atContainerStop + 64 * atChargingStation + 128 * atParkingArea
+        /// </summary>
+        /// <param name="id"></param>
+        /// <returns></returns>
         public TraCIResponse<byte> GetStopState(string id)
         {
             return
@@ -290,6 +424,11 @@ namespace CodingConnected.TraCI.NET.Commands
                     TraCIConstants.VAR_STOPSTATE);
         }
 
+        /// <summary>
+        /// Returns the length of the vehicles [m]
+        /// </summary>
+        /// <param name="id"></param>
+        /// <returns></returns>
         public TraCIResponse<double> GetLength(string id)
         {
             return
@@ -300,6 +439,11 @@ namespace CodingConnected.TraCI.NET.Commands
                     TraCIConstants.VAR_LENGTH);
         }
 
+        /// <summary>
+        /// Returns the maximum speed of the vehicle [m/s]
+        /// </summary>
+        /// <param name="id"></param>
+        /// <returns></returns>
         public TraCIResponse<double> GetMaxSpeed(string id)
         {
             return
@@ -310,6 +454,11 @@ namespace CodingConnected.TraCI.NET.Commands
                     TraCIConstants.VAR_MAXSPEED);
         }
 
+        /// <summary>
+        /// Returns the maximum acceleration possibility of this vehicle [m/s^2]
+        /// </summary>
+        /// <param name="id"></param>
+        /// <returns></returns>
         public TraCIResponse<double> GetAccel(string id)
         {
             return
@@ -320,6 +469,11 @@ namespace CodingConnected.TraCI.NET.Commands
                     TraCIConstants.VAR_ACCEL);
         }
 
+        /// <summary>
+        /// Returns the maximum deceleration possibility of this vehicle [m/s^2]
+        /// </summary>
+        /// <param name="id"></param>
+        /// <returns></returns>
         public TraCIResponse<double> GetDecel(string id)
         {
             return
@@ -330,6 +484,11 @@ namespace CodingConnected.TraCI.NET.Commands
                     TraCIConstants.VAR_DECEL);
         }
 
+        /// <summary>
+        /// Returns the driver's desired time headway for this vehicle [s]
+        /// </summary>
+        /// <param name="id"></param>
+        /// <returns></returns>
         public TraCIResponse<double> GetTau(string id)
         {
             return
@@ -340,6 +499,11 @@ namespace CodingConnected.TraCI.NET.Commands
                     TraCIConstants.VAR_TAU);
         }
 
+        /// <summary>
+        /// Returns the driver's imperfection (dawdling) [0,1]
+        /// </summary>
+        /// <param name="id"></param>
+        /// <returns></returns>
         public TraCIResponse<double> GetImperfection(string id)
         {
             return
@@ -350,6 +514,11 @@ namespace CodingConnected.TraCI.NET.Commands
                     TraCIConstants.VAR_IMPERFECTION);
         }
 
+        /// <summary>
+        /// Returns the road speed multiplier for this vehicle [double]
+        /// </summary>
+        /// <param name="id"></param>
+        /// <returns></returns>
         public TraCIResponse<double> GetSpeedFactor(string id)
         {
             return
@@ -360,6 +529,11 @@ namespace CodingConnected.TraCI.NET.Commands
                     TraCIConstants.VAR_SPEED_FACTOR);
         }
 
+        /// <summary>
+        /// Returns the deviation of speedFactor for this vehicle [double]
+        /// </summary>
+        /// <param name="id"></param>
+        /// <returns></returns>
         public TraCIResponse<double> GetSpeedDeviation(string id)
         {
             return
@@ -370,6 +544,11 @@ namespace CodingConnected.TraCI.NET.Commands
                     TraCIConstants.VAR_SPEED_DEVIATION);
         }
 
+        /// <summary>
+        /// Returns the permission class of this vehicle
+        /// </summary>
+        /// <param name="id"></param>
+        /// <returns></returns>
         public TraCIResponse<string> GetVehicleClass(string id)
         {
             return
@@ -380,6 +559,11 @@ namespace CodingConnected.TraCI.NET.Commands
                     TraCIConstants.VAR_VEHICLECLASS);
         }
 
+        /// <summary>
+        /// Returns the emission class of this vehicle
+        /// </summary>
+        /// <param name="id"></param>
+        /// <returns></returns>
         public TraCIResponse<string> GetEmissionClass(string id)
         {
             return
@@ -390,6 +574,11 @@ namespace CodingConnected.TraCI.NET.Commands
                     TraCIConstants.VAR_EMISSIONCLASS);
         }
 
+        /// <summary>
+        /// Returns the shape class of this vehicle
+        /// </summary>
+        /// <param name="id"></param>
+        /// <returns></returns>
         public TraCIResponse<string> GetShapeClass(string id)
         {
             return
@@ -400,6 +589,11 @@ namespace CodingConnected.TraCI.NET.Commands
                     TraCIConstants.VAR_SHAPECLASS);
         }
 
+        /// <summary>
+        /// Returns the offset (gap to front vehicle if halting) of this vehicle [m]
+        /// </summary>
+        /// <param name="id"></param>
+        /// <returns></returns>
         public TraCIResponse<double> GetMinGap(string id)
         {
             return
@@ -410,6 +604,11 @@ namespace CodingConnected.TraCI.NET.Commands
                     TraCIConstants.VAR_MINGAP);
         }
 
+        /// <summary>
+        /// Returns the width of this vehicle [m]
+        /// </summary>
+        /// <param name="id"></param>
+        /// <returns></returns>
         public TraCIResponse<double> GetWidth(string id)
         {
             return
@@ -420,6 +619,11 @@ namespace CodingConnected.TraCI.NET.Commands
                     TraCIConstants.VAR_WIDTH);
         }
 
+        /// <summary>
+        /// Returns the height of this vehicle [m]
+        /// </summary>
+        /// <param name="id"></param>
+        /// <returns></returns>
         public TraCIResponse<double> GetHeight(string id)
         {
             return
@@ -430,6 +634,11 @@ namespace CodingConnected.TraCI.NET.Commands
                     TraCIConstants.VAR_HEIGHT);
         }
 
+        /// <summary>
+        /// Returns the waiting time [s]
+        /// </summary>
+        /// <param name="id"></param>
+        /// <returns></returns>
         public TraCIResponse<double> GetWaitingTime(string id)
         {
             return
@@ -440,6 +649,11 @@ namespace CodingConnected.TraCI.NET.Commands
                     TraCIConstants.VAR_WAITING_TIME);
         }
 
+        /// <summary>
+        /// Returns the accumulated waiting time [s] within the previous time interval of default length 100 s.
+        /// </summary>
+        /// <param name="id"></param>
+        /// <returns></returns>
         public TraCIResponse<double> GetAccumulatedWaitingTime(string id)
         {
             return
@@ -450,6 +664,11 @@ namespace CodingConnected.TraCI.NET.Commands
                     TraCIConstants.VAR_ACCUMULATED_WAITING_TIME);
         }
 
+        /// <summary>
+        /// Returns upcoming traffic lights, along with distance and state
+        /// </summary>
+        /// <param name="id"></param>
+        /// <returns></returns>
         public TraCIResponse<List<TrafficLightSystem>> GetNextTLS(string id)
         {
             var tmp = TraCICommandHelper.ExecuteGetCommand<CompoundObject>(
@@ -471,6 +690,11 @@ namespace CodingConnected.TraCI.NET.Commands
             };
         }
 
+        /// <summary>
+        /// Retrieves how the values set by speed (0x40) and slowdown (0x14) shall be treated. See the set speedmode command for details.
+        /// </summary>
+        /// <param name="id"></param>
+        /// <returns></returns>
         public TraCIResponse<int> GetSpeedMode(string id)
         {
             return
@@ -481,6 +705,11 @@ namespace CodingConnected.TraCI.NET.Commands
                     TraCIConstants.VAR_SPEEDSETMODE);
         }
 
+        /// <summary>
+        /// Retrieves the slope at the current vehicle position in degrees
+        /// </summary>
+        /// <param name="id"></param>
+        /// <returns></returns>
         public TraCIResponse<double> GetSlope(string id)
         {
             return
@@ -491,6 +720,11 @@ namespace CodingConnected.TraCI.NET.Commands
                     TraCIConstants.VAR_SLOPE);
         }
 
+        /// <summary>
+        /// Returns the maximum allowed speed on the current lane regarding speed factor in m/s for this vehicle.
+        /// </summary>
+        /// <param name="id"></param>
+        /// <returns></returns>
         public TraCIResponse<double> GetAllowedSpeed(string id)
         {
             return
@@ -501,6 +735,11 @@ namespace CodingConnected.TraCI.NET.Commands
                     TraCIConstants.VAR_ALLOWED_SPEED);
         }
 
+        /// <summary>
+        /// Returns the line information of this vehicle.
+        /// </summary>
+        /// <param name="id"></param>
+        /// <returns></returns>
         public TraCIResponse<string> GetLine(string id)
         {
             return
@@ -511,6 +750,11 @@ namespace CodingConnected.TraCI.NET.Commands
                     TraCIConstants.VAR_LINE);
         }
 
+        /// <summary>
+        /// Returns the total number of persons which includes those defined using attribute 'personNumber' as well as <person>-objects which are riding in this vehicle.
+        /// </summary>
+        /// <param name="id"></param>
+        /// <returns></returns>
         public TraCIResponse<int> GetPersonNumber(string id)
         {
             return
@@ -521,6 +765,11 @@ namespace CodingConnected.TraCI.NET.Commands
                     TraCIConstants.VAR_PERSON_NUMBER);
         }
 
+        /// <summary>
+        /// Returns the ids of via edges for this vehicle.
+        /// </summary>
+        /// <param name="id"></param>
+        /// <returns></returns>
         public TraCIResponse<List<string>> GetVia(string id)
         {
             return
@@ -531,6 +780,11 @@ namespace CodingConnected.TraCI.NET.Commands
                     TraCIConstants.VAR_VIA);
         }
 
+        /// <summary>
+        /// Returns the speed that the vehicle would drive if not speed-influencing command such as setSpeed or slowDown was given.
+        /// </summary>
+        /// <param name="id"></param>
+        /// <returns></returns>
         public TraCIResponse<double> GetSpeedWithoutTraCI(string id)
         {
             return
@@ -542,6 +796,11 @@ namespace CodingConnected.TraCI.NET.Commands
         }
 
         // TODO this returns bool: how does that work?
+        /// <summary>
+        /// Returns whether the current vehicle route is connected for the vehicle class of the given vehicle.
+        /// </summary>
+        /// <param name="id"></param>
+        /// <returns></returns>
         public TraCIResponse<int> IsRouteValid(string id)
         {
             return
@@ -552,6 +811,11 @@ namespace CodingConnected.TraCI.NET.Commands
                     TraCIConstants.VAR_ROUTE_VALID);
         }
 
+        /// <summary>
+        /// Returns the lateral position of the vehicle on its current lane measured in m.
+        /// </summary>
+        /// <param name="id"></param>
+        /// <returns></returns>
         public TraCIResponse<double> GetLateralLanePosition(string id)
         {
             return
@@ -562,6 +826,11 @@ namespace CodingConnected.TraCI.NET.Commands
                     TraCIConstants.VAR_LANEPOSITION_LAT);
         }
 
+        /// <summary>
+        /// Returns the maximum lateral speed in m/s of this vehicle.
+        /// </summary>
+        /// <param name="id"></param>
+        /// <returns></returns>
         public TraCIResponse<double> GetMaxSpeedLat(string id)
         {
             return
@@ -572,6 +841,11 @@ namespace CodingConnected.TraCI.NET.Commands
                     TraCIConstants.VAR_MAXSPEED_LAT);
         }
 
+        /// <summary>
+        /// Returns the desired lateral gap of this vehicle at 50km/h in m.
+        /// </summary>
+        /// <param name="id"></param>
+        /// <returns></returns>
         public TraCIResponse<double> GetMinGapLat(string id)
         {
             return
@@ -582,6 +856,11 @@ namespace CodingConnected.TraCI.NET.Commands
                     TraCIConstants.VAR_MINGAP_LAT);
         }
 
+        /// <summary>
+        /// Returns the preferred lateral alignment of the vehicle.
+        /// </summary>
+        /// <param name="id"></param>
+        /// <returns></returns>
         public TraCIResponse<string> GetLateralAlignment(string id)
         {
             return
@@ -592,6 +871,11 @@ namespace CodingConnected.TraCI.NET.Commands
                     TraCIConstants.VAR_LATALIGNMENT);
         }
 
+        /// <summary>
+        /// Returns the value for the given string parameter
+        /// </summary>
+        /// <param name="id"></param>
+        /// <returns></returns>
         public TraCIResponse<string> GetParameter(string id)
         {
             return
@@ -602,6 +886,11 @@ namespace CodingConnected.TraCI.NET.Commands
                     TraCIConstants.VAR_PARAMETER);
         }
 
+        /// <summary>
+        /// Returns the current action step length for the vehicle in s.
+        /// </summary>
+        /// <param name="id"></param>
+        /// <returns></returns>
         public TraCIResponse<double> GetActionStepLength(string id)
         {
             return
@@ -613,6 +902,11 @@ namespace CodingConnected.TraCI.NET.Commands
                     0x7d);
         }
 
+        /// <summary>
+        /// Returns the time of the last action step in s.
+        /// </summary>
+        /// <param name="id"></param>
+        /// <returns></returns>
         public TraCIResponse<double> GetLastActionTime(string id)
         {
             return
@@ -628,7 +922,7 @@ namespace CodingConnected.TraCI.NET.Commands
 
 
         /// <summary>
-        /// 
+        /// Lets the vehicle stop at the given edge, at the given position and lane. The vehicle will stop for the given duration. Re-issuing a stop command with the same lane and position allows changing the duration. Setting the duration to 0 cancels an existing stop.
         /// </summary>
         /// <param name="id"></param>
         /// <param name="edgeId"></param>
@@ -662,6 +956,13 @@ namespace CodingConnected.TraCI.NET.Commands
                     );
         }
 
+        /// <summary>
+        /// Forces a lane change to the lane with the given index; if successful, the lane will be chosen for the given amount of time (in seconds).
+        /// </summary>
+        /// <param name="id"></param>
+        /// <param name="laneIndex"></param>
+        /// <param name="duration"></param>
+        /// <returns></returns>
         public TraCIResponse<object> ChangeLane(string id, byte laneIndex, int duration)
         {
             var tmp = new CompoundObject();
@@ -679,6 +980,12 @@ namespace CodingConnected.TraCI.NET.Commands
                     );
         }
 
+        /// <summary>
+        /// 	Forces a lateral change by the given amount (negative values indicate changing to the right, positive to the left). This will override any other lane change motivations but conform to safety-constraints as configured by laneChangeMode.
+        /// </summary>
+        /// <param name="id"></param>
+        /// <param name="lateralDistance"></param>
+        /// <returns></returns>
         public TraCIResponse<object> ChangeSublane(string id, double lateralDistance)
         {
             return
@@ -691,6 +998,13 @@ namespace CodingConnected.TraCI.NET.Commands
                     );
         }
 
+        /// <summary>
+        /// Changes the speed smoothly to the given value over the given amount of time in seconds (can also be used to increase speed).
+        /// </summary>
+        /// <param name="id"></param>
+        /// <param name="speed"></param>
+        /// <param name="duration"></param>
+        /// <returns></returns>
         public TraCIResponse<object> SlowDown(string id, double speed, int duration)
         {
             var tmp = new CompoundObject();
@@ -708,6 +1022,11 @@ namespace CodingConnected.TraCI.NET.Commands
                     );
         }
 
+        /// <summary>
+        /// Resumes from a stop
+        /// </summary>
+        /// <param name="id"></param>
+        /// <returns></returns>
         public TraCIResponse<object> Resume(string id)
         {
             var tmp = new CompoundObject();
@@ -722,6 +1041,12 @@ namespace CodingConnected.TraCI.NET.Commands
                     );
         }
 
+        /// <summary>
+        /// The vehicle's destination edge is set to the given. The route is rebuilt.
+        /// </summary>
+        /// <param name="id"></param>
+        /// <param name="desitinationEdgeId"></param>
+        /// <returns></returns>
         public TraCIResponse<object> ChangeTarget(string id, string desitinationEdgeId)
         {
             return TraCICommandHelper.ExecuteSetCommand<object, string>(
@@ -733,6 +1058,12 @@ namespace CodingConnected.TraCI.NET.Commands
                     );
         }
 
+        /// <summary>
+        /// 	Sets the vehicle speed to the given value. The speed will be followed according to the current speed mode. By default the vehicle may drive slower than the set speed according to the safety rules of the car-follow model. When sending a value of -1 the vehicle will revert to its original behavior (using the maxSpeed of its vehicle type and following all safety rules).
+        /// </summary>
+        /// <param name="id"></param>
+        /// <param name="speed"></param>
+        /// <returns></returns>
         public TraCIResponse<object> SetSpeed(string id, double speed)
         {
             return TraCICommandHelper.ExecuteSetCommand<object, double>(
@@ -744,6 +1075,12 @@ namespace CodingConnected.TraCI.NET.Commands
                     );
         }
 
+        /// <summary>
+        /// Sets the vehicle's color.
+        /// </summary>
+        /// <param name="id"></param>
+        /// <param name="color"></param>
+        /// <returns></returns>
         public TraCIResponse<object> SetColor(string id, Color color)
         {
             return TraCICommandHelper.ExecuteSetCommand<object, Color>(
@@ -755,6 +1092,12 @@ namespace CodingConnected.TraCI.NET.Commands
                      );
         }
 
+        /// <summary>
+        /// Assigns the named route to the vehicle, assuming a) the named route exists, and b) it starts on the edge the vehicle is currently at
+        /// </summary>
+        /// <param name="id"></param>
+        /// <param name="routeId"></param>
+        /// <returns></returns>
         public TraCIResponse<object> SetRoutID(string id, string routeId)
         {
             return TraCICommandHelper.ExecuteSetCommand<object, string>(
@@ -766,6 +1109,12 @@ namespace CodingConnected.TraCI.NET.Commands
                     );
         }
 
+        /// <summary>
+        /// Assigns the list of edges as the vehicle's new route assuming the first edge given is the one the vehicle is curently at
+        /// </summary>
+        /// <param name="id"></param>
+        /// <param name="edges"></param>
+        /// <returns></returns>
         public TraCIResponse<object> SetRoute(string id, List<string> edges)
         {
             return TraCICommandHelper.ExecuteSetCommand<object, List<string>>(
@@ -777,6 +1126,16 @@ namespace CodingConnected.TraCI.NET.Commands
                     );
         }
 
+        /// <summary>
+        /// Inserts the information about the effort of edge "edgeID" valid from begin time to end time (in seconds) into the vehicle's internal edge weights container.
+        /// </summary>
+        /// <param name="id"></param>
+        /// <param name="numberOfElements"></param>
+        /// <param name="edgeId"></param>
+        /// <param name="beginTime"></param>
+        /// <param name="endTime"></param>
+        /// <param name="effortValue"></param>
+        /// <returns></returns>
         public TraCIResponse<object> SetEffort(string id, int numberOfElements, string edgeId, int beginTime = 0, int endTime = 0, double effortValue = 0)
         {
             CompoundObject co;
@@ -811,7 +1170,16 @@ namespace CodingConnected.TraCI.NET.Commands
                     );
         }
 
-
+        /// <summary>
+        /// Inserts the information about the travel time (in seconds) of edge "edgeID" valid from begin time to end time (in seconds) into the vehicle's internal edge weights container.
+        /// </summary>
+        /// <param name="id"></param>
+        /// <param name="numberOfElements"></param>
+        /// <param name="beginTime"></param>
+        /// <param name="endTime"></param>
+        /// <param name="edgeId"></param>
+        /// <param name="travelTimeValue"></param>
+        /// <returns></returns>
         public TraCIResponse<object> SetAdaptedTraveltime(string id, int numberOfElements, int beginTime, int endTime, string edgeId, double travelTimeValue)
         {
             CompoundObject co;
@@ -845,6 +1213,13 @@ namespace CodingConnected.TraCI.NET.Commands
                     co
                     );
         }
+
+        /// <summary>
+        /// Sets a new state of signal. See TraCI/Vehicle Signalling for more information.
+        /// </summary>
+        /// <param name="id"></param>
+        /// <param name="signal"></param>
+        /// <returns></returns>
         public TraCIResponse<object> SetSignals(string id, VehicleSignalling signal)
         {
             return TraCICommandHelper.ExecuteSetCommand<object, int>(
@@ -855,6 +1230,13 @@ namespace CodingConnected.TraCI.NET.Commands
                     (int)signal
                     );
         }
+
+        /// <summary>
+        /// Sets the mew routing mode (0: default, 1: aggregated)
+        /// </summary>
+        /// <param name="id"></param>
+        /// <param name="routingMode"></param>
+        /// <returns></returns>
         public TraCIResponse<object> SetRoutingMode(string id, RoutingMode routingMode)
         {
             return TraCICommandHelper.ExecuteSetCommand<object, int>(
@@ -865,6 +1247,14 @@ namespace CodingConnected.TraCI.NET.Commands
                      (int)routingMode
                      );
         }
+
+        /// <summary>
+        /// 	Moves the vehicle to a new position along the current route
+        /// </summary>
+        /// <param name="id"></param>
+        /// <param name="laneId"></param>
+        /// <param name="position"></param>
+        /// <returns></returns>
         public TraCIResponse<object> MoveTo(string id, string laneId, double position)
         {
             var tmp = new CompoundObject();
@@ -879,6 +1269,19 @@ namespace CodingConnected.TraCI.NET.Commands
                      tmp
                      );
         }
+
+        /// <summary>
+        /// Moves the vehicle to a new position after normal vehicle movements have taken place. Also forces the angle of the vehicle to the given value (navigational angle in degree).
+        /// </summary>
+        /// <param name="id"></param>
+        /// <param name="itemNumber"></param>
+        /// <param name="edgeId"></param>
+        /// <param name="laneIndex"></param>
+        /// <param name="xPosition"></param>
+        /// <param name="yPosition"></param>
+        /// <param name="angle"></param>
+        /// <param name="keepRoute"></param>
+        /// <returns></returns>
         public TraCIResponse<object> MoveToXY(string id, int itemNumber, string edgeId, int laneIndex, double xPosition, double yPosition, double angle, int keepRoute = -1)
         {
             var tmp = new CompoundObject();
@@ -899,6 +1302,12 @@ namespace CodingConnected.TraCI.NET.Commands
                      tmp
                      );
         }
+
+        /// <summary>
+        /// Computes a new route to the current destination that minimizes travel time. The assumed values for each edge in the network can be customized in various ways. See Simulation/Routing#Travel-time_values_for_routing. Replaces the current route by the found
+        /// </summary>
+        /// <param name="id"></param>
+        /// <returns></returns>
         public TraCIResponse<object> RerouteTraveltime(string id)
         {
             var tmp = new CompoundObject();
@@ -910,6 +1319,12 @@ namespace CodingConnected.TraCI.NET.Commands
                      tmp
                      );
         }
+
+        /// <summary>
+        /// Computes a new route using the vehicle's internal and the global edge effort information. Replaces the current route by the found
+        /// </summary>
+        /// <param name="id"></param>
+        /// <returns></returns>
         public TraCIResponse<object> RerouteEffort(string id)
         {
             var tmp = new CompoundObject();
@@ -921,6 +1336,13 @@ namespace CodingConnected.TraCI.NET.Commands
                      tmp
                      );
         }
+
+        /// <summary>
+        /// Sets how the values set by speed (0x40) and slowdown (0x14) shall be treated. Also allows to configure the behavior at junctions.
+        /// </summary>
+        /// <param name="id"></param>
+        /// <param name="mode"></param>
+        /// <returns></returns>
         public TraCIResponse<object> SetSpeedMode(string id, SpeedMode mode)
         {
             return TraCICommandHelper.ExecuteSetCommand<object, int>(
@@ -931,6 +1353,13 @@ namespace CodingConnected.TraCI.NET.Commands
                      (int)mode
                      );
         }
+
+        /// <summary>
+        /// Sets the vehicle's speed factor to the given value
+        /// </summary>
+        /// <param name="id"></param>
+        /// <param name="speedFactor"></param>
+        /// <returns></returns>
         public TraCIResponse<object> SetSpeedFactor(string id, double speedFactor)
         {
             return TraCICommandHelper.ExecuteSetCommand<object, double>(
@@ -941,6 +1370,13 @@ namespace CodingConnected.TraCI.NET.Commands
                      speedFactor
                      );
         }
+
+        /// <summary>
+        /// Sets the vehicle's maximum speed to the given value
+        /// </summary>
+        /// <param name="id"></param>
+        /// <param name="maxSpeed"></param>
+        /// <returns></returns>
         public TraCIResponse<object> SetMaxSpeed(string id, double maxSpeed)
         {
             return TraCICommandHelper.ExecuteSetCommand<object, double>(
@@ -951,6 +1387,18 @@ namespace CodingConnected.TraCI.NET.Commands
                      maxSpeed
                      );
         }
+
+        /// <summary>
+        /// Sets how lane changing in general and lane changing requests by TraCI are performed. 
+        /// </summary>
+        /// <param name="id"></param>
+        /// <param name="stragic"></param>
+        /// <param name="cooperative"></param>
+        /// <param name="speed"></param>
+        /// <param name="right"></param>
+        /// <param name="respect"></param>
+        /// <param name="sublane"></param>
+        /// <returns></returns>
         public TraCIResponse<object> SetLaneChangeMode(string id, LaneChangeStrategicMode stragic, LaneChangeCooperativeMode cooperative, LaneChangeSpeedMode speed, LaneChangeRightMode right, LaneChangeRespectMode respect, LaneChangeSublaneMode sublane)
         {
             int tmp;
@@ -964,6 +1412,18 @@ namespace CodingConnected.TraCI.NET.Commands
                      tmp
                      );
         }
+
+        /// <summary>
+        /// Adds the defined vehicle.
+        /// </summary>
+        /// <param name="id"></param>
+        /// <param name="vehicleTypeId"></param>
+        /// <param name="routeId"></param>
+        /// <param name="departTime"></param>
+        /// <param name="departPosition"></param>
+        /// <param name="departSpeed"></param>
+        /// <param name="departLane"></param>
+        /// <returns></returns>
         public TraCIResponse<object> Add(string id, string vehicleTypeId, string routeId, int departTime, double departPosition, double departSpeed, byte departLane)
         {
             var tmp = new CompoundObject();
@@ -982,6 +1442,25 @@ namespace CodingConnected.TraCI.NET.Commands
                      tmp
                      );
         }
+
+        /// <summary>
+        /// Adds the defined vehicle
+        /// </summary>
+        /// <param name="id"></param>
+        /// <param name="routeId"></param>
+        /// <param name="vehicleTypeId"></param>
+        /// <param name="departTime"></param>
+        /// <param name="departLane"></param>
+        /// <param name="departPosition"></param>
+        /// <param name="departSpeed"></param>
+        /// <param name="arrivalPosition"></param>
+        /// <param name="arrivalSpeed"></param>
+        /// <param name="fromTaz"></param>
+        /// <param name="toTaz"></param>
+        /// <param name="line"></param>
+        /// <param name="personCapacity"></param>
+        /// <param name="personNumber"></param>
+        /// <returns></returns>
         public TraCIResponse<object> AddFull(string id, string routeId, string vehicleTypeId, string departTime, string departLane, string departPosition,string departSpeed, string arrivalPosition, string arrivalSpeed, string fromTaz, string toTaz, string line, int personCapacity, int personNumber)
         {
             var tmp = new CompoundObject();
@@ -1007,6 +1486,13 @@ namespace CodingConnected.TraCI.NET.Commands
                      tmp
                      );
         }
+
+        /// <summary>
+        /// Removes the defined vehicle
+        /// </summary>
+        /// <param name="id"></param>
+        /// <param name="reason"></param>
+        /// <returns></returns>
         public TraCIResponse<object> Remove(string id, byte reason)
         {
             return TraCICommandHelper.ExecuteSetCommand<object, byte>(
@@ -1017,6 +1503,13 @@ namespace CodingConnected.TraCI.NET.Commands
                      reason
                      );
         }
+
+        /// <summary>
+        /// Sets the vehicle's length to the given value
+        /// </summary>
+        /// <param name="id"></param>
+        /// <param name="length"></param>
+        /// <returns></returns>
         public TraCIResponse<object> SetLength(string id, double length)
         {
             return TraCICommandHelper.ExecuteSetCommand<object, double>(
@@ -1027,6 +1520,13 @@ namespace CodingConnected.TraCI.NET.Commands
                      length
                      );
         }
+
+        /// <summary>
+        /// Sets the vehicle's vehicle class to the given value
+        /// </summary>
+        /// <param name="id"></param>
+        /// <param name="vehicleClass"></param>
+        /// <returns></returns>
         public TraCIResponse<object> SetVehicleClass(string id, string vehicleClass)
         {
             return TraCICommandHelper.ExecuteSetCommand<object, string>(
@@ -1037,6 +1537,13 @@ namespace CodingConnected.TraCI.NET.Commands
                      vehicleClass
                      );
         }
+
+        /// <summary>
+        /// 	Sets the vehicle's emission class to the given value
+        /// </summary>
+        /// <param name="id"></param>
+        /// <param name="emissionClass"></param>
+        /// <returns></returns>
         public TraCIResponse<object> SetEmissionClass(string id, string emissionClass)
         {
             return TraCICommandHelper.ExecuteSetCommand<object, string>(
@@ -1047,6 +1554,13 @@ namespace CodingConnected.TraCI.NET.Commands
                      emissionClass
                      ); 
         }
+
+        /// <summary>
+        /// 	Sets the vehicle's width to the given value
+        /// </summary>
+        /// <param name="id"></param>
+        /// <param name="width"></param>
+        /// <returns></returns>
         public TraCIResponse<object> SetWidth(string id, double width)
         {
             return TraCICommandHelper.ExecuteSetCommand<object, double>(
@@ -1057,6 +1571,13 @@ namespace CodingConnected.TraCI.NET.Commands
                       width
                       );
         }
+
+        /// <summary>
+        /// Sets the vehicle's height to the given value
+        /// </summary>
+        /// <param name="id"></param>
+        /// <param name="height"></param>
+        /// <returns></returns>
         public TraCIResponse<object> SetHeight(string id, double height)
         {
             return TraCICommandHelper.ExecuteSetCommand<object, double>(
@@ -1067,6 +1588,13 @@ namespace CodingConnected.TraCI.NET.Commands
                      height
                      );
         }
+
+        /// <summary>
+        /// Sets the vehicle's minimum headway gap to the given value
+        /// </summary>
+        /// <param name="id"></param>
+        /// <param name="minGap"></param>
+        /// <returns></returns>
         public TraCIResponse<object> SetMinGap(string id, double minGap)
         {
             return TraCICommandHelper.ExecuteSetCommand<object, double>(
@@ -1077,6 +1605,13 @@ namespace CodingConnected.TraCI.NET.Commands
                      minGap
                      );
         }
+        
+        /// <summary>
+        /// Sets the vehicle's shape class to the given value
+        /// </summary>
+        /// <param name="id"></param>
+        /// <param name="shapeClass"></param>
+        /// <returns></returns>
         public TraCIResponse<object> SetShapeClass(string id, string shapeClass)
         {
             return TraCICommandHelper.ExecuteSetCommand<object, string>(
@@ -1087,6 +1622,13 @@ namespace CodingConnected.TraCI.NET.Commands
                      shapeClass
                      );
         }
+
+        /// <summary>
+        /// Sets the vehicle's wished maximum acceleration to the given value
+        /// </summary>
+        /// <param name="id"></param>
+        /// <param name="acceleration"></param>
+        /// <returns></returns>
         public TraCIResponse<object> SetAccel(string id, double acceleration)
         {
             return TraCICommandHelper.ExecuteSetCommand<object, double>(
@@ -1097,6 +1639,13 @@ namespace CodingConnected.TraCI.NET.Commands
                      acceleration
                      );
         }
+
+        /// <summary>
+        /// Sets the vehicle's wished maximum deceleration to the given value
+        /// </summary>
+        /// <param name="id"></param>
+        /// <param name="deceleration"></param>
+        /// <returns></returns>
         public TraCIResponse<object> SetDecel(string id, double deceleration)
         {
             return TraCICommandHelper.ExecuteSetCommand<object, double>(
@@ -1107,6 +1656,13 @@ namespace CodingConnected.TraCI.NET.Commands
                      deceleration
                      );
         }
+
+        /// <summary>
+        /// Sets the vehicle's driver imperfection (sigma) to the given value
+        /// </summary>
+        /// <param name="id"></param>
+        /// <param name="imperfection"></param>
+        /// <returns></returns>
         public TraCIResponse<object> SetImperfection(string id, double imperfection)
         {
             return TraCICommandHelper.ExecuteSetCommand<object, double>(
@@ -1117,6 +1673,13 @@ namespace CodingConnected.TraCI.NET.Commands
                      imperfection
                      );
         }
+
+        /// <summary>
+        /// Sets the vehicle's wished headway time to the given value.
+        /// </summary>
+        /// <param name="id"></param>
+        /// <param name="tau"></param>
+        /// <returns></returns>
         public TraCIResponse<object> SetTau(string id, double tau)
         {
             return TraCICommandHelper.ExecuteSetCommand<object, double>(
@@ -1127,6 +1690,13 @@ namespace CodingConnected.TraCI.NET.Commands
                      tau
                      );
         }
+
+        /// <summary>
+        /// Sets the id of the type for the named vehicle.
+        /// </summary>
+        /// <param name="id"></param>
+        /// <param name="type"></param>
+        /// <returns></returns>
         public TraCIResponse<object> SetType(string id, string type)
         {
             return TraCICommandHelper.ExecuteSetCommand<object, string>(
@@ -1137,6 +1707,13 @@ namespace CodingConnected.TraCI.NET.Commands
                      type
                      );
         }
+
+        /// <summary>
+        /// Changes the via edges to the given edges list (to be used during subsequent rerouting calls).
+        /// </summary>
+        /// <param name="id"></param>
+        /// <param name="via"></param>
+        /// <returns></returns>
         public TraCIResponse<object> SetVia(string id, List<string> via)
         {
             return TraCICommandHelper.ExecuteSetCommand<object, List<string>>(
@@ -1148,6 +1725,12 @@ namespace CodingConnected.TraCI.NET.Commands
                      );
         }
 
+        /// <summary>
+        /// Sets the maximum lateral speed in m/s for this vehicle.
+        /// </summary>
+        /// <param name="id"></param>
+        /// <param name="maxSpeed"></param>
+        /// <returns></returns>
         public TraCIResponse<object> SetMaxSpeedLat(string id, double maxSpeed)
         {
             return TraCICommandHelper.ExecuteSetCommand<object, double>(
@@ -1158,6 +1741,13 @@ namespace CodingConnected.TraCI.NET.Commands
                      maxSpeed
                      );
         }
+
+        /// <summary>
+        /// Sets the minimum lateral gap of the vehicle at 50km/h in m.
+        /// </summary>
+        /// <param name="id"></param>
+        /// <param name="gap"></param>
+        /// <returns></returns>
         public TraCIResponse<object> SetMinGapLat(string id, double gap)
         {
             return TraCICommandHelper.ExecuteSetCommand<object, double>(
@@ -1168,6 +1758,13 @@ namespace CodingConnected.TraCI.NET.Commands
                      gap
                      );
         }
+
+        /// <summary>
+        /// Sets the preferred lateral alignment for this vehicle.
+        /// </summary>
+        /// <param name="id"></param>
+        /// <param name="alignment"></param>
+        /// <returns></returns>
         public TraCIResponse<object> SetLateralAlignment(string id, string alignment)
         {
             return TraCICommandHelper.ExecuteSetCommand<object, string>(
@@ -1178,10 +1775,23 @@ namespace CodingConnected.TraCI.NET.Commands
                      alignment
                      );
         }
+
+        /// <summary>
+        /// Sets the string value for the given string parameter
+        /// </summary>
+        /// <param name="id"></param>
+        /// <returns></returns>
         public TraCIResponse<object> SetParamater(string id)
         {
             throw new NotImplementedException();
+            // see: http://sumo.dlr.de/wiki/TraCI/Change_Vehicle_State#Setting_Device_and_LaneChangeModel_Parameters_.280x7e.29
         }
+
+        /// <summary>
+        /// Sets the current action step length for the vehicle in s. If the boolean value resetActionOffset is true, an action step is scheduled immediately for the vehicle
+        /// </summary>
+        /// <param name="id"></param>
+        /// <returns></returns>
         public TraCIResponse<object> SetActionStepLength(string id)
         {
             throw new NotImplementedException();

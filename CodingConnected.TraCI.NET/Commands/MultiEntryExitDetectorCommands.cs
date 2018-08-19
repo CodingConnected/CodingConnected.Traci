@@ -6,9 +6,13 @@ namespace CodingConnected.TraCI.NET.Commands
 {
 	public class MultiEntryExitDetectorCommands : TraCICommandsBase
 	{
-		#region Public Methods
+        #region Public Methods
 
-		public TraCIResponse<List<string>> GetIdList()
+        /// <summary>
+        /// Returns a list of all objects in the network.
+        /// </summary>
+        /// <returns></returns>
+        public TraCIResponse<List<string>> GetIdList()
 		{
 			return 
 				TraCICommandHelper.ExecuteGetCommand<List<string>>(
@@ -17,8 +21,12 @@ namespace CodingConnected.TraCI.NET.Commands
 					TraCIConstants.CMD_GET_MULTIENTRYEXIT_VARIABLE,
 					TraCIConstants.ID_LIST);
 		}
-		
-		public TraCIResponse<int> GetIdCount()
+
+        /// <summary>
+        /// Returns the number of currently loaded objects.
+        /// </summary>
+        /// <returns></returns>
+        public TraCIResponse<int> GetIdCount()
 		{
 			return 
 				TraCICommandHelper.ExecuteGetCommand<int>(
@@ -27,8 +35,14 @@ namespace CodingConnected.TraCI.NET.Commands
 					TraCIConstants.CMD_GET_MULTIENTRYEXIT_VARIABLE,
 					TraCIConstants.ID_COUNT);
 		}
-		
-		public TraCIResponse<int> GetLastStepVehicleNumber(string id)
+
+        /// <summary>
+        /// Returns the number of vehicles that have been within the named multi-entry/multi-exit detector within the
+        /// last simulation step.
+        /// </summary>
+        /// <param name="id"></param>
+        /// <returns></returns>
+        public TraCIResponse<int> GetLastStepVehicleNumber(string id)
 		{
 			return 
 				TraCICommandHelper.ExecuteGetCommand<int>(
@@ -38,7 +52,13 @@ namespace CodingConnected.TraCI.NET.Commands
 					TraCIConstants.LAST_STEP_VEHICLE_NUMBER);
 		}
 
-		public TraCIResponse<double> GetLastStepMeanSpeed(string id)
+        /// <summary>
+        /// Returns the mean speed in m/s of vehicles that have been within the named multi-entry/multi-exit detector
+        /// within the last simulation step.
+        /// </summary>
+        /// <param name="id"></param>
+        /// <returns></returns>
+        public TraCIResponse<double> GetLastStepMeanSpeed(string id)
 		{
 			return 
 				TraCICommandHelper.ExecuteGetCommand<double>(
@@ -48,7 +68,13 @@ namespace CodingConnected.TraCI.NET.Commands
 					TraCIConstants.LAST_STEP_MEAN_SPEED);
 		}
 
-		public TraCIResponse<List<string>> GetLastStepVehicleIds(string id)
+        /// <summary>
+        /// Returns the list of ids of vehicles that have been within the named multi-entry/multi-exit detector in the
+        /// last simulation step.
+        /// </summary>
+        /// <param name="id"></param>
+        /// <returns></returns>
+        public TraCIResponse<List<string>> GetLastStepVehicleIds(string id)
 		{
 			return 
 				TraCICommandHelper.ExecuteGetCommand<List<string>>(
@@ -57,8 +83,13 @@ namespace CodingConnected.TraCI.NET.Commands
 					TraCIConstants.CMD_GET_MULTIENTRYEXIT_VARIABLE,
 					TraCIConstants.LAST_STEP_VEHICLE_ID_LIST);
 		}
-		
-		public TraCIResponse<int> GetLastStepHaltingNumber(string id)
+
+        /// <summary>
+        /// Returns the number of vehicles which were halting during the last time step.
+        /// </summary>
+        /// <param name="id"></param>
+        /// <returns></returns>
+        public TraCIResponse<int> GetLastStepHaltingNumber(string id)
 		{
 			return 
 				TraCICommandHelper.ExecuteGetCommand<int>(

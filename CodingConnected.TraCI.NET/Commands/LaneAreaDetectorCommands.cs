@@ -7,9 +7,12 @@ namespace CodingConnected.TraCI.NET.Commands
 {
 	public class LaneAreaDetectorCommands : TraCICommandsBase
 	{
-		#region Public Methods
-
-		public TraCIResponse<List<string>> GetIdList()
+        #region Public Methods
+        /// <summary>
+        /// Returns a list of all objects in the network.
+        /// </summary>
+        /// <returns></returns>
+        public TraCIResponse<List<string>> GetIdList()
 		{
 			return 
 				TraCICommandHelper.ExecuteGetCommand<List<string>>(
@@ -18,8 +21,12 @@ namespace CodingConnected.TraCI.NET.Commands
 					TraCIConstants.CMD_GET_LANEAREA_VARIABLE,
 					TraCIConstants.ID_LIST);
 		}
-		
-		public TraCIResponse<int> GetIdCount()
+
+        /// <summary>
+        /// Returns the number of currently loaded objects.
+        /// </summary>
+        /// <returns></returns>
+        public TraCIResponse<int> GetIdCount()
 		{
 			return 
 				TraCICommandHelper.ExecuteGetCommand<int>(
@@ -29,6 +36,11 @@ namespace CodingConnected.TraCI.NET.Commands
 					TraCIConstants.ID_COUNT);
 		}
 
+        /// <summary>
+        /// Returns the starting position of the detector measured from the beginning of the lane in meters.
+        /// </summary>
+        /// <param name="id"></param>
+        /// <returns></returns>
 		public TraCIResponse<double> GetPosition(string id)
 		{
 			return 
@@ -39,6 +51,11 @@ namespace CodingConnected.TraCI.NET.Commands
 					TraCIConstants.VAR_POSITION);
 		}
 
+        /// <summary>
+        /// Returns the length of the detector
+        /// </summary>
+        /// <param name="id"></param>
+        /// <returns></returns>
 		public TraCIResponse<double> GetLength(string id)
 		{
 			return 
@@ -49,6 +66,11 @@ namespace CodingConnected.TraCI.NET.Commands
 					TraCIConstants.VAR_LENGTH);
 		}
 
+        /// <summary>
+        /// Returns the id of the lane the detector is on.
+        /// </summary>
+        /// <param name="id"></param>
+        /// <returns></returns>
 		public TraCIResponse<string> GetLaneId(string id)
 		{
 			return 
@@ -58,8 +80,13 @@ namespace CodingConnected.TraCI.NET.Commands
 					TraCIConstants.CMD_GET_LANEAREA_VARIABLE,
 					TraCIConstants.VAR_LANE_ID);
 		}
-		
-		public TraCIResponse<int> GetLastStepVehicleNumber(string id)
+
+        /// <summary>
+        /// Returns the number of vehicles that were on the named detector within the last simulation step.
+        /// </summary>
+        /// <param name="id"></param>
+        /// <returns></returns>
+        public TraCIResponse<int> GetLastStepVehicleNumber(string id)
 		{
 			return 
 				TraCICommandHelper.ExecuteGetCommand<int>(
@@ -69,6 +96,11 @@ namespace CodingConnected.TraCI.NET.Commands
 					TraCIConstants.LAST_STEP_VEHICLE_NUMBER);
 		}
 
+        /// <summary>
+        /// Returns the current mean speed in m/s of vehicles that were on the named e2.
+        /// </summary>
+        /// <param name="id"></param>
+        /// <returns></returns>
 		public TraCIResponse<double> GetLastStepMeanSpeed(string id)
 		{
 			return 
@@ -79,6 +111,11 @@ namespace CodingConnected.TraCI.NET.Commands
 					TraCIConstants.LAST_STEP_MEAN_SPEED);
 		}
 
+        /// <summary>
+        /// Returns the list of ids of vehicles that were on the named detector in the last simulation step.
+        /// </summary>
+        /// <param name="id"></param>
+        /// <returns></returns>
 		public TraCIResponse<List<string>> GetLastStepVehicleIds(string id)
 		{
 			return 
@@ -88,8 +125,13 @@ namespace CodingConnected.TraCI.NET.Commands
 					TraCIConstants.CMD_GET_LANEAREA_VARIABLE,
 					TraCIConstants.LAST_STEP_VEHICLE_ID_LIST);
 		}
-		
-		public TraCIResponse<double> GetLastStepOccupancy(string id)
+
+        /// <summary>
+        /// Returns the percentage of space the detector was occupied by a vehicle [%]
+        /// </summary>
+        /// <param name="id"></param>
+        /// <returns></returns>
+        public TraCIResponse<double> GetLastStepOccupancy(string id)
 		{
 			return 
 				TraCICommandHelper.ExecuteGetCommand<double>(
@@ -98,8 +140,13 @@ namespace CodingConnected.TraCI.NET.Commands
 					TraCIConstants.CMD_GET_LANEAREA_VARIABLE,
 					TraCIConstants.LAST_STEP_OCCUPANCY);
 		}
-		
-		public TraCIResponse<double> GetJamLengthMeters(string id)
+
+        /// <summary>
+        /// Returns the jam length in meters within the last simulation step.
+        /// </summary>
+        /// <param name="id"></param>
+        /// <returns></returns>
+        public TraCIResponse<double> GetJamLengthMeters(string id)
 		{
 			return 
 				TraCICommandHelper.ExecuteGetCommand<double>(
@@ -109,6 +156,11 @@ namespace CodingConnected.TraCI.NET.Commands
 					TraCIConstants.JAM_LENGTH_METERS);
 		}
 
+        /// <summary>
+        /// Returns the jam length in vehicles within the last simulation step.
+        /// </summary>
+        /// <param name="id"></param>
+        /// <returns></returns>
 		public TraCIResponse<double> GetJamLengthVehicle(string id)
 		{
 			return 
