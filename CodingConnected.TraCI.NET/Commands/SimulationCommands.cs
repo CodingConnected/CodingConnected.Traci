@@ -288,7 +288,7 @@ namespace CodingConnected.TraCI.NET.Commands
             return TraCICommandHelper.ExecuteSetCommand<object, string>(
                     Client,
                     id,
-                    TraCIConstants.CMD_SET_POI_VARIABLE,
+                    TraCIConstants.CMD_SET_SIM_VARIABLE,
                     TraCIConstants.CMD_SAVE_SIMSTATE,
                     filename
                     );
