@@ -270,13 +270,34 @@ namespace CodingConnected.TraCI.NET.Commands
 					TraCIConstants.VAR_PARAMETER);
 		}
 
-		// TODO: 'extended retrieval', see: http://sumo.dlr.de/wiki/TraCI/Simulation_Value_Retrieval
+        // TODO: 'extended retrieval', see: http://sumo.dlr.de/wiki/TraCI/Simulation_Value_Retrieval
 
-		#endregion // Public Methods
+        public TraCIResponse<object> ClearPending(string id, string routeId)
+        {
+            return TraCICommandHelper.ExecuteSetCommand<object, string>(
+                    Client,
+                    id,
+                    TraCIConstants.CMD_SET_SIM_VARIABLE,
+                    TraCIConstants.CMD_CLEAR_PENDING_VEHICLES,
+                    routeId
+                    );
+        }
 
-		#region Constructor
+        public TraCIResponse<object> SaveState(string id, string filename)
+        {
+            return TraCICommandHelper.ExecuteSetCommand<object, string>(
+                    Client,
+                    id,
+                    TraCIConstants.CMD_SET_POI_VARIABLE,
+                    TraCIConstants.CMD_SAVE_SIMSTATE,
+                    filename
+                    );
+        }
+        #endregion // Public Methods
 
-		public SimulationCommands(TraCIClient client) : base(client)
+        #region Constructor
+
+        public SimulationCommands(TraCIClient client) : base(client)
 		{
 		}
 
