@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
 using CodingConnected.TraCI.NET.Helpers;
+using CodingConnected.TraCI.NET.Types;
 
 namespace CodingConnected.TraCI.NET.Commands
 {
@@ -207,13 +208,56 @@ namespace CodingConnected.TraCI.NET.Commands
 					TraCIConstants.LAST_STEP_VEHICLE_HALTING_NUMBER);
 		}
 
-		// TODO: 'extended retrieval', see: http://sumo.dlr.de/wiki/TraCI/Edge_Value_Retrieval
+        // TODO: 'extended retrieval', see: http://sumo.dlr.de/wiki/TraCI/Edge_Value_Retrieval
 
-		#endregion // Public Methods
 
-		#region Constructor
+        public TraCIResponse<object> AdaptTraveltime(string id, int beginTime, int endTime,double travelTimeValue)
+        {
+            var tmp = new CompoundObject();
+            tmp.Value.Add(new TraCIInteger() { Value = beginTime });
+            tmp.Value.Add(new TraCIInteger() { Value = endTime });
+            tmp.Value.Add(new TraCIDouble() { Value = travelTimeValue });
 
-		public EdgeCommands(TraCIClient client) : base(client)
+            return TraCICommandHelper.ExecuteSetCommand<object, CompoundObject>(
+                     Client,
+                     id,
+                     TraCIConstants.CMD_SET_EDGE_VARIABLE,
+                     TraCIConstants.VAR_EDGE_TRAVELTIME,
+                     tmp
+                     );
+        }
+
+        public TraCIResponse<object> SetEffort(string id, int beginTime, int endTime, double effortValue)
+        {
+            var tmp = new CompoundObject();
+            tmp.Value.Add(new TraCIInteger() { Value = beginTime });
+            tmp.Value.Add(new TraCIInteger() { Value = endTime });
+            tmp.Value.Add(new TraCIDouble() { Value = effortValue });
+
+            return TraCICommandHelper.ExecuteSetCommand<object, CompoundObject>(
+                     Client,
+                     id,
+                     TraCIConstants.CMD_SET_EDGE_VARIABLE,
+                     TraCIConstants.VAR_EDGE_EFFORT,
+                     tmp
+                     );
+        }
+
+        public TraCIResponse<object> SetMaxSpeed(string id, double speed)
+        {
+            return TraCICommandHelper.ExecuteSetCommand<object, double>(
+                                 Client,
+                                 id,
+                                 TraCIConstants.CMD_SET_EDGE_VARIABLE,
+                                 TraCIConstants.VAR_MAXSPEED,
+                                 speed
+                                 );
+        }
+        #endregion // Public Methods
+
+        #region Constructor
+
+        public EdgeCommands(TraCIClient client) : base(client)
 		{
 		}
 
