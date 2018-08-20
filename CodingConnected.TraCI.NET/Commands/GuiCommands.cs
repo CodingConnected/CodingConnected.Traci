@@ -58,10 +58,10 @@ namespace CodingConnected.TraCI.NET.Commands
         /// </summary>
         /// <param name="id"></param>
         /// <returns></returns>
-		public TraCIResponse<Polygon> GetBoundary(string id)
+		public TraCIResponse<BoundaryBox> GetBoundary(string id)
 		{
 			return
-				TraCICommandHelper.ExecuteGetCommand<Polygon>(
+				TraCICommandHelper.ExecuteGetCommand<BoundaryBox>(
 				Client,
 				id,
 				TraCIConstants.CMD_GET_GUI_VARIABLE,
