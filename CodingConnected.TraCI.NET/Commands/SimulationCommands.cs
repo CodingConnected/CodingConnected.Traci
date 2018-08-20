@@ -6,9 +6,14 @@ namespace CodingConnected.TraCI.NET.Commands
 {
 	public class SimulationCommands : TraCICommandsBase
 	{
-		#region Public Methods
+        #region Public Methods
 
-		public TraCIResponse<int> GetCurrentTime (string id)
+        /// <summary>
+        /// Returns the current simulation time (in s)
+        /// </summary>
+        /// <param name="id"></param>
+        /// <returns></returns>
+        public TraCIResponse<int> GetCurrentTime (string id)
 		{
 			return
 				TraCICommandHelper.ExecuteGetCommand<int>(
@@ -18,6 +23,11 @@ namespace CodingConnected.TraCI.NET.Commands
 					TraCIConstants.VAR_TIME_STEP);
 		}
 
+        /// <summary>
+        /// Returns the current simulation time (in ms)
+        /// </summary>
+        /// <param name="id"></param>
+        /// <returns></returns>
 		public TraCIResponse<int> GetLoadedNumber (string id)
 		{
 			return
@@ -28,6 +38,11 @@ namespace CodingConnected.TraCI.NET.Commands
 					TraCIConstants.VAR_LOADED_VEHICLES_NUMBER);
 		}
 
+        /// <summary>
+        /// The number of vehicles which were loaded in this time step.
+        /// </summary>
+        /// <param name="id"></param>
+        /// <returns></returns>
 		public TraCIResponse<List<string>> GetLoadedIDList (string id)
 		{
 			return
@@ -38,6 +53,11 @@ namespace CodingConnected.TraCI.NET.Commands
 					TraCIConstants.VAR_LOADED_VEHICLES_IDS);
 		}
 
+        /// <summary>
+        /// A list of ids of vehicles which were loaded in this time step.
+        /// </summary>
+        /// <param name="id"></param>
+        /// <returns></returns>
 		public TraCIResponse<int> GetDepartedNumber (string id)
 		{
 			return
@@ -48,6 +68,11 @@ namespace CodingConnected.TraCI.NET.Commands
 					TraCIConstants.VAR_DEPARTED_VEHICLES_NUMBER);
 		}
 
+        /// <summary>
+        /// The number of vehicles which departed (were inserted into the road network) in this time step.
+        /// </summary>
+        /// <param name="id"></param>
+        /// <returns></returns>
 		public TraCIResponse<List<string>> GetDepartedIDList (string id)
 		{
 			return
@@ -58,6 +83,11 @@ namespace CodingConnected.TraCI.NET.Commands
 					TraCIConstants.VAR_DEPARTED_VEHICLES_IDS);
 		}
 
+        /// <summary>
+        /// 	The number of vehicles which ended to be teleported in this time step.
+        /// </summary>
+        /// <param name="id"></param>
+        /// <returns></returns>
 		public TraCIResponse<int> GetStartingTeleportNumber (string id)
 		{
 			return
@@ -68,6 +98,11 @@ namespace CodingConnected.TraCI.NET.Commands
 					TraCIConstants.VAR_TELEPORT_STARTING_VEHICLES_NUMBER);
 		}
 
+        /// <summary>
+        /// 	A list of ids of vehicles which started to teleport in this time step.
+        /// </summary>
+        /// <param name="id"></param>
+        /// <returns></returns>
 		public TraCIResponse<List<string>> GetStartingTeleportIDList (string id)
 		{
 			return
@@ -78,6 +113,11 @@ namespace CodingConnected.TraCI.NET.Commands
 					TraCIConstants.VAR_TELEPORT_STARTING_VEHICLES_IDS);
 		}
 
+        /// <summary>
+        /// 	The number of vehicles which ended to be teleported in this time step.
+        /// </summary>
+        /// <param name="id"></param>
+        /// <returns></returns>
 		public TraCIResponse<int> GetEndingTeleportNumber(string id)
 		{
 			return
@@ -88,6 +128,11 @@ namespace CodingConnected.TraCI.NET.Commands
 					TraCIConstants.VAR_TELEPORT_ENDING_VEHICLES_NUMBER);
 		}
 
+        /// <summary>
+        /// 	A list of ids of vehicles which ended to be teleported in this time step.
+        /// </summary>
+        /// <param name="id"></param>
+        /// <returns></returns>
 		public TraCIResponse<List<string>> GetEndingTeleportIDList (string id)
 		{
 			return
@@ -98,6 +143,11 @@ namespace CodingConnected.TraCI.NET.Commands
 					TraCIConstants.VAR_TELEPORT_ENDING_VEHICLES_IDS);
 		}
 
+        /// <summary>
+        /// 	The number of vehicles which arrived (have reached their destination and are removed from the road network) in this time step.
+        /// </summary>
+        /// <param name="id"></param>
+        /// <returns></returns>
 		public TraCIResponse<int> GetArrivedNumber (string id)
 		{
 			return
@@ -108,6 +158,11 @@ namespace CodingConnected.TraCI.NET.Commands
 					TraCIConstants.VAR_ARRIVED_VEHICLES_NUMBER);
 		}
 
+        /// <summary>
+        /// A list of ids of vehicles which arrived (have reached their destination and are removed from the road network) in this time step.
+        /// </summary>
+        /// <param name="id"></param>
+        /// <returns></returns>
 		public TraCIResponse<List<string>> GetArrivedIDList (string id)
 		{
 			return
@@ -118,6 +173,11 @@ namespace CodingConnected.TraCI.NET.Commands
 					TraCIConstants.VAR_ARRIVED_VEHICLES_IDS);
 		}
 
+        /// <summary>
+        /// The lower left and the upper right corner of the bounding box of the simulation network.
+        /// </summary>
+        /// <param name="id"></param>
+        /// <returns></returns>
 		public TraCIResponse<BoundaryBox> GetNetBoundary (string id)
 		{
 			return
@@ -128,6 +188,11 @@ namespace CodingConnected.TraCI.NET.Commands
 					TraCIConstants.VAR_NET_BOUNDING_BOX);
 		}
 
+        /// <summary>
+        /// 	The number of vehicles which are in the net plus the ones still waiting to start. This number may be smaller than the actual number of vehicles still to come because of delayed route file parsing.
+        /// </summary>
+        /// <param name="id"></param>
+        /// <returns></returns>
 		public TraCIResponse<int> GetMinExpectedNumber (string id)
 		{
 			return
@@ -138,6 +203,11 @@ namespace CodingConnected.TraCI.NET.Commands
 					TraCIConstants.VAR_MIN_EXPECTED_VEHICLES);
 		}
 
+        /// <summary>
+        /// The number of vehicles that halted on a scheduled stop in this time step.
+        /// </summary>
+        /// <param name="id"></param>
+        /// <returns></returns>
 		public TraCIResponse<int> GetStopStartingVehiclesNumber (string id)
 		{
 			return
@@ -148,6 +218,11 @@ namespace CodingConnected.TraCI.NET.Commands
 					TraCIConstants.VAR_STOP_STARTING_VEHICLES_NUMBER);
 		}
 
+        /// <summary>
+        /// 	A list of ids of vehicles that halted on a scheduled stop in this time step.
+        /// </summary>
+        /// <param name="id"></param>
+        /// <returns></returns>
 		public TraCIResponse<List<string>> GetStopStartingVehiclesIDList (string id)
 		{
 			return
@@ -158,6 +233,11 @@ namespace CodingConnected.TraCI.NET.Commands
 					TraCIConstants.VAR_STOP_STARTING_VEHICLES_IDS);
 		}
 
+        /// <summary>
+        /// 	The number of vehicles that begin to continue their journey, leaving a scheduled stop in this time step.
+        /// </summary>
+        /// <param name="id"></param>
+        /// <returns></returns>
 		public TraCIResponse<int> GetStopEndingVehiclesNumber (string id)
 		{
 			return
@@ -168,6 +248,11 @@ namespace CodingConnected.TraCI.NET.Commands
 					TraCIConstants.VAR_STOP_ENDING_VEHICLES_NUMBER);
 		}
 
+        /// <summary>
+        /// 	A list of ids of vehicles that begin to continue their journey, leaving a scheduled stop in this time step.
+        /// </summary>
+        /// <param name="id"></param>
+        /// <returns></returns>
 		public TraCIResponse<List<string>> GetStopEndingVehiclesIDList (string id)
 		{
 			return
@@ -178,6 +263,11 @@ namespace CodingConnected.TraCI.NET.Commands
 					TraCIConstants.VAR_STOP_ENDING_VEHICLES_IDS);
 		}
 
+        /// <summary>
+        /// The number of vehicles that were involved in a collision in this time step.
+        /// </summary>
+        /// <param name="id"></param>
+        /// <returns></returns>
 		public TraCIResponse<int> GetCollidingVehiclesNumber (string id)
 		{
 			return
@@ -189,6 +279,11 @@ namespace CodingConnected.TraCI.NET.Commands
 					TraCIConstants.ADD);
 		}
 
+        /// <summary>
+        /// 	A list of ids of vehicles that were involved in a collision in this time step.
+        /// </summary>
+        /// <param name="id"></param>
+        /// <returns></returns>
 		public TraCIResponse<List<string>> GetCollidingVehiclesIDList (string id)
 		{
 			return
@@ -200,6 +295,11 @@ namespace CodingConnected.TraCI.NET.Commands
 					TraCIConstants.REMOVE);
 		}
 
+        /// <summary>
+        /// The number of vehicles that enter a parking position in this time step.
+        /// </summary>
+        /// <param name="id"></param>
+        /// <returns></returns>
 		public TraCIResponse<int> GetParkingStartingVehiclesNumber (string id)
 		{
 			return
@@ -210,6 +310,11 @@ namespace CodingConnected.TraCI.NET.Commands
 					TraCIConstants.VAR_PARKING_STARTING_VEHICLES_NUMBER);
 		}
 
+        /// <summary>
+        /// 	A list of ids of vehicles that enter a parking position in this time step.
+        /// </summary>
+        /// <param name="id"></param>
+        /// <returns></returns>
 		public TraCIResponse<List<string>> GetParkingStartingVehiclesIDList (string id)
 		{
 			return
@@ -220,6 +325,11 @@ namespace CodingConnected.TraCI.NET.Commands
 					TraCIConstants.VAR_PARKING_STARTING_VEHICLES_IDS);
 		}
 
+        /// <summary>
+        /// 	The number of vehicles that begin to continue their journey, leaving a scheduled parking in this time step.
+        /// </summary>
+        /// <param name="id"></param>
+        /// <returns></returns>
 		public TraCIResponse<int> GetParkingEndingVehiclesNumber (string id)
 		{
 			return
@@ -230,6 +340,11 @@ namespace CodingConnected.TraCI.NET.Commands
 					TraCIConstants.VAR_PARKING_ENDING_VEHICLES_NUMBER);
 		}
 
+        /// <summary>
+        /// A list of ids of vehicles that begin to continue their journey, leaving a scheduled parking in this time step.
+        /// </summary>
+        /// <param name="id"></param>
+        /// <returns></returns>
 		public TraCIResponse<List<string>> GetParkingEndingVehiclesIDList (string id)
 		{
 			return
@@ -240,6 +355,11 @@ namespace CodingConnected.TraCI.NET.Commands
 					TraCIConstants.VAR_PARKING_ENDING_VEHICLES_IDS);
 		}
 
+        /// <summary>
+        /// Get the total number of waiting persons at the named bus stop.
+        /// </summary>
+        /// <param name="id"></param>
+        /// <returns></returns>
 		public TraCIResponse<int> GetBusStopWaiting (string id)
 		{
 			return
@@ -250,6 +370,11 @@ namespace CodingConnected.TraCI.NET.Commands
 					TraCIConstants.VAR_BUS_STOP_WAITING);
 		}
 
+        /// <summary>
+        /// Returns the length of one simulation step in seconds.
+        /// </summary>
+        /// <param name="id"></param>
+        /// <returns></returns>
 		public TraCIResponse<int> GetDeltaT (string id)
 		{
 			return
@@ -260,6 +385,11 @@ namespace CodingConnected.TraCI.NET.Commands
 					TraCIConstants.VAR_DELTA_T);
 		}
 
+        /// <summary>
+        /// Returns the value for the given string parameter
+        /// </summary>
+        /// <param name="id"></param>
+        /// <returns></returns>
 		public TraCIResponse<string> GetParameter(string id)
 		{
 			return
@@ -272,6 +402,12 @@ namespace CodingConnected.TraCI.NET.Commands
 
         // TODO: 'extended retrieval', see: http://sumo.dlr.de/wiki/TraCI/Simulation_Value_Retrieval
 
+        /// <summary>
+        /// Discards all loaded vehicles with a depart time below the current time step which could not be inserted yet. If the given routeID has non-zero length, only vehicles that have this routeID are discarded.
+        /// </summary>
+        /// <param name="id"></param>
+        /// <param name="routeId"></param>
+        /// <returns></returns>
         public TraCIResponse<object> ClearPending(string id, string routeId)
         {
             return TraCICommandHelper.ExecuteSetCommand<object, string>(
@@ -283,6 +419,12 @@ namespace CodingConnected.TraCI.NET.Commands
                     );
         }
 
+        /// <summary>
+        /// Saves current simulation state to the given filename.
+        /// </summary>
+        /// <param name="id"></param>
+        /// <param name="filename"></param>
+        /// <returns></returns>
         public TraCIResponse<object> SaveState(string id, string filename)
         {
             return TraCICommandHelper.ExecuteSetCommand<object, string>(

@@ -254,7 +254,7 @@ namespace CodingConnected.TraCI.NET.Commands
         /// <returns></returns>
         public TraCIResponse<int> GetSignals(string id)
         {
-            // TODO: create enum for Vehicle Signalling
+            // TODO: use enum for Vehicle Signalling
             return
                 TraCICommandHelper.ExecuteGetCommand<int>(
                     Client,

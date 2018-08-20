@@ -6,9 +6,13 @@ namespace CodingConnected.TraCI.NET.Commands
 {
 	public class POICommands : TraCICommandsBase
 	{
-		#region Public Methods
+        #region Public Methods
 
-		public TraCIResponse<List<string>> GetIdList()
+        /// <summary>
+        /// Returns a list of ids of all poi
+        /// </summary>
+        /// <returns></returns>
+        public TraCIResponse<List<string>> GetIdList()
 		{
 			return
 				TraCICommandHelper.ExecuteGetCommand<List<string>>(
@@ -18,6 +22,10 @@ namespace CodingConnected.TraCI.NET.Commands
 					TraCIConstants.ID_LIST);
 		}
 
+        /// <summary>
+        /// Returns the number of pois
+        /// </summary>
+        /// <returns></returns>
 		public TraCIResponse<int> GetIdCount()
 		{
 			return
@@ -28,6 +36,11 @@ namespace CodingConnected.TraCI.NET.Commands
 					TraCIConstants.ID_COUNT);
 		}
 
+        /// <summary>
+        /// Returns the (abstract) type of the poi
+        /// </summary>
+        /// <param name="id"></param>
+        /// <returns></returns>
 		public TraCIResponse<string> GetType(string id)
 		{
 			return
@@ -38,6 +51,11 @@ namespace CodingConnected.TraCI.NET.Commands
 					TraCIConstants.VAR_TYPE);
 		}
 
+        /// <summary>
+        /// Returns the color of this poi 
+        /// </summary>
+        /// <param name="id"></param>
+        /// <returns></returns>
 		public TraCIResponse<Color> GetColor(string id)
 		{
 			return
@@ -48,6 +66,11 @@ namespace CodingConnected.TraCI.NET.Commands
 					TraCIConstants.VAR_COLOR);
 		}
 
+        /// <summary>
+        /// Returns the position of this poi
+        /// </summary>
+        /// <param name="id"></param>
+        /// <returns></returns>
 		public TraCIResponse<Position2D> GetPosition(string id)
 		{
 			return
@@ -58,6 +81,12 @@ namespace CodingConnected.TraCI.NET.Commands
 				TraCIConstants.VAR_POSITION);
 		}
 
+        /// <summary>
+        /// Sets the PoI's type to the given value
+        /// </summary>
+        /// <param name="id"></param>
+        /// <param name="type"></param>
+        /// <returns></returns>
         public TraCIResponse<object> SetType(string id, string type)
         {
             return TraCICommandHelper.ExecuteSetCommand<object, string>(
@@ -69,6 +98,12 @@ namespace CodingConnected.TraCI.NET.Commands
                     );
         }
 
+        /// <summary>
+        /// Sets the PoI's color to the given value
+        /// </summary>
+        /// <param name="id"></param>
+        /// <param name="color"></param>
+        /// <returns></returns>
         public TraCIResponse<object> SetColor(string id, Color color)
         {
             return TraCICommandHelper.ExecuteSetCommand<object, Color>(
@@ -80,6 +115,12 @@ namespace CodingConnected.TraCI.NET.Commands
                     );
         }
 
+        /// <summary>
+        /// Sets the PoI's position to the given value
+        /// </summary>
+        /// <param name="id"></param>
+        /// <param name="position2D"></param>
+        /// <returns></returns>
         public TraCIResponse<object> SetPosition(string id, Position2D position2D)
         {
             return TraCICommandHelper.ExecuteSetCommand<object, Position2D>(
@@ -91,6 +132,15 @@ namespace CodingConnected.TraCI.NET.Commands
                     );
         }
 
+        /// <summary>
+        /// Adds the defined PoI
+        /// </summary>
+        /// <param name="id"></param>
+        /// <param name="name"></param>
+        /// <param name="color"></param>
+        /// <param name="layer"></param>
+        /// <param name="position2D"></param>
+        /// <returns></returns>
         public TraCIResponse<object> Add(string id, string name, Color color, int layer, Position2D position2D)
         {
             var tmp = new CompoundObject();
@@ -107,6 +157,12 @@ namespace CodingConnected.TraCI.NET.Commands
                     );
         }
 
+        /// <summary>
+        /// Removes the defined PoI
+        /// </summary>
+        /// <param name="id"></param>
+        /// <param name="layer"></param>
+        /// <returns></returns>
         public TraCIResponse<object> Remove(string id, int layer)
         {
             return TraCICommandHelper.ExecuteSetCommand<object, int>(

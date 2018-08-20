@@ -6,9 +6,13 @@ namespace CodingConnected.TraCI.NET.Commands
 {
 	public class JunctionCommands : TraCICommandsBase
 	{
-		#region Public Methods
+        #region Public Methods
 
-		public TraCIResponse<List<string>> GetIdList()
+        /// <summary>
+        /// Returns a list of ids of all junctions within the scenario 
+        /// </summary>
+        /// <returns></returns>
+        public TraCIResponse<List<string>> GetIdList()
 		{
 			return
 				TraCICommandHelper.ExecuteGetCommand<List<string>>(
@@ -18,6 +22,10 @@ namespace CodingConnected.TraCI.NET.Commands
 					TraCIConstants.ID_LIST);
 		}
 
+        /// <summary>
+        /// Returns the number of junctions within the scenario
+        /// </summary>
+        /// <returns></returns>
 		public TraCIResponse<int> GetIdCount()
 		{
 			return
@@ -28,6 +36,11 @@ namespace CodingConnected.TraCI.NET.Commands
 					TraCIConstants.ID_COUNT);
 		}
 
+        /// <summary>
+        /// Returns the position of the named junction [m,m]
+        /// </summary>
+        /// <param name="id"></param>
+        /// <returns></returns>
 		public TraCIResponse<Position2D> GetPosition(string id)
 		{
 			return
@@ -38,6 +51,11 @@ namespace CodingConnected.TraCI.NET.Commands
 					TraCIConstants.VAR_POSITION);
 		}
 
+        /// <summary>
+        /// Returns the shape (list of 2D-positions) of the named junction
+        /// </summary>
+        /// <param name="id"></param>
+        /// <returns></returns>
 		public TraCIResponse<Polygon> GetShape(string id)
 		{
 			return

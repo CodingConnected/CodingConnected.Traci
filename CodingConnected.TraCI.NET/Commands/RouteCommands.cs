@@ -5,9 +5,13 @@ namespace CodingConnected.TraCI.NET.Commands
 {
 	public class RouteCommands : TraCICommandsBase
 	{
-		#region Public Methods
+        #region Public Methods
 
-		public TraCIResponse<List<string>> GetIdList()
+        /// <summary>
+        /// Returns a list of ids of all currently loaded routes
+        /// </summary>
+        /// <returns></returns>
+        public TraCIResponse<List<string>> GetIdList()
 		{
 			return
 				TraCICommandHelper.ExecuteGetCommand<List<string>>(
@@ -17,6 +21,10 @@ namespace CodingConnected.TraCI.NET.Commands
 					TraCIConstants.ID_LIST);
 		}
 
+        /// <summary>
+        /// Returns the number of currently loaded routes
+        /// </summary>
+        /// <returns></returns>
 		public TraCIResponse<int> GetIdCount()
 		{
 			return
@@ -27,6 +35,11 @@ namespace CodingConnected.TraCI.NET.Commands
 					TraCIConstants.ID_COUNT);
 		}
 
+        /// <summary>
+        /// Returns the ids of the edges this route covers
+        /// </summary>
+        /// <param name="id"></param>
+        /// <returns></returns>
 		public TraCIResponse<List<string>> GetEdges(string id)
 		{
 			return
@@ -37,6 +50,12 @@ namespace CodingConnected.TraCI.NET.Commands
 					TraCIConstants.VAR_EDGES);
 		}
 
+        /// <summary>
+        /// Adds a new route; the route gets the given id and follows the given edges.
+        /// </summary>
+        /// <param name="id"></param>
+        /// <param name="edges"></param>
+        /// <returns></returns>
         public TraCIResponse<object> Add(string id, List<string> edges)
         {
             return TraCICommandHelper.ExecuteSetCommand<object, List<string>>(
