@@ -171,11 +171,21 @@ namespace CodingConnected.TraCI.NET.Commands
 					TraCIConstants.JAM_LENGTH_VEHICLE);
 		}
 
-		#endregion // Public Methods
+        public void Subscribe(string objectId, int beginTime, int endTime, List<byte> ListOfVariablesToSubsribeTo)
+        {
+            TraCICommandHelper.ExecuteSubscribeCommand(
+                Client,
+                beginTime,
+                endTime,
+                objectId,
+                TraCIConstants.CMD_SUBSCRIBE_LANEAREA_VARIABLE,
+                ListOfVariablesToSubsribeTo);
+        }
+        #endregion // Public Methods
 
-		#region Constructor
+        #region Constructor
 
-		public LaneAreaDetectorCommands(TraCIClient client) : base(client)
+        public LaneAreaDetectorCommands(TraCIClient client) : base(client)
 		{
 		}
 

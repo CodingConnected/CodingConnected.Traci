@@ -8,6 +8,7 @@ using System.Text;
 using System.Threading.Tasks;
 using CodingConnected.TraCI.NET.Commands;
 using CodingConnected.TraCI.NET.Helpers;
+using CodingConnected.TraCI.NET.Types;
 
 #if NLOG
 using NLog;
@@ -22,10 +23,28 @@ namespace CodingConnected.TraCI.NET
     public class TraCIClient
     {
 
-        #if NLOG
+#if NLOG
         private static readonly Logger _logger = LogManager.GetCurrentClassLogger();
-        #endif
+#endif
 
+        #region Events
+        public event EventHandler<SubscriptionEventArgs> InductionLoopSubscription;
+        public event EventHandler<SubscriptionEventArgs> MultiEntryMultiExitDetectorSubscription;
+        public event EventHandler<SubscriptionEventArgs> TrafficLightSubscription;
+        public event EventHandler<SubscriptionEventArgs> LaneSubscription;
+        public event EventHandler<SubscriptionEventArgs> VehicleSubscription;
+        public event EventHandler<SubscriptionEventArgs> VehicleTypeSubscription;
+        public event EventHandler<SubscriptionEventArgs> RouteSubscription;
+        public event EventHandler<SubscriptionEventArgs> PointOfIntrestSubscription;
+        public event EventHandler<SubscriptionEventArgs> PolygonSubscription;
+        public event EventHandler<SubscriptionEventArgs> JunctionSubscription;
+        public event EventHandler<SubscriptionEventArgs> EdgeSubscription;
+        public event EventHandler<SubscriptionEventArgs> SimulationSubscription;
+        public event EventHandler<SubscriptionEventArgs> PersonSubscription;
+        public event EventHandler<SubscriptionEventArgs> LaneAreaSubscription;
+        public event EventHandler<SubscriptionEventArgs> GUISubscription;
+        #endregion
+        
         #region Fields
 
         private TcpClient _client;
@@ -217,6 +236,84 @@ namespace CodingConnected.TraCI.NET
 	    {
 	    }
 
-	    #endregion // Constructor
+        #endregion // Constructor
+
+
+        #region EventHandlers
+        internal void OnPersonSubscription(SubscriptionEventArgs eventArgs)
+        {
+            PersonSubscription?.Invoke(this, eventArgs);
+        }
+
+        internal void OnLaneAreaSubscription(SubscriptionEventArgs eventArgs)
+        {
+            LaneAreaSubscription?.Invoke(this, eventArgs);
+        }
+
+        internal void OnGUISubscription(SubscriptionEventArgs eventArgs)
+        {
+            GUISubscription?.Invoke(this, eventArgs);
+        }
+
+        internal void OnSimulationSubscription(SubscriptionEventArgs eventArgs)
+        {
+            SimulationSubscription?.Invoke(this, eventArgs);
+        }
+
+        internal void OnEdgeSubscription(SubscriptionEventArgs eventArgs)
+        {
+            EdgeSubscription?.Invoke(this, eventArgs);
+        }
+
+        internal void OnJunctionSubscription(SubscriptionEventArgs eventArgs)
+        {
+            JunctionSubscription?.Invoke(this, eventArgs);
+        }
+
+        internal void OnPolygonSubscription(SubscriptionEventArgs eventArgs)
+        {
+            PolygonSubscription?.Invoke(this, eventArgs);
+        }
+
+        internal void OnPOISubscription(SubscriptionEventArgs eventArgs)
+        {
+            PointOfIntrestSubscription?.Invoke(this, eventArgs);
+        }
+
+        internal void OnRouteSubscription(SubscriptionEventArgs eventArgs)
+        {
+            RouteSubscription?.Invoke(this, eventArgs);
+        }
+
+        internal void OnVehicleTypeSubscription(SubscriptionEventArgs eventArgs)
+        {
+            VehicleTypeSubscription?.Invoke(this, eventArgs);
+        }
+
+        internal void OnVehicleSubscription(SubscriptionEventArgs eventArgs)
+        {
+            VehicleSubscription?.Invoke(this, eventArgs);
+        }
+
+        internal void OnLaneSubscription(SubscriptionEventArgs eventArgs)
+        {
+            LaneSubscription?.Invoke(this, eventArgs);
+        }
+
+        internal void OnTrafficLightSubscription(SubscriptionEventArgs eventArgs)
+        {
+            TrafficLightSubscription?.Invoke(this, eventArgs);
+        }
+
+        internal void OnMultiEntryExitSubscription(SubscriptionEventArgs eventArgs)
+        {
+            MultiEntryMultiExitDetectorSubscription?.Invoke(this, eventArgs);
+        }
+
+        internal virtual void OnInductionLoopSubscription(SubscriptionEventArgs eventArgs)
+        {
+            InductionLoopSubscription?.Invoke(this, eventArgs);
+        }
+        #endregion
     }
 }

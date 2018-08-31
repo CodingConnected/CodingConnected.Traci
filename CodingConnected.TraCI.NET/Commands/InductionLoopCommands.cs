@@ -166,11 +166,22 @@ namespace CodingConnected.TraCI.NET.Commands
 			// TODO: implement reading this data (http://sumo.dlr.de/wiki/TraCI/Induction_Loop_Value_Retrieval#Response_to_.22last_step.27s_vehicle_data.22_.280x17.29)
 			throw new NotSupportedException("This method return complex data; TODO");
 		}
-		#endregion // Public Methods
 
-		#region Constructor
+        public void Subscribe(string objectId, int beginTime, int endTime, List<byte> ListOfVariablesToSubsribeTo)
+        {
+            TraCICommandHelper.ExecuteSubscribeCommand(
+                Client,
+                beginTime,
+                endTime,
+                objectId,
+                TraCIConstants.CMD_SUBSCRIBE_INDUCTIONLOOP_VARIABLE,
+                ListOfVariablesToSubsribeTo);
+        }
+        #endregion // Public Methods
 
-		public InductionLoopCommands(TraCIClient client) : base(client)
+        #region Constructor
+
+        public InductionLoopCommands(TraCIClient client) : base(client)
 		{
 		}
 

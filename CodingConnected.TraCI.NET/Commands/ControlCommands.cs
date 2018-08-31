@@ -3,17 +3,18 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using CodingConnected.TraCI.NET.Helpers;
+using CodingConnected.TraCI.NET.Types;
 
 namespace CodingConnected.TraCI.NET.Commands
 {
 	public class ControlCommands : TraCICommandsBase
 	{
-		#region Public Methods
+        #region Public Methods
 
-		/// <summary>
-		/// Gets an identifying version number as described here: http://sumo.dlr.de/wiki/TraCI/Control-related_commands
-		/// </summary>
-		public int GetVersionId()
+        /// <summary>
+        /// Gets an identifying version number as described here: http://sumo.dlr.de/wiki/TraCI/Control-related_commands
+        /// </summary>
+        public int GetVersionId()
 		{
 			var command = new TraCICommand
 			{
@@ -63,14 +64,77 @@ namespace CodingConnected.TraCI.NET.Commands
 			};
 
 			var response = Client.SendMessage(command);
-            return TraCIDataConverter.ExtractDataFromResponse<object>(response, TraCIConstants.CMD_SIMSTEP);
+            var tmp = TraCIDataConverter.ExtractDataFromResponse<object>(response, TraCIConstants.CMD_SIMSTEP);
+
+            if (tmp.Content != null)
+            {
+                var listOfSubscriptions = tmp.Content as List<TraCISubscriptionResponse>;
+                foreach (var item in listOfSubscriptions)
+                {
+                    var eventArgs = new SubscriptionEventArgs();
+                    eventArgs.ObjecId = item.ObjectId;
+                    eventArgs.Responses = item.Responses;
+
+                    switch (item.ResponseCode)
+                    {
+                        case TraCIConstants.RESPONSE_SUBSCRIBE_INDUCTIONLOOP_VARIABLE:
+                            Client.OnInductionLoopSubscription(eventArgs);
+                            break;
+                        case TraCIConstants.RESPONSE_SUBSCRIBE_MULTIENTRYEXIT_VARIABLE:
+                            Client.OnMultiEntryExitSubscription(eventArgs);
+                            break;
+                        case TraCIConstants.RESPONSE_SUBSCRIBE_TL_VARIABLE:
+                            Client.OnTrafficLightSubscription(eventArgs);
+                            break;
+                        case TraCIConstants.RESPONSE_SUBSCRIBE_LANE_VARIABLE:
+                            Client.OnLaneSubscription(eventArgs);
+                            break;
+                        case TraCIConstants.RESPONSE_SUBSCRIBE_VEHICLE_VARIABLE:
+                            Client.OnVehicleSubscription(eventArgs);
+                            break;
+                        case TraCIConstants.RESPONSE_SUBSCRIBE_VEHICLETYPE_VARIABLE:
+                            Client.OnVehicleTypeSubscription(eventArgs);
+                            break;
+                        case TraCIConstants.RESPONSE_SUBSCRIBE_ROUTE_VARIABLE:
+                            Client.OnRouteSubscription(eventArgs);
+                            break;
+                        case TraCIConstants.RESPONSE_SUBSCRIBE_POI_VARIABLE:
+                            Client.OnPOISubscription(eventArgs);
+                            break;
+                        case TraCIConstants.RESPONSE_SUBSCRIBE_POLYGON_VARIABLE:
+                            Client.OnPolygonSubscription(eventArgs);
+                            break;
+                        case TraCIConstants.RESPONSE_SUBSCRIBE_JUNCTION_VARIABLE:
+                            Client.OnJunctionSubscription(eventArgs);
+                            break;
+                        case TraCIConstants.RESPONSE_SUBSCRIBE_EDGE_VARIABLE:
+                            Client.OnEdgeSubscription(eventArgs);
+                            break;
+                        case TraCIConstants.RESPONSE_SUBSCRIBE_SIM_VARIABLE:
+                            Client.OnSimulationSubscription(eventArgs);
+                            break;
+                        case TraCIConstants.RESPONSE_SUBSCRIBE_GUI_VARIABLE:
+                            Client.OnGUISubscription(eventArgs);
+                            break;
+                        case TraCIConstants.RESPONSE_SUBSCRIBE_LANEAREA_VARIABLE:
+                            Client.OnLaneAreaSubscription(eventArgs);
+                            break;
+                        case TraCIConstants.RESPONSE_SUBSCRIBE_PERSON_VARIABLE:
+                            Client.OnPersonSubscription(eventArgs);
+                            break;
+                        default:
+                            throw new ArgumentOutOfRangeException();
+                    }
+                }
+            }
+
+            return tmp;
         }
 
-		
-		/// <summary>
-		/// Instruct SUMO to stop the simulation and close
-		/// </summary>
-		public void Close()
+        /// <summary>
+        /// Instruct SUMO to stop the simulation and close
+        /// </summary>
+        public void Close()
 		{
 			var command = new TraCICommand
 			{
@@ -119,11 +183,15 @@ namespace CodingConnected.TraCI.NET.Commands
 			var response = Client.SendMessage(command);
 		}
 
-		#endregion // Public Methods
+        #endregion // Public Methods
 
-		#region Constructor
+        #region Private Methods
 
-		public ControlCommands(TraCIClient client) : base(client)
+        
+        #endregion
+        #region Constructor
+
+        public ControlCommands(TraCIClient client) : base(client)
 		{
 		}
 

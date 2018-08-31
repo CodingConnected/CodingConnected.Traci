@@ -67,6 +67,22 @@ namespace CodingConnected.TraCI.NET.Helpers
             }
         }
 
+        internal static void ExecuteSubscribeCommand(TraCIClient client, int beginTime, int endTime, string objectId, byte commandType, List<byte> variables)
+        {
+            TraCICommand command = null;
+            command = GetCommand(objectId, beginTime, endTime, commandType, variables);
+            var response = client.SendMessage(command);
+
+            //try
+            //{
+            //    var tmp = TraCIDataConverter.ExtractDataFromResponse<T>(response, commandType);
+            //}
+            //catch
+            //{
+            //    throw;
+            //}
+        }
+
         internal static TraCIResponse<T> ExecuteGetCommand<T>(TraCIClient client, string id, byte commandType, byte messageType)
         {
             var command = GetCommand(id, commandType, messageType);
@@ -80,6 +96,26 @@ namespace CodingConnected.TraCI.NET.Helpers
             {
                 throw;
             }
+        }
+
+        internal static TraCICommand GetCommand(string objectId, int beginTime, int endTime, byte commandType, List<byte> variables)
+        {
+            var bytes = new List<byte>();
+            bytes.AddRange(TraCIDataConverter.GetTraCIBytesFromInt32(beginTime));
+            bytes.AddRange(TraCIDataConverter.GetTraCIBytesFromInt32(endTime));
+            bytes.AddRange(TraCIDataConverter.GetTraCIBytesFromASCIIString(objectId));
+            bytes.Add((byte)variables.Count);
+            foreach (var variable in variables)
+            {
+                bytes.Add(variable);
+            }
+
+            var command = new TraCICommand
+            {
+                Identifier = commandType,
+                Contents = bytes.ToArray()
+            };
+            return command;
         }
 
         internal static TraCICommand GetCommand(string id, byte commandType, byte messageType, CompoundObject co)
@@ -156,6 +192,8 @@ namespace CodingConnected.TraCI.NET.Helpers
                         bytes.AddRange(TraCIDataConverter.GetTraCIBytesFromTrafficLightPhaseList(tlpl));
                         break;
                     case Color c:
+#warning missing code
+                        throw new NotImplementedException();
                         break;
             } }
 
