@@ -275,8 +275,7 @@ namespace CodingConnected.TraCI.NET.Commands
 					Client,
 					id,
 					TraCIConstants.CMD_GET_SIM_VARIABLE,
-					// TODO Check
-					TraCIConstants.ADD);
+					TraCIConstants.VAR_COLLIDING_VEHICLES_NUMBER);
 		}
 
         /// <summary>
@@ -291,9 +290,38 @@ namespace CodingConnected.TraCI.NET.Commands
 					Client,
 					id,
 					TraCIConstants.CMD_GET_SIM_VARIABLE,
-					// TODO Check
-					TraCIConstants.REMOVE);
+					TraCIConstants.VAR_COLLIDING_VEHICLES_IDS);
 		}
+
+        /// <summary>
+        /// The number of vehicles that had an emergency stop in this time step.
+        /// </summary>
+        /// <param name="id"></param>
+        /// <returns></returns>
+		public TraCIResponse<int> GetEmergencyStoppingVehiclesNumber(string id)
+        {
+            return
+                TraCICommandHelper.ExecuteGetCommand<int>(
+                    Client,
+                    id,
+                    TraCIConstants.CMD_GET_SIM_VARIABLE,
+                    TraCIConstants.VAR_EMERGENCYSTOPPING_VEHICLES_NUMBER);
+        }
+
+        /// <summary>
+        /// 	A list of ids of vehicles that had an emergency stop in this time step.
+        /// </summary>
+        /// <param name="id"></param>
+        /// <returns></returns>
+		public TraCIResponse<List<string>> GetEmergencyStoppingVehiclesIDList(string id)
+        {
+            return
+                TraCICommandHelper.ExecuteGetCommand<List<string>>(
+                    Client,
+                    id,
+                    TraCIConstants.CMD_GET_SIM_VARIABLE,
+                    TraCIConstants.VAR_EMERGENCYSTOPPING_VEHICLES_IDS);
+        }
 
         /// <summary>
         /// The number of vehicles that enter a parking position in this time step.

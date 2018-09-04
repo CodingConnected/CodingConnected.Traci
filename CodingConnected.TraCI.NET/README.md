@@ -1,16 +1,12 @@
 # TraCI.NET
 
 [![Join the chat at https://gitter.im/mennowo/CodingConnected.TraCI](https://badges.gitter.im/mennowo/CodingConnected.TraCI.svg)](https://gitter.im/mennowo/CodingConnected.TraCI?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge&utm_content=badge) [![License](https://img.shields.io/badge/license-MIT-blue.svg)](LICENSE.md)
-1ca2c659aedb5378201f
 
-A simple (and rather incomplete) implementation of TraCI (see http://sumo.dlr.de/wiki/TraCI) in C#. 
-
-The library has been written specifically to connect external traffic light controller software to SUMO. Therefore, at this point, only TraCI API functions needed to achieve that goal are exposed through the TraCI.NET API. That basically means: it can run the simulation, read state of "e2" detectors, and set state of traffic lights.
+A simple, rather complete implementation of TraCI (see http://sumo.dlr.de/wiki/TraCI) in C#. 
 
 **Usage**
 
 Usage of the library is very straightforward. First, create an instance of the client.
-
 
     var client = new TraCIClient();
 

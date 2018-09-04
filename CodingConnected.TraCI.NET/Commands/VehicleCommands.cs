@@ -264,6 +264,20 @@ namespace CodingConnected.TraCI.NET.Commands
         }
 
         /// <summary>
+        /// Gets the routing mode (0: default, 1: aggregated)
+        /// </summary>
+        /// <param name="id"></param>
+        /// <returns></returns>
+        public TraCIResponse<int> GetRoutingMode(string id)
+        {
+            return TraCICommandHelper.ExecuteGetCommand<int>(
+                     Client,
+                     id,
+                     TraCIConstants.CMD_GET_VEHICLE_VARIABLE,
+                     TraCIConstants.VAR_ROUTING_MODE);
+        }
+
+        /// <summary>
         /// Vehicle's CO2 emissions in mg during this time step; error value: -2^30
         /// </summary>
         /// <param name="id"></param>
@@ -920,7 +934,6 @@ namespace CodingConnected.TraCI.NET.Commands
 
         // TODO: 'extended retrieval', see: http://sumo.dlr.de/wiki/TraCI/Vehicle_Value_Retrieval
 
-
         /// <summary>
         /// Lets the vehicle stop at the given edge, at the given position and lane. The vehicle will stop for the given duration. Re-issuing a stop command with the same lane and position allows changing the duration. Setting the duration to 0 cancels an existing stop.
         /// </summary>
@@ -995,6 +1008,29 @@ namespace CodingConnected.TraCI.NET.Commands
                     TraCIConstants.CMD_SET_VEHICLE_VARIABLE,
                     TraCIConstants.CMD_CHANGESUBLANE,
                     lateralDistance
+                    );
+        }
+
+        /// <summary>
+        /// Forces a lane change to the lane with the given index; if successful, the lane will be chosen for the given amount of time (in seconds).
+        /// </summary>
+        /// <param name="id"></param>
+        /// <param name="laneIndex"></param>
+        /// <param name="duration"></param>
+        /// <returns></returns>
+        public TraCIResponse<object> UpdateBestLanes(string id)
+        {
+            var tmp = new CompoundObject();
+            
+            // TODO: fill compound object with data
+
+            return
+                TraCICommandHelper.ExecuteSetCommand<object, CompoundObject>(
+                    Client,
+                    id,
+                    TraCIConstants.CMD_SET_VEHICLE_VARIABLE,
+                    TraCIConstants.VAR_UPDATE_BESTLANES,
+                    tmp
                     );
         }
 
@@ -1243,7 +1279,7 @@ namespace CodingConnected.TraCI.NET.Commands
                      Client,
                      id,
                      TraCIConstants.CMD_SET_VEHICLE_VARIABLE,
-                     0x89,//missing constant!
+                     TraCIConstants.VAR_ROUTING_MODE,
                      (int)routingMode
                      );
         }

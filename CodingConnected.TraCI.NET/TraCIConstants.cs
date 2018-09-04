@@ -419,6 +419,64 @@
         public const short DEPARTFLAG_LANE_BEST_FREE = -0x05;
         public const short DEPARTFLAG_LANE_FIRST_ALLOWED = -0x06;
 
+        public const short DEPARTFLAG_POS_RANDOM = -0x02;
+        public const short DEPARTFLAG_POS_FREE = -0x03;
+        public const short DEPARTFLAG_POS_BASE = -0x04;
+        public const short DEPARTFLAG_POS_LAST = -0x05;
+        public const short DEPARTFLAG_POS_RANDOM_FREE = -0x06;
+
+        public const short ARRIVALFLAG_LANE_CURRENT = -0x02;
+        public const short ARRIVALFLAG_SPEED_CURRENT = -0x02;
+
+        public const short ARRIVALFLAG_POS_RANDOM = -0x02;
+        public const short ARRIVALFLAG_POS_MAX = -0x03;
+
+        // ****************************************
+        // Routing modes
+        // ****************************************
+        // use custom weights if available, fall back to loaded weights and then to free-flow speed
+        public const short ROUTING_MODE_DEFAULT = 0x00;
+        // use aggregated travel times from device.rerouting
+        public const short ROUTING_MODE_AGGREGATED = 0x01;
+        // use loaded efforts
+        public const short ROUTING_MODE_EFFORT = 0x02;
+        // use combined costs
+        public const short ROUTING_MODE_COMBINED = 0x03;
+
+        // ****************************************
+        // FILTER TYPES (for context subscription filters)
+        // ****************************************
+
+        // Reset all filters
+        public const short FILTER_TYPE_NONE = 0x00;
+
+        // Filter by list of lanes relative to ego vehicle
+        public const short FILTER_TYPE_LANES = 0x01;
+
+        // Exclude vehicles on opposite (and other) lanes from context subscription result
+        public const short FILTER_TYPE_NOOPPOSITE = 0x02;
+
+        // Specify maximal downstream distance for vehicles in context subscription result
+        public const short FILTER_TYPE_DOWNSTREAM_DIST = 0x03;
+
+        // Specify maximal upstream distance for vehicles in context subscription result
+        public const short FILTER_TYPE_UPSTREAM_DIST = 0x04;
+
+        // Only return leader and follower in context subscription result
+        public const short FILTER_TYPE_CF_MANEUVER = 0x05;
+
+        // Only return leader and follower on ego and neighboring lane in context subscription result
+        public const short FILTER_TYPE_LC_MANEUVER = 0x06;
+
+        // Only return foes on upcoming junction in context subscription result
+        public const short FILTER_TYPE_TURN_MANEUVER = 0x07;
+
+        // Only return vehicles of the given vClass in context subscription result
+        public const short FILTER_TYPE_VCLASS = 0x08;
+
+        // Only return vehicles of the given vType in context subscription result
+        public const short FILTER_TYPE_VTYPE = 0x09;
+
         // ****************************************
         // VARIABLE TYPES (for CMD_GET_*_VARIABLE)
         // ****************************************
@@ -602,6 +660,9 @@
         // edges (get: routes, vehicles)
         public const byte VAR_EDGES = 0x54;
 
+        // update bestLanes (set: vehicle)
+        public const byte VAR_UPDATE_BESTLANES = 0x6a;
+
         // filled? (get: polygons)
         public const byte VAR_FILL = 0x55;
 
@@ -635,6 +696,8 @@
         // speed deviation (set: vehicle)
         public const byte VAR_SPEED_DEVIATION = 0x5f;
 
+        // routing mode (get/set: vehicle)
+        public const byte VAR_ROUTING_MODE = 0x89;
 
         // speed without TraCI influence (get: vehicle)
         public const byte VAR_SPEED_WITHOUT_TRACI = 0xb1;
@@ -790,6 +853,18 @@
         // ids of vehicles ending to park (get: simulation)
         public const byte VAR_PARKING_ENDING_VEHICLES_IDS = 0x6f;
 
+        // number of vehicles involved in a collision (get: simulation)
+        public const byte VAR_COLLIDING_VEHICLES_NUMBER = 0x80;
+
+        // ids of vehicles involved in a collision (get: simulation)
+        public const byte VAR_COLLIDING_VEHICLES_IDS = 0x81;
+
+        // number of vehicles involved in a collision (get: simulation)
+        public const byte VAR_EMERGENCYSTOPPING_VEHICLES_NUMBER = 0x89;
+
+        // ids of vehicles involved in a collision (get: simulation)
+        public const byte VAR_EMERGENCYSTOPPING_VEHICLES_IDS = 0x8a;
+
         // clears the simulation of all not inserted vehicles (set: simulation)
         public const byte CMD_CLEAR_PENDING_VEHICLES = 0x94;
 
@@ -865,6 +940,9 @@
 
         // track vehicle
         public const byte VAR_TRACK_VEHICLE = 0xa6;
+
+        // presence of view
+        public const byte VAR_HAS_VIEW = 0xa7;
 
     }
 }

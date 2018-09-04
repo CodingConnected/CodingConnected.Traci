@@ -1,5 +1,7 @@
 # CodingConnected.TraCI
 
+[![Join the chat at https://gitter.im/mennowo/CodingConnected.TraCI](https://badges.gitter.im/mennowo/CodingConnected.TraCI.svg)](https://gitter.im/mennowo/CodingConnected.TraCI?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge&utm_content=badge) [![License](https://img.shields.io/badge/license-MIT-blue.svg)](LICENSE.md)
+
 Currently, this repository is home to two independent implementations of the TraCI protocol (see http://sumo.dlr.de/wiki/TraCI):
 
 - TraCI.NET offers an incomplete, though growing implementation of TraCI in C#/.NET
