@@ -9,20 +9,47 @@
     <Window.DataContext>
         <local:MainWindowViewModel />
     </Window.DataContext>
-    <Grid>
-        <Grid.RowDefinitions>
-            <RowDefinition Height="Auto" />
-            <RowDefinition Height="Auto" />
-            <RowDefinition Height="*" />
-            <RowDefinition Height="5" />
-            <RowDefinition Height="*" />
-            <RowDefinition Height="Auto" />
-        </Grid.RowDefinitions>
-        <TextBox Text="{Binding ClassName,UpdateSourceTrigger=PropertyChanged}" />
-        <TextBox Grid.Row="1" Text="{Binding CommandText,UpdateSourceTrigger=PropertyChanged}" />
-        <TextBox Grid.Row="2" AcceptsReturn="True" Text="{Binding InputText,UpdateSourceTrigger=PropertyChanged}" />
-        <GridSplitter Grid.Row="3" Height="5" HorizontalAlignment="Stretch" />
-        <TextBox Grid.Row="4" AcceptsReturn="True" Text="{Binding OutputText}" />
-        <Button Grid.Row="5" Content="Generate" Command="{Binding ProcessTextCommand}" />
-    </Grid>
+    <TabControl>
+        <TabItem Header="Class gen">
+            <Grid>
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="Auto" />
+                    <RowDefinition Height="Auto" />
+                    <RowDefinition Height="*" />
+                    <RowDefinition Height="5" />
+                    <RowDefinition Height="*" />
+                    <RowDefinition Height="Auto" />
+                </Grid.RowDefinitions>
+                <TextBox Text="{Binding ClassName,UpdateSourceTrigger=PropertyChanged}" />
+                <TextBox Grid.Row="1" Text="{Binding CommandText,UpdateSourceTrigger=PropertyChanged}" />
+                <TextBox Grid.Row="2" AcceptsReturn="True" Text="{Binding InputText,UpdateSourceTrigger=PropertyChanged}" />
+                <GridSplitter Grid.Row="3" Height="5" HorizontalAlignment="Stretch" />
+                <TextBox Grid.Row="4" AcceptsReturn="True" Text="{Binding OutputText}" />
+                <Button Grid.Row="5" Content="Generate" Command="{Binding ProcessTextCommand}" />
+            </Grid>
+        </TabItem>
+        <TabItem Header="Constants gen">
+            <Grid>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="*" />
+                    <ColumnDefinition Width="5" />
+                    <ColumnDefinition Width="*" />
+                </Grid.ColumnDefinitions>
+                <DockPanel>
+                    <Button DockPanel.Dock="Bottom" Content="Convert" Command="{Binding Path=ConvertTraciConstantsCommand}" Margin="2" />
+                    <TextBox 
+                        Margin="2"
+                        AcceptsReturn="True" AcceptsTab="True"
+                        Text="{Binding Path=TraciConstantsCpp,UpdateSourceTrigger=PropertyChanged}" />
+                </DockPanel>
+                <GridSplitter Grid.Column="1" Width="5" HorizontalAlignment="Stretch" />
+                <DockPanel Grid.Column="2">
+                    <TextBox 
+                        Margin="2"
+                        AcceptsReturn="True" AcceptsTab="True"
+                        Text="{Binding Path=TraciConstantsCsharp}" />
+                </DockPanel>
+            </Grid>
+        </TabItem>
+    </TabControl>
 </Window>
