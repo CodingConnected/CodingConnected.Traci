@@ -53,6 +53,20 @@ namespace CodingConnected.TraCI.NET.Commands
         }
 
         /// <summary>
+        /// Returns the acceleration in the previous time step [m/s^2]
+        /// </summary>
+        /// <param name="id"></param>
+        /// <returns></returns>
+        public TraCIResponse<double> GetAcceleration(string id)
+        {
+            return
+                TraCICommandHelper.ExecuteGetCommand<double>(
+                    Client,
+                    id,
+                    TraCIConstants.CMD_GET_VEHICLE_VARIABLE,
+                    TraCIConstants.VAR_ACCELERATION);
+        }
+        /// <summary>
         /// Returns the position(two doubles) of the named vehicle (center of the front bumper) within the last step [m,m]; error value: [-2^30, -2^30].
         /// </summary>
         /// <param name="id"></param>
@@ -946,17 +960,17 @@ namespace CodingConnected.TraCI.NET.Commands
         /// <param name="startPosition"></param>
         /// <param name="until"></param>
         /// <returns></returns>
-        public TraCIResponse<object> SetStop(string id, string edgeId, double endPosition, byte laneIndex, int Duration, StopFlag stopFlag = StopFlag.STOP_DEFAULT, double startPosition = 0d, int until = 0)
+        public TraCIResponse<object> SetStop(string id, string edgeId, double endPosition, byte laneIndex, double Duration, StopFlag stopFlag = StopFlag.STOP_DEFAULT, double startPosition = 0d, double until = 0)
         {
             var tmp = new CompoundObject();
             //tmp.Value.Add(new TraCIInteger() { Value = itemNumber });
             tmp.Value.Add(new TraCIString() { Value = edgeId });
             tmp.Value.Add(new TraCIDouble() { Value = endPosition });
             tmp.Value.Add(new TraCIByte() { Value = laneIndex });
-            tmp.Value.Add(new TraCIInteger() { Value = Duration });
+            tmp.Value.Add(new TraCIDouble() { Value = Duration });
             tmp.Value.Add(new TraCIByte() { Value = (byte)stopFlag });
             tmp.Value.Add(new TraCIDouble() { Value = startPosition });
-            tmp.Value.Add(new TraCIInteger() { Value = until });
+            tmp.Value.Add(new TraCIDouble() { Value = until });
 
 
             return
@@ -976,11 +990,11 @@ namespace CodingConnected.TraCI.NET.Commands
         /// <param name="laneIndex"></param>
         /// <param name="duration"></param>
         /// <returns></returns>
-        public TraCIResponse<object> ChangeLane(string id, byte laneIndex, int duration)
+        public TraCIResponse<object> ChangeLane(string id, byte laneIndex, double duration)
         {
             var tmp = new CompoundObject();
             tmp.Value.Add(new TraCIByte() { Value = laneIndex });
-            tmp.Value.Add(new TraCIInteger() { Value = duration });
+            tmp.Value.Add(new TraCIDouble() { Value = duration });
 
 
             return
@@ -1041,11 +1055,11 @@ namespace CodingConnected.TraCI.NET.Commands
         /// <param name="speed"></param>
         /// <param name="duration"></param>
         /// <returns></returns>
-        public TraCIResponse<object> SlowDown(string id, double speed, int duration)
+        public TraCIResponse<object> SlowDown(string id, double speed, double duration)
         {
             var tmp = new CompoundObject();
             tmp.Value.Add(new TraCIDouble() { Value = speed });
-            tmp.Value.Add(new TraCIInteger() { Value = duration });
+            tmp.Value.Add(new TraCIDouble() { Value = duration });
 
 
             return
@@ -1172,15 +1186,15 @@ namespace CodingConnected.TraCI.NET.Commands
         /// <param name="endTime"></param>
         /// <param name="effortValue"></param>
         /// <returns></returns>
-        public TraCIResponse<object> SetEffort(string id, int numberOfElements, string edgeId, int beginTime = 0, int endTime = 0, double effortValue = 0)
+        public TraCIResponse<object> SetEffort(string id, int numberOfElements, string edgeId, double beginTime = 0, double endTime = 0, double effortValue = 0)
         {
             CompoundObject co;
             switch (numberOfElements)
             {
                 case 4:
                     co = new CompoundObject();
-                    co.Value.Add(new TraCIInteger() { Value = beginTime });
-                    co.Value.Add(new TraCIInteger() { Value = endTime });
+                    co.Value.Add(new TraCIDouble() { Value = beginTime });
+                    co.Value.Add(new TraCIDouble() { Value = endTime });
                     co.Value.Add(new TraCIString() { Value = edgeId });
                     co.Value.Add(new TraCIDouble() { Value = effortValue });
                     break;
@@ -1216,15 +1230,15 @@ namespace CodingConnected.TraCI.NET.Commands
         /// <param name="edgeId"></param>
         /// <param name="travelTimeValue"></param>
         /// <returns></returns>
-        public TraCIResponse<object> SetAdaptedTraveltime(string id, int numberOfElements, int beginTime, int endTime, string edgeId, double travelTimeValue)
+        public TraCIResponse<object> SetAdaptedTraveltime(string id, int numberOfElements, double beginTime, double endTime, string edgeId, double travelTimeValue)
         {
             CompoundObject co;
             switch (numberOfElements)
             {
                 case 4:
                     co = new CompoundObject();
-                    co.Value.Add(new TraCIInteger() { Value = beginTime });
-                    co.Value.Add(new TraCIInteger() { Value = endTime });
+                    co.Value.Add(new TraCIDouble() { Value = beginTime });
+                    co.Value.Add(new TraCIDouble() { Value = endTime });
                     co.Value.Add(new TraCIString() { Value = edgeId });
                     co.Value.Add(new TraCIDouble() { Value = travelTimeValue });
                     break;

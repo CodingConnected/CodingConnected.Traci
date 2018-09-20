@@ -52,6 +52,21 @@ namespace CodingConnected.TraCI.NET.Commands
 		}
 
         /// <summary>
+        /// Returns the street name for the given edge ID
+        /// </summary>
+        /// <param name="id"></param>
+        /// <returns></returns>
+        public TraCIResponse<string> GetStreetName(string id)
+        {
+            return
+                TraCICommandHelper.ExecuteGetCommand<string>(
+                    Client,
+                    id,
+                    TraCIConstants.CMD_GET_EDGE_VARIABLE,
+                    TraCIConstants.VAR_STREET_NAME);
+        }
+
+        /// <summary>
         /// Returns the current travel time (length/mean speed).
         /// </summary>
         /// <param name="id"></param>
@@ -317,14 +332,14 @@ namespace CodingConnected.TraCI.NET.Commands
         /// <param name="endTime"></param>
         /// <param name="travelTimeValue"></param>
         /// <returns></returns>
-        public TraCIResponse<object> AdaptTraveltime(string id, int beginTime, int endTime,double travelTimeValue)
+        public TraCIResponse<double> AdaptTraveltime(string id, int beginTime, int endTime,double travelTimeValue)
         {
             var tmp = new CompoundObject();
             tmp.Value.Add(new TraCIInteger() { Value = beginTime });
             tmp.Value.Add(new TraCIInteger() { Value = endTime });
             tmp.Value.Add(new TraCIDouble() { Value = travelTimeValue });
 
-            return TraCICommandHelper.ExecuteSetCommand<object, CompoundObject>(
+            return TraCICommandHelper.ExecuteSetCommand<double, CompoundObject>(
                      Client,
                      id,
                      TraCIConstants.CMD_SET_EDGE_VARIABLE,
@@ -341,11 +356,11 @@ namespace CodingConnected.TraCI.NET.Commands
         /// <param name="endTime"></param>
         /// <param name="effortValue"></param>
         /// <returns></returns>
-        public TraCIResponse<object> SetEffort(string id, int beginTime, int endTime, double effortValue)
+        public TraCIResponse<object> SetEffort(string id, double beginTime, double endTime, double effortValue)
         {
             var tmp = new CompoundObject();
-            tmp.Value.Add(new TraCIInteger() { Value = beginTime });
-            tmp.Value.Add(new TraCIInteger() { Value = endTime });
+            tmp.Value.Add(new TraCIDouble() { Value = beginTime });
+            tmp.Value.Add(new TraCIDouble() { Value = endTime });
             tmp.Value.Add(new TraCIDouble() { Value = effortValue });
 
             return TraCICommandHelper.ExecuteSetCommand<object, CompoundObject>(

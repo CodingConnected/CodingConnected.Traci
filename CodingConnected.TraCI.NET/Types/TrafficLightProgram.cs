@@ -69,11 +69,11 @@ namespace CodingConnected.TraCI.NET.Types
         /// <summary>
         /// Duration in ms
         /// </summary>
-        public int Duration;
+        public double Duration;
 
-        public int MinDuration;
+        public double MinDuration;
 
-        public int MaxDuration;
+        public double MaxDuration;
 
         public string Definition;
     }

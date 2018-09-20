@@ -272,12 +272,12 @@ namespace CodingConnected.TraCI.NET.Commands
         /// <param name="departTime"></param>
         /// <param name="departPosition"></param>
         /// <returns></returns>
-        public TraCIResponse<object> Add(string id, string typeId, string initialEdgeId, int departTime, double departPosition)
+        public TraCIResponse<object> Add(string id, string typeId, string initialEdgeId, double departTime, double departPosition)
         {
             var tmp = new CompoundObject();
             tmp.Value.Add(new TraCIString() { Value = typeId });
             tmp.Value.Add(new TraCIString() { Value = initialEdgeId });
-            tmp.Value.Add(new TraCIInteger() { Value = departTime });
+            tmp.Value.Add(new TraCIDouble() { Value = departTime });
             tmp.Value.Add(new TraCIDouble() { Value = departPosition });
 
             return TraCICommandHelper.ExecuteSetCommand<object, CompoundObject>(

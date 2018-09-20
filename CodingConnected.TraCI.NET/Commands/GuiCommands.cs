@@ -73,10 +73,10 @@ namespace CodingConnected.TraCI.NET.Commands
         /// </summary>
         /// <param name="id"></param>
         /// <returns></returns>
-		public TraCIResponse<BoundaryBox> GetBoundary(string id)
+		public TraCIResponse<Polygon> GetBoundary(string id)
 		{
 			return
-				TraCICommandHelper.ExecuteGetCommand<BoundaryBox>(
+				TraCICommandHelper.ExecuteGetCommand<Polygon>(
 				Client,
 				id,
 				TraCIConstants.CMD_GET_GUI_VARIABLE,
@@ -140,9 +140,9 @@ namespace CodingConnected.TraCI.NET.Commands
         /// <param name="id"></param>
         /// <param name="boundaryBox"></param>
         /// <returns></returns>
-        public TraCIResponse<object> SetBoundary(string id, BoundaryBox boundaryBox)
+        public TraCIResponse<object> SetBoundary(string id, Polygon boundaryBox)
         {
-            return TraCICommandHelper.ExecuteSetCommand<object, BoundaryBox>(
+            return TraCICommandHelper.ExecuteSetCommand<object, Polygon>(
                     Client,
                     id,
                     TraCIConstants.CMD_SET_GUI_VARIABLE,

@@ -536,6 +536,8 @@
         // last step person list (get: edges, vehicles)
         public const byte LAST_STEP_PERSON_ID_LIST = 0x1a;
 
+        // street name of given edge
+        public const byte VAR_STREET_NAME = 0x1b;
 
         // traffic light states, encoded as rRgGyYoO tuple (get: traffic lights)
         public const byte TL_RED_YELLOW_GREEN_STATE = 0x20;
