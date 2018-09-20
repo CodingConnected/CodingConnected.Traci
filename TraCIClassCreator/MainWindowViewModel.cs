@@ -16,16 +16,19 @@ namespace TraCIClassCreator
 		#region Fields
 
 		private RelayCommand _processTextCommand;
-		private string _inputText;
+        private RelayCommand _convertTraciConstantsCommand;
+        private string _inputText;
 		private string _outputText;
 		private string _commandText;
 		private string _className;
+        private string _traciConstantsCpp;
+        private string _traciConstantsCsharp;
 
-		#endregion // Fields
+        #endregion // Fields
 
-		#region Properties
+        #region Properties
 
-		public string ClassName
+        public string ClassName
 		{
 			get => _className;
 			set
@@ -65,15 +68,75 @@ namespace TraCIClassCreator
 			}
 		}
 
-		#endregion // Properties
+        public string TraciConstantsCpp
+        {
+            get => _traciConstantsCpp;
+            set
+            {
+                _traciConstantsCpp = value;
+                RaisePropertyChanged();
+            }
+        }
 
-		#region Commands
+        public string TraciConstantsCsharp
+        {
+            get => _traciConstantsCsharp;
+            set
+            {
+                _traciConstantsCsharp = value;
+                RaisePropertyChanged();
+            }
+        }
 
-		public ICommand ProcessTextCommand => _processTextCommand ?? (_processTextCommand = new RelayCommand(ProcessTextCommand_executed));
+        #endregion // Properties
+
+        #region Commands
+
+        public ICommand ProcessTextCommand => _processTextCommand ?? (_processTextCommand = new RelayCommand(ProcessTextCommand_executed));
+        public ICommand ConvertTraciConstantsCommand => _convertTraciConstantsCommand ?? (_convertTraciConstantsCommand = new RelayCommand(ConvertTraciConstantsCommand_executed));
 
 		#endregion // Commands
 
 		#region Command Functionality
+
+		private void ConvertTraciConstantsCommand_executed()
+        {
+            var sb = new StringBuilder();
+
+            var lines = TraciConstantsCpp.Split('\n').Select(x => x.Replace("\r", ""));
+
+            var start = false;
+
+            foreach(var l in lines)
+            {
+                if(l.Contains("#define TRACI_VERSION"))
+                {
+                    start = true;
+                }
+
+                if (start)
+                {
+                    if(Regex.IsMatch(l, @"^\s*(//|/\*)") || string.IsNullOrWhiteSpace(l))
+                    {
+                        sb.AppendLine(l);
+                    }
+                    var m = Regex.Match(l, @"^(?<sp1>\s*)#define(?<sp2>\s+)(?<name>[A-Z0-9_]+)(?<sp3>\s+)(?<number>-?0?x?[a-zA-Z0-9]+)");
+                    if (m.Success)
+                    {
+                        sb.AppendLine(
+                            "        public const byte " +
+                            m.Groups["name"] +
+                            " = " +
+                            m.Groups["number"] +
+                            ";"
+                        );
+                    }
+                }
+            }
+
+            TraciConstantsCsharp = sb.ToString();
+            RaisePropertyChanged(nameof(TraciConstantsCsharp));
+        }
 
 		private void ProcessTextCommand_executed()
 		{

@@ -176,19 +176,20 @@ namespace CodingConnected.TraCI.NET
             var response = SendMessage(command);
         }
 
-        public void SetSingleTrafficLightState(string trafficLightId, string signalgroup, char singlestate)
-        {
-            var command = new TraCICommand { Identifier = TraCIConstants.CMD_SET_TL_VARIABLE };
-            var bytes = new List<byte> { TraCIConstants.TL_RED_YELLOW_GREEN_SINGLESTATE };
-            bytes.AddRange(TraCIDataConverter.GetTraCIBytesFromASCIIString(trafficLightId));
-            bytes.Add(TraCIConstants.TYPE_STRING);
-            bytes.AddRange(BitConverter.GetBytes((signalgroup + ' ' + singlestate).Length).Reverse());
-            bytes.AddRange(Encoding.ASCII.GetBytes(signalgroup + ' ' + singlestate));
-
-            command.Contents = bytes.ToArray();
-            // ReSharper disable once UnusedVariable
-            var response = SendMessage(command);
-        }
+        // deprecated: below method only works with an outdated patched version of SUMO
+        //public void SetSingleTrafficLightState(string trafficLightId, string signalgroup, char singlestate)
+        //{
+        //    var command = new TraCICommand { Identifier = TraCIConstants.CMD_SET_TL_VARIABLE };
+        //    var bytes = new List<byte> { TraCIConstants.TL_RED_YELLOW_GREEN_SINGLESTATE };
+        //    bytes.AddRange(TraCIDataConverter.GetTraCIBytesFromASCIIString(trafficLightId));
+        //    bytes.Add(TraCIConstants.TYPE_STRING);
+        //    bytes.AddRange(BitConverter.GetBytes((signalgroup + ' ' + singlestate).Length).Reverse());
+        //    bytes.AddRange(Encoding.ASCII.GetBytes(signalgroup + ' ' + singlestate));
+        //
+        //    command.Contents = bytes.ToArray();
+        //    // ReSharper disable once UnusedVariable
+        //    var response = SendMessage(command);
+        //}
 
 		#endregion // Set Variable Methods
 

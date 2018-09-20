@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using CodingConnected.TraCI.NET.Helpers;
 using CodingConnected.TraCI.NET.Types;
 
@@ -261,6 +262,20 @@ namespace CodingConnected.TraCI.NET.Commands
 					TraCIConstants.CMD_GET_LANE_VARIABLE,
 					TraCIConstants.VAR_FUELCONSUMPTION);
 		}
+
+        /// <summary>
+        /// Returns the list of foe lanes. There are two modes for calling this method. If toLane is a normal road
+        /// lane that is reachable from the laneID argument, the list contains all lanes that are the origin of a 
+        /// connection with right-of-way over the connection between laneID and toLane. If toLane is empty and laneID
+        /// is an internal lane, the list contains all internal lanes that intersect with laneID.
+        /// </summary>
+        /// <param name="id"></param>
+        /// <param name="toLane"></param>
+        /// <returns></returns>
+        public TraCIResponse<object> GetFoes(string id, string toLane)
+        {
+            throw new NotImplementedException();
+        }
 
         /// <summary>
         /// Sum of noise generated on this lane in dBA.

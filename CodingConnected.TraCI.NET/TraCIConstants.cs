@@ -9,7 +9,7 @@
         // ****************************************
         // VERSION
         // ****************************************
-        public const int TRACI_VERSION = 15;
+        public const int TRACI_VERSION = 18;
 
         // ****************************************
         // COMMANDS
@@ -29,6 +29,9 @@
         // command: stop node
         public const byte CMD_STOP = 0x12;
 
+        // command: reroute to parking area
+        public const byte CMD_REROUTE_TO_PARKING = 0xc2;
+
         // command: Resume from parking
         public const byte CMD_RESUME = 0x19;
 
@@ -47,21 +50,20 @@
         // command: close sumo
         public const byte CMD_CLOSE = 0x7F;
 
+        // command: add subscription filter
+        public const byte CMD_ADD_SUBSCRIPTION_FILTER = 0x7e;
+
+
         // command: subscribe induction loop (e1) context
         public const byte CMD_SUBSCRIBE_INDUCTIONLOOP_CONTEXT = 0x80;
-
         // response: subscribe induction loop (e1) context
         public const byte RESPONSE_SUBSCRIBE_INDUCTIONLOOP_CONTEXT = 0x90;
-
         // command: get induction loop (e1) variable
         public const byte CMD_GET_INDUCTIONLOOP_VARIABLE = 0xa0;
-
         // response: get induction loop (e1) variable
         public const byte RESPONSE_GET_INDUCTIONLOOP_VARIABLE = 0xb0;
-
         // command: subscribe induction loop (e1) variable
         public const byte CMD_SUBSCRIBE_INDUCTIONLOOP_VARIABLE = 0xd0;
-
         // response: subscribe induction loop (e1) variable
         public const byte RESPONSE_SUBSCRIBE_INDUCTIONLOOP_VARIABLE = 0xe0;
 
@@ -336,12 +338,12 @@
         // result type: error
         public const byte RTYPE_ERR = 0xFF;
 
-        // return value for invalid queries (especially vehicle is not on the road)
-        public const double INVALID_DOUBLE_VALUE = -1001.0;
-        // return value for invalid queries (especially vehicle is not on the road)
-        public const short INVALID_INT_VALUE = -1;
-        // maximum value for client ordering (2 ^ 30 - 1)
-        public const uint MAX_ORDER = 1073741823;
+        // return value for invalid queries (especially vehicle is not on the road), see Position::INVALID
+        public const double INVALID_DOUBLE_VALUE = -1073741824;
+        // return value for invalid queries (especially vehicle is not on the road), see Position::INVALID
+        public const double INVALID_INT_VALUE = -1073741824;
+        // maximum value for client ordering (2 ^ 30)
+        public const double MAX_ORDER = 1073741824;
 
         // ****************************************
         // TRAFFIC LIGHT PHASES
@@ -411,13 +413,77 @@
         public const short DEPARTFLAG_TRIGGERED = -0x01;
         public const short DEPARTFLAG_CONTAINER_TRIGGERED = -0x02;
         public const short DEPARTFLAG_NOW = -0x03;
+
         public const short DEPARTFLAG_SPEED_RANDOM = -0x02;
         public const short DEPARTFLAG_SPEED_MAX = -0x03;
+
         public const short DEPARTFLAG_LANE_RANDOM = -0x02;
         public const short DEPARTFLAG_LANE_FREE = -0x03;
         public const short DEPARTFLAG_LANE_ALLOWED_FREE = -0x04;
         public const short DEPARTFLAG_LANE_BEST_FREE = -0x05;
         public const short DEPARTFLAG_LANE_FIRST_ALLOWED = -0x06;
+
+        public const short DEPARTFLAG_POS_RANDOM = -0x02;
+        public const short DEPARTFLAG_POS_FREE = -0x03;
+        public const short DEPARTFLAG_POS_BASE = -0x04;
+        public const short DEPARTFLAG_POS_LAST = -0x05;
+        public const short DEPARTFLAG_POS_RANDOM_FREE = -0x06;
+
+        public const short ARRIVALFLAG_LANE_CURRENT = -0x02;
+        public const short ARRIVALFLAG_SPEED_CURRENT = -0x02;
+
+        public const short ARRIVALFLAG_POS_RANDOM = -0x02;
+        public const short ARRIVALFLAG_POS_MAX = -0x03;
+
+        // ****************************************
+        // Routing modes
+        // ****************************************
+        // use custom weights if available, fall back to loaded weights and then to free-flow speed
+        public const byte ROUTING_MODE_DEFAULT = 0x00;
+        // use aggregated travel times from device.rerouting
+        public const byte ROUTING_MODE_AGGREGATED = 0x01;
+        // use loaded efforts
+        public const byte ROUTING_MODE_EFFORT = 0x02;
+        // use combined costs
+        public const byte ROUTING_MODE_COMBINED = 0x03;
+
+        // ****************************************
+        // FILTER TYPES (for context subscription filters)
+        // ****************************************
+
+        // Reset all filters
+        public const byte FILTER_TYPE_NONE = 0x00;
+
+        // Filter by list of lanes relative to ego vehicle
+        public const byte FILTER_TYPE_LANES = 0x01;
+
+        // Exclude vehicles on opposite (and other) lanes from context subscription result
+        public const byte FILTER_TYPE_NOOPPOSITE = 0x02;
+
+        // Specify maximal downstream distance for vehicles in context subscription result
+        public const byte FILTER_TYPE_DOWNSTREAM_DIST = 0x03;
+
+        // Specify maximal upstream distance for vehicles in context subscription result
+        public const byte FILTER_TYPE_UPSTREAM_DIST = 0x04;
+
+        // Only return leader and follower in context subscription result
+        public const byte FILTER_TYPE_CF_MANEUVER = 0x05;
+
+        // Only return leader and follower on ego and neighboring lane in context subscription result
+        public const byte FILTER_TYPE_LC_MANEUVER = 0x06;
+
+        // Only return foes on upcoming junction in context subscription result
+        public const byte FILTER_TYPE_TURN_MANEUVER = 0x07;
+
+        // Only return vehicles of the given vClass in context subscription result
+        public const byte FILTER_TYPE_VCLASS = 0x08;
+
+        // Only return vehicles of the given vType in context subscription result
+        public const byte FILTER_TYPE_VTYPE = 0x09;
+
+
+
+
 
         // ****************************************
         // VARIABLE TYPES (for CMD_GET_*_VARIABLE)
@@ -467,14 +533,14 @@
         // last step jam length in meters
         public const byte JAM_LENGTH_METERS = 0x19;
 
-        // last step person list (get: edges)
+        // last step person list (get: edges, vehicles)
         public const byte LAST_STEP_PERSON_ID_LIST = 0x1a;
 
+        // street name of given edge
+        public const byte VAR_STREET_NAME = 0x1b;
 
         // traffic light states, encoded as rRgGyYoO tuple (get: traffic lights)
         public const byte TL_RED_YELLOW_GREEN_STATE = 0x20;
-
-        public const byte TL_RED_YELLOW_GREEN_SINGLESTATE = 0x21;
 
         // index of the phase (set: traffic lights)
         public const byte TL_PHASE_INDEX = 0x22;
@@ -527,6 +593,9 @@
         // list of not allowed vehicle classes (get&set: lanes)
         public const byte LANE_DISALLOWED = 0x35;
 
+        // list of foe lanes (get: lanes)
+        public const byte VAR_FOES = 0x37;
+
         // slope (get: edge, lane, vehicle, person)
         public const byte VAR_SLOPE = 0x36;
 
@@ -563,6 +632,12 @@
         // apparent deceleration (get: vehicles, vehicle types)
         public const byte VAR_APPARENT_DECEL = 0x7c;
 
+        // action step length (get: vehicles, vehicle types)
+        public const byte VAR_ACTIONSTEPLENGTH = 0x7d;
+
+        // last action time (get: vehicles)
+        public const byte VAR_LASTACTIONTIME = 0x7f;
+
         // driver's desired headway (get: vehicle types)
         public const byte VAR_TAU = 0x48;
 
@@ -593,7 +668,7 @@
         // lane id (get: vehicles, inductionloop, arealdetector)
         public const byte VAR_LANE_ID = 0x51;
 
-        // lane index (get: vehicles)
+        // lane index (get: vehicle, edge)
         public const byte VAR_LANE_INDEX = 0x52;
 
         // route id (get & set: vehicles)
@@ -601,6 +676,9 @@
 
         // edges (get: routes, vehicles)
         public const byte VAR_EDGES = 0x54;
+
+        // update bestLanes (set: vehicle)
+        public const byte VAR_UPDATE_BESTLANES = 0x6a;
 
         // filled? (get: polygons)
         public const byte VAR_FILL = 0x55;
@@ -635,6 +713,8 @@
         // speed deviation (set: vehicle)
         public const byte VAR_SPEED_DEVIATION = 0x5f;
 
+        // routing mode (get/set: vehicle)
+        public const byte VAR_ROUTING_MODE = 0x89;
 
         // speed without TraCI influence (get: vehicle)
         public const byte VAR_SPEED_WITHOUT_TRACI = 0xb1;
@@ -645,14 +725,14 @@
         // how speed is set (set: vehicle)
         public const byte VAR_SPEEDSETMODE = 0xb3;
 
-        // move vehicle, VTD version (set: vehicle)
+        // move vehicle to explicit (remote controlled) position (set: vehicle)
         public const byte MOVE_TO_XY = 0xb4;
 
         // is the vehicle stopped, and if so parked and/or triggered?
         // value = stopped + 2 * parking + 4 * triggered
         public const byte VAR_STOPSTATE = 0xb5;
 
-        // how lane changing is performed (set: vehicle)
+        // how lane changing is performed (get/set: vehicle)
         public const byte VAR_LANECHANGE_MODE = 0xb6;
 
         // maximum speed regarding max speed on the current lane and speed factor (get: vehicle)
@@ -720,6 +800,15 @@
 
         // upcoming traffic lights (get: vehicle)
         public const byte VAR_NEXT_TLS = 0x70;
+
+        // upcoming stops (get: vehicle)
+        public const byte VAR_NEXT_STOPS = 0x73;
+
+        // current acceleration (get: vehicle)
+        public const byte VAR_ACCELERATION = 0x72;
+
+        // current time in seconds (get: simulation)
+        public const byte VAR_TIME = 0x66;
 
         // current time step (get: simulation)
         public const byte VAR_TIME_STEP = 0x70;
@@ -790,6 +879,18 @@
         // ids of vehicles ending to park (get: simulation)
         public const byte VAR_PARKING_ENDING_VEHICLES_IDS = 0x6f;
 
+        // number of vehicles involved in a collision (get: simulation)
+        public const byte VAR_COLLIDING_VEHICLES_NUMBER = 0x80;
+
+        // ids of vehicles involved in a collision (get: simulation)
+        public const byte VAR_COLLIDING_VEHICLES_IDS = 0x81;
+
+        // number of vehicles involved in a collision (get: simulation)
+        public const byte VAR_EMERGENCYSTOPPING_VEHICLES_NUMBER = 0x89;
+
+        // ids of vehicles involved in a collision (get: simulation)
+        public const byte VAR_EMERGENCYSTOPPING_VEHICLES_IDS = 0x8a;
+
         // clears the simulation of all not inserted vehicles (set: simulation)
         public const byte CMD_CLEAR_PENDING_VEHICLES = 0x94;
 
@@ -820,6 +921,12 @@
 
         // add a fully specified instance (vehicle)
         public const byte ADD_FULL = 0x85;
+
+        // find a car based route
+        public const byte FIND_ROUTE = 0x86;
+
+        // find an intermodal route
+        public const byte FIND_INTERMODAL_ROUTE = 0x87;
 
         // force rerouting based on travel time (vehicles)
         public const byte CMD_REROUTE_TRAVELTIME = 0x90;
@@ -865,6 +972,9 @@
 
         // track vehicle
         public const byte VAR_TRACK_VEHICLE = 0xa6;
+
+        // presence of view
+        public const byte VAR_HAS_VIEW = 0xa7;
 
     }
 }

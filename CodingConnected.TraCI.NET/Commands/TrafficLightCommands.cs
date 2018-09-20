@@ -61,10 +61,10 @@ namespace CodingConnected.TraCI.NET.Commands
         /// </summary>
         /// <param name="id"></param>
         /// <returns></returns>
-		public TraCIResponse<int> GetPhaseDuration(string id)
+		public TraCIResponse<double> GetPhaseDuration(string id)
 		{
 			return 
-				TraCICommandHelper.ExecuteGetCommand<int>(
+				TraCICommandHelper.ExecuteGetCommand<double>(
 					Client, 
 					id, 
 					TraCIConstants.CMD_GET_TL_VARIABLE,
@@ -183,10 +183,10 @@ namespace CodingConnected.TraCI.NET.Commands
         /// </summary>
         /// <param name="id"></param>
         /// <returns></returns>
-        public TraCIResponse<int> GetNextSwitch(string id)
+        public TraCIResponse<double> GetNextSwitch(string id)
 		{
 			return 
-				TraCICommandHelper.ExecuteGetCommand<int>(
+				TraCICommandHelper.ExecuteGetCommand<double>(
 					Client, 
 					id, 
 					TraCIConstants.CMD_GET_TL_VARIABLE,
@@ -254,9 +254,9 @@ namespace CodingConnected.TraCI.NET.Commands
         /// <param name="id"></param>
         /// <param name="phaseDuration"></param>
         /// <returns></returns>
-        public TraCIResponse<object> SetPhaseDuration(string id, int phaseDuration)
+        public TraCIResponse<object> SetPhaseDuration(string id, double phaseDuration)
         {
-            return TraCICommandHelper.ExecuteSetCommand<object, int>(
+            return TraCICommandHelper.ExecuteSetCommand<object, double>(
                 Client,
                 id,
                 TraCIConstants.CMD_SET_TL_VARIABLE,
@@ -291,12 +291,12 @@ namespace CodingConnected.TraCI.NET.Commands
 
             foreach (var p in program.Phases)//Phases
             {
-                bytes.Add(TraCIConstants.TYPE_INTEGER); //value type integer
-                bytes.AddRange(TraCIDataConverter.GetTraCIBytesFromInt32(p.Duration)); //Duration[ms]
-                bytes.Add(TraCIConstants.TYPE_INTEGER); //value type integer
-                bytes.AddRange(TraCIDataConverter.GetTraCIBytesFromInt32(0)); //unused
-                bytes.Add(TraCIConstants.TYPE_INTEGER); //value type integer
-                bytes.AddRange(TraCIDataConverter.GetTraCIBytesFromInt32(0)); //unused
+                bytes.Add(TraCIConstants.TYPE_DOUBLE); //value type integer
+                bytes.AddRange(TraCIDataConverter.GetTraCIBytesFromDouble(p.Duration)); //Duration[ms]
+                bytes.Add(TraCIConstants.TYPE_DOUBLE); //value type integer
+                bytes.AddRange(TraCIDataConverter.GetTraCIBytesFromDouble(0)); //unused
+                bytes.Add(TraCIConstants.TYPE_DOUBLE); //value type integer
+                bytes.AddRange(TraCIDataConverter.GetTraCIBytesFromDouble(0)); //unused
                 bytes.Add(TraCIConstants.TYPE_STRING); //value type string
                 bytes.AddRange(TraCIDataConverter.GetTraCIBytesFromASCIIString(p.Definition)); //State (light/priority-tuple)
             }
