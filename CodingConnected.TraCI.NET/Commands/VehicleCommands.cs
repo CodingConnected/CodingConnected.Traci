@@ -1847,7 +1847,7 @@ namespace CodingConnected.TraCI.NET.Commands
             throw new NotImplementedException();
         }
 
-        public void Subscribe(string objectId, int beginTime, int endTime, List<byte> ListOfVariablesToSubsribeTo)
+        public void Subscribe(string objectId, double beginTime, double endTime, List<byte> ListOfVariablesToSubsribeTo)
         {
             TraCICommandHelper.ExecuteSubscribeCommand(
                 Client,

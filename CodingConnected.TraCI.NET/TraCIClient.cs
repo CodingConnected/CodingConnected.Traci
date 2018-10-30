@@ -212,12 +212,24 @@ namespace CodingConnected.TraCI.NET
 				    // Read returns 0 if the client closes the connection
 				    throw new IOException();
 			    }
-			    var response = _receiveBuffer.Take(bytesRead).ToArray();
-#if NLOG
-                _logger.Trace(" << {0}", BitConverter.ToString(response));
-#endif
-			    var trresponse = TraCIDataConverter.HandleResponse(response);
-			    return trresponse?.Length > 0 ? trresponse : null;
+
+                var revLength = _receiveBuffer.Take(4).Reverse().ToArray();
+                var totlength = BitConverter.ToInt32(revLength, 0);
+                var response = new List<byte>();
+                response.AddRange(_receiveBuffer.Take(bytesRead).ToArray());
+
+                if (bytesRead != totlength)
+                {
+                    while (bytesRead < totlength)
+                    {
+                        var innerBytesRead = _stream.Read(_receiveBuffer, 0, 32768);
+                        response.AddRange(_receiveBuffer.Take(innerBytesRead).ToArray());
+                        bytesRead += innerBytesRead;
+                    }
+                }
+                //var response = _receiveBuffer.Take(bytesRead).ToArray();
+                var trresponse = TraCIDataConverter.HandleResponse(response.ToArray());
+                return trresponse?.Length > 0 ? trresponse : null;
 		    }
 		    catch
 		    {

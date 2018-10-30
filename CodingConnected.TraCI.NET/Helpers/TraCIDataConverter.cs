@@ -162,7 +162,7 @@ namespace CodingConnected.TraCI.NET.Helpers
                         var datatype = r1.Response[offset++];
 
                         // extract value by datatype
-                        offset += GetValueFromTypeAndArray(datatype, r1.Response.Skip(offset).ToArray(), out object contentAsObject);
+                        offset += GetValueFromTypeAndArray(datatype, r1.Response.Skip(offset), out object contentAsObject);
                         
                         switch (datatype)
                         {
@@ -601,7 +601,7 @@ namespace CodingConnected.TraCI.NET.Helpers
             return bytes.ToArray();
         }
 
-        internal static int GetValueFromTypeAndArray(byte type, byte[] array, out object Object)
+        internal static int GetValueFromTypeAndArray(byte type, IEnumerable<byte> array, out object Object)
         {
             switch (type)
             {
@@ -711,7 +711,7 @@ namespace CodingConnected.TraCI.NET.Helpers
                         {
                             for (var i = 0; i <= count; ++i)
                             {
-                                var ctype = array[offset];
+                                var ctype = array.Skip(offset).First();
                                 ++offset;
                                 switch (ctype)
                                 {
@@ -834,7 +834,7 @@ namespace CodingConnected.TraCI.NET.Helpers
             }
         }
 
-        private static int GetTrafficLightPhaseList(byte[] array, int offset, out TrafficLightPhaseList trafficLightPhaseList)
+        private static int GetTrafficLightPhaseList(IEnumerable<byte> array, int offset, out TrafficLightPhaseList trafficLightPhaseList)
         {
             trafficLightPhaseList = new TrafficLightPhaseList();
 
@@ -856,20 +856,20 @@ namespace CodingConnected.TraCI.NET.Helpers
             return offset;
         }
 
-        private static int GetColor(byte[] array, int offset, out Color color)
+        private static int GetColor(IEnumerable<byte> array, int offset, out Color color)
         {
             color = new Color
             {
-                R = array[offset++],
-                G = array[offset++],
-                B = array[offset++],
-                A = array[offset++]
+                R = array.Skip(offset++).First(),
+                G = array.Skip(offset++).First(),
+                B = array.Skip(offset++).First(),
+                A = array.Skip(offset++).First()
             };
 
             return offset;
         }
 
-        private static int GetBoundaryBox(byte[] array, int offset, out BoundaryBox boundaryBox)
+        private static int GetBoundaryBox(IEnumerable<byte> array, int offset, out BoundaryBox boundaryBox)
         {
             var bb = new BoundaryBox();
             var take = array.Skip(offset).Take(TraCIConstants.DOUBLE_SIZE).Reverse().ToArray();
@@ -888,7 +888,7 @@ namespace CodingConnected.TraCI.NET.Helpers
             return offset;
         }
 
-        private static int GetPositionRoadmap(byte[] array, int offset, out RoadMapPosition roadMapPosition)
+        private static int GetPositionRoadmap(IEnumerable<byte> array, int offset, out RoadMapPosition roadMapPosition)
         {
             var rmp = new RoadMapPosition();
             var sb = new StringBuilder();
@@ -897,19 +897,19 @@ namespace CodingConnected.TraCI.NET.Helpers
             var length = BitConverter.ToInt32(take, 0);
             for (var j = 0; j < length; ++j)
             {
-                sb.Append((char)array[j + TraCIConstants.INTEGER_SIZE]);
+                sb.Append((char)array.Skip(j + TraCIConstants.INTEGER_SIZE).First());
                 ++offset;
             }
             rmp.RoadId = sb.ToString();
             take = array.Skip(offset).Take(TraCIConstants.DOUBLE_SIZE).Reverse().ToArray();
             offset += TraCIConstants.DOUBLE_SIZE;
             rmp.Pos = BitConverter.ToDouble(take, 0);
-            rmp.LaneId = array[offset];
+            rmp.LaneId = array.Skip(offset).First();
             roadMapPosition = rmp;
             return offset;
         }
 
-        private static int GetPostion3D(byte[] array, int offset, out Position3D position3D)
+        private static int GetPostion3D(IEnumerable<byte> array, int offset, out Position3D position3D)
         {
             var pos3d = new Position3D();
             var take = array.Skip(offset).Take(TraCIConstants.DOUBLE_SIZE).Reverse().ToArray();
@@ -925,7 +925,7 @@ namespace CodingConnected.TraCI.NET.Helpers
             return offset;
         }
 
-        private static int GetPositionLonLatAlt(byte[] array, int offset, out LonLatAltPosition lonLatAltPosition)
+        private static int GetPositionLonLatAlt(IEnumerable<byte> array, int offset, out LonLatAltPosition lonLatAltPosition)
         {
             var lonlatalt = new LonLatAltPosition();
             var take = array.Skip(offset).Take(TraCIConstants.DOUBLE_SIZE).Reverse().ToArray();
@@ -941,7 +941,7 @@ namespace CodingConnected.TraCI.NET.Helpers
             return offset;
         }
 
-        private static int Get2DPosition(byte[] array, int offset, out Position2D position2D)
+        private static int Get2DPosition(IEnumerable<byte> array, int offset, out Position2D position2D)
         {
             var pos2d = new Position2D();
             var take = array.Skip(offset).Take(TraCIConstants.DOUBLE_SIZE).Reverse().ToArray();
@@ -955,7 +955,7 @@ namespace CodingConnected.TraCI.NET.Helpers
             return offset;
         }
 
-        private static int GetPositionLonLat(byte[] array, int offset, out LonLatPosition lonLatPosition)
+        private static int GetPositionLonLat(IEnumerable<byte> array, int offset, out LonLatPosition lonLatPosition)
         {
             byte[] take;
             var lonlat = new LonLatPosition();
@@ -969,7 +969,7 @@ namespace CodingConnected.TraCI.NET.Helpers
             return offset;
         }
 
-        private static int GetStringList(byte[] array, int offset, out TraCIStringList StringList)
+        private static int GetStringList(IEnumerable<byte> array, int offset, out TraCIStringList StringList)
         {
             StringList = new TraCIStringList();
 
@@ -986,7 +986,7 @@ namespace CodingConnected.TraCI.NET.Helpers
                 var length = BitConverter.ToInt32(take, 0);
                 for (var j = 0; j < length; ++j)
                 {
-                    sb.Append((char)array[offset]);
+                    sb.Append((char)array.Skip(offset).First());
                     ++offset;
                 }
                 list.Add(sb.ToString());
@@ -995,7 +995,7 @@ namespace CodingConnected.TraCI.NET.Helpers
             return offset;
         }
 
-        private static int GetString(byte[] array, int offset, out TraCIString String)
+        private static int GetString(IEnumerable<byte> array, int offset, out TraCIString String)
         {
             String = new TraCIString();
             var sb = new StringBuilder();
@@ -1004,7 +1004,7 @@ namespace CodingConnected.TraCI.NET.Helpers
             offset += TraCIConstants.INTEGER_SIZE;
             for (var i = 0; i < length; ++i)
             {
-                sb.Append((char)array[offset]);
+                sb.Append((char)array.Skip(offset).First());
                 offset++;
             }
             String.Value = sb.ToString();
@@ -1012,7 +1012,7 @@ namespace CodingConnected.TraCI.NET.Helpers
             return offset;
         }
 
-        private static int GetDouble(byte[] array, int offset, out TraCIDouble Double)
+        private static int GetDouble(IEnumerable<byte> array, int offset, out TraCIDouble Double)
         {
             Double = new TraCIDouble();
             var take = array.Skip(offset).Take(TraCIConstants.DOUBLE_SIZE).Reverse().ToArray();
@@ -1020,7 +1020,7 @@ namespace CodingConnected.TraCI.NET.Helpers
             return offset + TraCIConstants.DOUBLE_SIZE;
         }
 
-        private static int GetFloat(byte[] array, int offset, out TraCIFloat Float)
+        private static int GetFloat(IEnumerable<byte> array, int offset, out TraCIFloat Float)
         {
             Float = new TraCIFloat();
             var take = array.Skip(offset).Take(TraCIConstants.FLOAT_SIZE).Reverse().ToArray();
@@ -1028,7 +1028,7 @@ namespace CodingConnected.TraCI.NET.Helpers
             return offset + TraCIConstants.FLOAT_SIZE;
         }
 
-        private static int GetInteger(byte[] array, int offset, out TraCIInteger integer)
+        private static int GetInteger(IEnumerable<byte> array, int offset, out TraCIInteger integer)
         {
             integer = new TraCIInteger();
             var take = array.Skip(offset).Take(TraCIConstants.INTEGER_SIZE).Reverse().ToArray();
@@ -1036,28 +1036,28 @@ namespace CodingConnected.TraCI.NET.Helpers
             return offset + TraCIConstants.INTEGER_SIZE;
         }
 
-        private static int GetByte(byte[] array, int offset, out TraCIByte Byte)
+        private static int GetByte(IEnumerable<byte> array, int offset, out TraCIByte Byte)
         {
             Byte = new TraCIByte
             {
-                Value = array[offset]
+                Value = array.Skip(offset).First()
             };
             return offset + TraCIConstants.BYTE_SIZE;
         }
 
-        private static int GetUByte(byte[] array, int offset, out TraCIUByte Byte)
+        private static int GetUByte(IEnumerable<byte> array, int offset, out TraCIUByte Byte)
         {
             Byte = new TraCIUByte
             {
-                Value = array[offset]
+                Value = array.Skip(offset).First()
             };
             return offset + TraCIConstants.UBYTE_SIZE;
         }
 
-        private static int GetPolygon(byte[] array, int offset, out Polygon pol)
+        private static int GetPolygon(IEnumerable<byte> array, int offset, out Polygon pol)
         {
             byte[] take;
-            var length = array[offset];
+            var length = array.Skip(offset).First();
             int skip = offset + 1; // first byte is length of data
 
             pol = new Polygon();

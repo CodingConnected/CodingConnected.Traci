@@ -67,7 +67,7 @@ namespace CodingConnected.TraCI.NET.Helpers
             }
         }
 
-        internal static void ExecuteSubscribeCommand(TraCIClient client, int beginTime, int endTime, string objectId, byte commandType, List<byte> variables)
+        internal static void ExecuteSubscribeCommand(TraCIClient client, double beginTime, double endTime, string objectId, byte commandType, List<byte> variables)
         {
             TraCICommand command = null;
             command = GetCommand(objectId, beginTime, endTime, commandType, variables);
@@ -98,11 +98,11 @@ namespace CodingConnected.TraCI.NET.Helpers
             }
         }
 
-        internal static TraCICommand GetCommand(string objectId, int beginTime, int endTime, byte commandType, List<byte> variables)
+        internal static TraCICommand GetCommand(string objectId, double beginTime, double endTime, byte commandType, List<byte> variables)
         {
             var bytes = new List<byte>();
-            bytes.AddRange(TraCIDataConverter.GetTraCIBytesFromInt32(beginTime));
-            bytes.AddRange(TraCIDataConverter.GetTraCIBytesFromInt32(endTime));
+            bytes.AddRange(TraCIDataConverter.GetTraCIBytesFromDouble(beginTime));
+            bytes.AddRange(TraCIDataConverter.GetTraCIBytesFromDouble(endTime));
             bytes.AddRange(TraCIDataConverter.GetTraCIBytesFromASCIIString(objectId));
             bytes.Add((byte)variables.Count);
             foreach (var variable in variables)
