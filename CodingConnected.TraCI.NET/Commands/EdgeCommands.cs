@@ -388,6 +388,17 @@ namespace CodingConnected.TraCI.NET.Commands
                                  speed
                                  );
         }
+
+        public void Subscribe(string objectId, int beginTime, int endTime, List<byte> ListOfVariablesToSubsribeTo)
+        {
+            TraCICommandHelper.ExecuteSubscribeCommand(
+                Client,
+                beginTime,
+                endTime,
+                objectId,
+                TraCIConstants.CMD_SUBSCRIBE_EDGE_VARIABLE,
+                ListOfVariablesToSubsribeTo);
+        }
         #endregion // Public Methods
 
         #region Constructor

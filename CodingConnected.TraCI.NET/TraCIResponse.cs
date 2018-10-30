@@ -6,11 +6,11 @@ using System.Threading.Tasks;
 
 namespace CodingConnected.TraCI.NET
 {
-    public enum ResultCode
+    public enum ResultCode:byte
     {
-        Success,
-        Failed,
-        NotImplemented
+        Success = 0x00,
+        Failed = 0xff,
+        NotImplemented = 0x01
     }
 
     public class TraCIResponse<T>
@@ -26,5 +26,6 @@ namespace CodingConnected.TraCI.NET
         public string ErrorMessage { get; set; }
 
         public byte? Variable { get; set; }
+
     }
 }

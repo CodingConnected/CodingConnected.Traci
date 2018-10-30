@@ -98,12 +98,23 @@ namespace CodingConnected.TraCI.NET.Commands
 					TraCIConstants.CMD_GET_MULTIENTRYEXIT_VARIABLE,
 					TraCIConstants.LAST_STEP_VEHICLE_HALTING_NUMBER);
 		}
-		
-		#endregion // Public Methods
 
-		#region Constructor
 
-		public MultiEntryExitDetectorCommands(TraCIClient client) : base(client)
+        public void Subscribe(string objectId, int beginTime, int endTime, List<byte> ListOfVariablesToSubsribeTo)
+        {
+            TraCICommandHelper.ExecuteSubscribeCommand(
+                Client,
+                beginTime,
+                endTime,
+                objectId,
+                TraCIConstants.CMD_SUBSCRIBE_MULTIENTRYEXIT_VARIABLE,
+                ListOfVariablesToSubsribeTo);
+        }
+        #endregion // Public Methods
+
+        #region Constructor
+
+        public MultiEntryExitDetectorCommands(TraCIClient client) : base(client)
 		{
 		}
 

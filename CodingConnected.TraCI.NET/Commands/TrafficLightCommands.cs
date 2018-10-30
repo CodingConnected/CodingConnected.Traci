@@ -320,12 +320,28 @@ namespace CodingConnected.TraCI.NET.Commands
             }
         }
 
-    
-    #endregion // Public Methods
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="objectId">Id of the object to subscribe to. If you want to subscribe to id list or count, use "ignored" as object id</param>
+        /// <param name="beginTime"></param>
+        /// <param name="endTime"></param>
+        /// <param name="ListOfVariablesToSubsribeTo"></param>
+        public void Subscribe(string objectId, int beginTime, int endTime, List<byte> ListOfVariablesToSubsribeTo)
+        {
+            TraCICommandHelper.ExecuteSubscribeCommand(
+                Client,
+                beginTime,
+                endTime,
+                objectId,
+                TraCIConstants.CMD_SUBSCRIBE_TL_VARIABLE,
+                ListOfVariablesToSubsribeTo);
+        }
+        #endregion // Public Methods
 
-    #region Constructor
+        #region Constructor
 
-    public TrafficLightCommands(TraCIClient client) : base(client)
+        public TrafficLightCommands(TraCIClient client) : base(client)
 		{
 		}
 

@@ -69,9 +69,11 @@
     <Compile Include="TraCIConstants.cs" />
     <Compile Include="TraCIResponse.cs" />
     <Compile Include="TraCIResult.cs" />
+    <Compile Include="TraCISubscriptionResponse.cs" />
     <Compile Include="Types\CompoundObject.cs" />
     <Compile Include="Types\ControlledLinks.cs" />
     <Compile Include="Types\EdgeInformation.cs" />
+    <Compile Include="Types\SubscriptionEventArgs.cs" />
     <Compile Include="Types\TraCIByte.cs" />
     <Compile Include="Types\TraCIDouble.cs" />
     <Compile Include="Types\TraCIFloat.cs" />

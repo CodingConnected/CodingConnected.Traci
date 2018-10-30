@@ -1847,7 +1847,16 @@ namespace CodingConnected.TraCI.NET.Commands
             throw new NotImplementedException();
         }
 
-
+        public void Subscribe(string objectId, double beginTime, double endTime, List<byte> ListOfVariablesToSubsribeTo)
+        {
+            TraCICommandHelper.ExecuteSubscribeCommand(
+                Client,
+                beginTime,
+                endTime,
+                objectId,
+                TraCIConstants.CMD_SUBSCRIBE_VEHICLE_VARIABLE,
+                ListOfVariablesToSubsribeTo);
+        }
         #endregion // Public Methods
 
         #region Constructor

@@ -74,6 +74,7 @@ namespace CodingConnected.TraCI.NET.Commands
         /// <returns></returns>
 		public TraCIResponse<CompoundObject> GetLinks(string id)
 		{
+            //TODO: parse the result into a usable format
 			return 
 				TraCICommandHelper.ExecuteGetCommand<CompoundObject>(
 					Client, 
@@ -477,6 +478,19 @@ namespace CodingConnected.TraCI.NET.Commands
                 TraCIConstants.CMD_SET_LANE_VARIABLE,
                 TraCIConstants.VAR_MAXSPEED,
                 maxSpeed);
+        }
+
+
+
+        public void Subscribe(string objectId, int beginTime, int endTime, List<byte> ListOfVariablesToSubsribeTo)
+        {
+            TraCICommandHelper.ExecuteSubscribeCommand(
+                Client,
+                beginTime,
+                endTime,
+                objectId,
+                TraCIConstants.CMD_SUBSCRIBE_LANE_VARIABLE,
+                ListOfVariablesToSubsribeTo);
         }
         #endregion // Public Methods
 
