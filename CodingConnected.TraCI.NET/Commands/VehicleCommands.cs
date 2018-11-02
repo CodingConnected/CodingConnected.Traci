@@ -213,7 +213,7 @@ namespace CodingConnected.TraCI.NET.Commands
                     Client,
                     id,
                     TraCIConstants.CMD_GET_VEHICLE_VARIABLE,
-                    TraCIConstants.VAR_ROUTE);
+                    TraCIConstants.VAR_EDGES);
         }
 
         /// <summary>
