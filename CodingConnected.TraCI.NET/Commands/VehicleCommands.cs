@@ -1324,7 +1324,6 @@ namespace CodingConnected.TraCI.NET.Commands
         /// Moves the vehicle to a new position after normal vehicle movements have taken place. Also forces the angle of the vehicle to the given value (navigational angle in degree).
         /// </summary>
         /// <param name="id"></param>
-        /// <param name="itemNumber"></param>
         /// <param name="edgeId"></param>
         /// <param name="laneIndex"></param>
         /// <param name="xPosition"></param>
@@ -1332,12 +1331,13 @@ namespace CodingConnected.TraCI.NET.Commands
         /// <param name="angle"></param>
         /// <param name="keepRoute"></param>
         /// <returns></returns>
-        public TraCIResponse<object> MoveToXY(string id, int itemNumber, string edgeId, int laneIndex, double xPosition, double yPosition, double angle, int keepRoute = -1)
+        public TraCIResponse<object> MoveToXY(string id, string edgeId, int laneIndex, double xPosition, double yPosition, double angle, int keepRoute = -1)
         {
             var tmp = new CompoundObject();
             tmp.Value.Add(new TraCIString() { Value = edgeId });
             tmp.Value.Add(new TraCIInteger() { Value = laneIndex });
             tmp.Value.Add(new TraCIDouble() { Value = xPosition });
+            tmp.Value.Add(new TraCIDouble() { Value = yPosition });
             tmp.Value.Add(new TraCIDouble() { Value = angle });
             if (keepRoute == 0 || keepRoute == 1 || keepRoute == 2)
             {
