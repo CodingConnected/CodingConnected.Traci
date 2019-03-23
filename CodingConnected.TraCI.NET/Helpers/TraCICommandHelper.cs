@@ -83,6 +83,30 @@ namespace CodingConnected.TraCI.NET.Helpers
             //}
         }
 
+        /// <summary>
+        /// Context subscriptions are allowing the obtaining of specific values from surrounding objects of a certain so called "EGO" object.
+        /// With these datas one can determine the traffic status around that EGO object. Such an EGO Object can be any possible Vehicle, inductive loop, points-of-interest, and such like.
+        /// A vehicle driving through a city, for example, is surrounded by a lot of different and changing vehicles, lanes, junctions, or points-of-interest along his ride. 
+        /// Context subscriptions can provide selected variables of those objects that surround the EGO object within a certain range.
+        /// 
+        /// <see href="https://sumo.dlr.de/wiki/TraCI/Object_Context_Subscription"/>
+        /// </summary>
+        /// <remarks>  </remarks>
+        /// <param name="client"> the client that is connected to the SUMO server </param>
+        /// <param name="beginTime"> begin Time: the subscription is executed only in time steps >= this value; in ms </param>
+        /// <param name="endTime"> the subscription is executed in time steps &lt;= this value; the subscription is removed if the simulation has reached a higher time step; in ms </param>
+        /// <param name="objectId"> the id of the object for the context subsription </param>
+        /// <param name="contextDomain"> the type of objects in the addressed object's surrounding to ask values from </param>
+        /// <param name="contextRange"> the radius of the surrounding </param>
+        /// <param name="commandType"> The identifier for the Object Context Subscription command. </param>
+        /// <param name="variables"> the list of variables to return </param>
+        internal static void ExecuteSubscribeContextCommand(TraCIClient client, double beginTime, double endTime, string objectId, byte contextDomain, double contextRange, byte commandType, List<byte> variables)
+        {
+            TraCICommand command = null;
+            command = GetCommand(objectId, beginTime, endTime, contextDomain, contextRange, commandType, variables);
+            var response = client.SendMessage(command);
+        }
+
         internal static TraCIResponse<T> ExecuteGetCommand<T>(TraCIClient client, string id, byte commandType, byte messageType)
         {
             var command = GetCommand(id, commandType, messageType);
@@ -104,6 +128,32 @@ namespace CodingConnected.TraCI.NET.Helpers
             bytes.AddRange(TraCIDataConverter.GetTraCIBytesFromDouble(beginTime));
             bytes.AddRange(TraCIDataConverter.GetTraCIBytesFromDouble(endTime));
             bytes.AddRange(TraCIDataConverter.GetTraCIBytesFromASCIIString(objectId));
+            bytes.Add((byte)variables.Count);
+            foreach (var variable in variables)
+            {
+                bytes.Add(variable);
+            }
+
+            var command = new TraCICommand
+            {
+                Identifier = commandType,
+                Contents = bytes.ToArray()
+            };
+            return command;
+        }
+
+        /// <summary>
+        /// Helper GetCommand for Object Context Subscription
+        /// </summary>
+        /// <returns></returns>
+        internal static TraCICommand GetCommand(string objectId, double beginTime, double endTime, byte contextDomain, double contextRange, byte commandType, List<byte> variables)
+        {
+            var bytes = new List<byte>();
+            bytes.AddRange(TraCIDataConverter.GetTraCIBytesFromDouble(beginTime));
+            bytes.AddRange(TraCIDataConverter.GetTraCIBytesFromDouble(endTime));
+            bytes.AddRange(TraCIDataConverter.GetTraCIBytesFromASCIIString(objectId));
+            bytes.Add(contextDomain);
+            bytes.AddRange(TraCIDataConverter.GetTraCIBytesFromDouble(contextRange));
             bytes.Add((byte)variables.Count);
             foreach (var variable in variables)
             {

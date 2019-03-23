@@ -144,232 +144,52 @@ namespace CodingConnected.TraCI.NET.Helpers
                     // Subscription
                     var subResponseCode = r1.Response[offset++];
 
-                    // extract the object id
-                    offset = GetString(r1.Response, offset, out TraCIString objectId);
+                    var low = subResponseCode & 0x0F;
+                    var high = subResponseCode >> 4;
 
-                    // extract the number of variables
-                    var countVaribales = r1.Response[offset++];
-
-                    var subResponse = new TraCISubscriptionResponse();
-                    subResponse.ObjectId = objectId.Value;
-                    subResponse.ResponseCode = subResponseCode;
-
-                    for (int j = 0; j < countVaribales; j++)
+                    // 0xeX => Variable Subscription Response
+                    // 0x9X => Object Context Subscription Response
+                    if (high == 0x0e)
                     {
-                        // extract variable number, result and datatype of the response
-                        var variable = r1.Response[offset++];
-                        var result = r1.Response[offset++];
-                        var datatype = r1.Response[offset++];
+                        // extract the object id
+                        offset = GetString(r1.Response, offset, out TraCIString objectId);
 
-                        // extract value by datatype
-                        offset += GetValueFromTypeAndArray(datatype, r1.Response.Skip(offset), out object contentAsObject);
-                        
-                        switch (datatype)
-                        {
-                            case TraCIConstants.POSITION_LON_LAT:
-                                {
-                                    subResponse.Responses.Add(
-                                    new TraCIResponse<LonLatPosition>
-                                    {
-                                        Identifier = subResponseCode,
-                                        Variable = variable,
-                                        Result = (ResultCode)result,
-                                        Content = (LonLatPosition)contentAsObject
-                                    });
-                                    break;
-                                }
-                            case TraCIConstants.POSITION_2D:
-                                {
-                                    subResponse.Responses.Add(
-                                    new TraCIResponse<Position2D>
-                                    {
-                                        Identifier = subResponseCode,
-                                        Variable = variable,
-                                        Result = (ResultCode)result,
-                                        Content = (Position2D)contentAsObject
-                                    });
-                                    break;
-                                }
-                            case TraCIConstants.POSITION_LON_LAT_ALT:
-                                {
-                                    subResponse.Responses.Add(
-                                    new TraCIResponse<LonLatAltPosition>
-                                    {
-                                        Identifier = subResponseCode,
-                                        Variable = variable,
-                                        Result = (ResultCode)result,
-                                        Content = (LonLatAltPosition)contentAsObject
-                                    });
-                                    break;
-                                }
-                            case TraCIConstants.POSITION_3D:
-                                {
-                                    subResponse.Responses.Add(
-                                    new TraCIResponse<Position3D>
-                                    {
-                                        Identifier = subResponseCode,
-                                        Variable = variable,
-                                        Result = (ResultCode)result,
-                                        Content = (Position3D)contentAsObject
-                                    });
-                                    break;
-                                }
-                            case TraCIConstants.POSITION_ROADMAP:
-                                {
-                                    subResponse.Responses.Add(
-                                    new TraCIResponse<RoadMapPosition>
-                                    {
-                                        Identifier = subResponseCode,
-                                        Variable = variable,
-                                        Result = (ResultCode)result,
-                                        Content = (RoadMapPosition)contentAsObject
-                                    });
-                                    break;
-                                }
-                            case TraCIConstants.TYPE_BOUNDINGBOX:
-                                {
-                                    subResponse.Responses.Add(
-                                    new TraCIResponse<BoundaryBox>
-                                    {
-                                        Identifier = subResponseCode,
-                                        Variable = variable,
-                                        Result = (ResultCode)result,
-                                        Content = (BoundaryBox)contentAsObject
-                                    });
-                                    break;
-                                }
-                            case TraCIConstants.TYPE_POLYGON:
-                                {
-                                    subResponse.Responses.Add(
-                                    new TraCIResponse<Polygon>
-                                    {
-                                        Identifier = subResponseCode,
-                                        Variable = variable,
-                                        Result = (ResultCode)result,
-                                        Content = (Polygon)contentAsObject
-                                    });
-                                    break;
-                                }
-                            case TraCIConstants.TYPE_UBYTE:
-                                {
-                                    subResponse.Responses.Add(
-                                    new TraCIResponse<byte>
-                                    {
-                                        Identifier = subResponseCode,
-                                        Variable = variable,
-                                        Result = (ResultCode)result,
-                                        Content = (byte)contentAsObject
-                                    });
-                                    break;
-                                }
-                            case TraCIConstants.TYPE_BYTE:
-                                {
-                                    subResponse.Responses.Add(
-                                    new TraCIResponse<byte>
-                                    {
-                                        Identifier = subResponseCode,
-                                        Variable = variable,
-                                        Result = (ResultCode)result,
-                                        Content = (byte)contentAsObject
-                                    });
-                                    break;
-                                }
-                            case TraCIConstants.TYPE_INTEGER:
-                                {
-                                    subResponse.Responses.Add(
-                                    new TraCIResponse<int>
-                                    {
-                                        Identifier = subResponseCode,
-                                        Variable = variable,
-                                        Result = (ResultCode)result,
-                                        Content = (int)contentAsObject
-                                    });
-                                    break;
-                                }
-                            case TraCIConstants.TYPE_FLOAT:
-                                {
-                                    subResponse.Responses.Add(
-                                    new TraCIResponse<float>
-                                    {
-                                        Identifier = subResponseCode,
-                                        Variable = variable,
-                                        Result = (ResultCode)result,
-                                        Content = (float)contentAsObject
-                                    });
-                                    break;
-                                }
-                            case TraCIConstants.TYPE_DOUBLE:
-                                {
-                                    subResponse.Responses.Add(
-                                    new TraCIResponse<double>
-                                    {
-                                        Identifier = subResponseCode,
-                                        Variable = variable,
-                                        Result = (ResultCode)result,
-                                        Content = (double)contentAsObject
-                                    });
-                                    break;
-                                }
-                            case TraCIConstants.TYPE_STRING:
-                                {
-                                    subResponse.Responses.Add(
-                                    new TraCIResponse<string>
-                                    {
-                                        Identifier = subResponseCode,
-                                        Variable = variable,
-                                        Result = (ResultCode)result,
-                                        Content = (string)contentAsObject
-                                    });
-                                    break;
-                                }
-                            case TraCIConstants.TYPE_STRINGLIST:
-                                {
-                                    subResponse.Responses.Add(
-                                    new TraCIResponse<List<string>>
-                                    {
-                                        Identifier = subResponseCode,
-                                        Variable = variable,
-                                        Result = (ResultCode)result,
-                                        Content = (List<string>)contentAsObject
-                                    });
-                                    break;
-                                }
-                            case TraCIConstants.TYPE_COLOR:
-                                {
-                                    subResponse.Responses.Add(
-                                    new TraCIResponse<Color>
-                                    {
-                                        Identifier = subResponseCode,
-                                        Variable = variable,
-                                        Result = (ResultCode)result,
-                                        Content = (Color)contentAsObject
-                                    });
-                                    break;
-                                }
-                            case TraCIConstants.TYPE_TLPHASELIST:
-                                {
-                                    throw new NotImplementedException("There is no handler for Traffic Light Phase List (ubyte identifier: 0x0D). Unclear definition of this datatyp. See http://sumo.dlr.de/wiki/TraCI/Protocol#Data_types");
-                                }
-                            case TraCIConstants.TYPE_COMPOUND:
-                                {
-                                    subResponse.Responses.Add(
-                                    new TraCIResponse<CompoundObject>
-                                    {
-                                        Identifier = subResponseCode,
-                                        Variable = variable,
-                                        Result = (ResultCode)result,
-                                        Content = (CompoundObject)contentAsObject
-                                    });
-                                    break;
-                                }
-                            default:
-                                {
-                                    throw new ArgumentOutOfRangeException();
-                                }
-                        }
+                        // extract the number of variables
+                        var countVariables = r1.Response[offset++];
+
+                        offset = CreateVariableSubscriptionResponse(objectId, r1, subResponseCode, countVariables, offset, out var subResponse);
+
+                        offset++;
+                        returnList.Add(subResponse);
                     }
-                    offset++;
-                    returnList.Add(subResponse);
+                    else if (high == 0x09)
+                    {
+                        // extract the object id of the EGO object
+                        offset = GetString(r1.Response, offset, out TraCIString objectId);
+
+                        // extract the context domain the subscription happened under
+                        var contextDomain = r1.Response[offset++];
+
+                        // extract the number of variables that was returned for each object
+                        var countVariables = r1.Response[offset++];
+
+                        // extract the number of objects that are inside the context range
+                        offset = GetInteger(r1.Response, offset, out var countObject);
+
+                        var subContextResponse = new TraCIContextSubscriptionResponse(objectId.Value, subResponseCode);
+
+                        for (int objectNum = 0; objectNum < countObject.Value; objectNum++)
+                        {
+                            offset = GetString(r1.Response, offset, out var curObjectId);
+
+                            offset = CreateVariableSubscriptionResponse(curObjectId, r1, subResponseCode, countVariables, offset, out var curSubResponse);
+
+                            subContextResponse.VariableSubscriptionByObjectId.Add(curObjectId.Value, curSubResponse);
+
+                        }
+                        offset++;
+                        returnList.Add(subContextResponse);
+                    }
                 }
 
                 return returnList;
@@ -379,6 +199,244 @@ namespace CodingConnected.TraCI.NET.Helpers
                 throw new NotImplementedException();
 
             }
+        }
+
+        private static int CreateVariableSubscriptionResponse(TraCIString objectId, TraCIResult r1, byte subResponseCode, byte countVariables, int offset, out TraCIVariableSubscriptionResponse variableSubscriptionResponce)
+        {
+            variableSubscriptionResponce = new TraCIVariableSubscriptionResponse(objectId.Value, subResponseCode);
+
+            for (int varNum = 0; varNum < countVariables; varNum++)
+            {
+                // extract variable identifier, status and datatype of the response
+                var variable = r1.Response[offset++];
+                var result = r1.Response[offset++];
+                var datatype = r1.Response[offset++];
+
+                // extract value by datatype
+                offset += GetValueFromTypeAndArray(datatype, r1.Response.Skip(offset), out object contentAsObject);
+
+                switch (datatype)
+                {
+                    case TraCIConstants.POSITION_LON_LAT:
+                        {
+                            variableSubscriptionResponce.responseByVariableCode.Add(
+                                variable,
+                            new TraCIResponse<LonLatPosition>
+                            {
+                                Identifier = subResponseCode,
+                                Variable = variable,
+                                Result = (ResultCode)result,
+                                Content = (LonLatPosition)contentAsObject
+                            });
+                            break;
+                        }
+                    case TraCIConstants.POSITION_2D:
+                        {
+                            variableSubscriptionResponce.responseByVariableCode.Add(
+                                variable,
+                            new TraCIResponse<Position2D>
+                            {
+                                Identifier = subResponseCode,
+                                Variable = variable,
+                                Result = (ResultCode)result,
+                                Content = (Position2D)contentAsObject
+                            });
+                            break;
+                        }
+                    case TraCIConstants.POSITION_LON_LAT_ALT:
+                        {
+                            variableSubscriptionResponce.responseByVariableCode.Add(
+                                variable,
+                            new TraCIResponse<LonLatAltPosition>
+                            {
+                                Identifier = subResponseCode,
+                                Variable = variable,
+                                Result = (ResultCode)result,
+                                Content = (LonLatAltPosition)contentAsObject
+                            });
+                            break;
+                        }
+                    case TraCIConstants.POSITION_3D:
+                        {
+                            variableSubscriptionResponce.responseByVariableCode.Add(
+                                variable,
+                            new TraCIResponse<Position3D>
+                            {
+                                Identifier = subResponseCode,
+                                Variable = variable,
+                                Result = (ResultCode)result,
+                                Content = (Position3D)contentAsObject
+                            });
+                            break;
+                        }
+                    case TraCIConstants.POSITION_ROADMAP:
+                        {
+                            variableSubscriptionResponce.responseByVariableCode.Add(
+                                variable,
+                            new TraCIResponse<RoadMapPosition>
+                            {
+                                Identifier = subResponseCode,
+                                Variable = variable,
+                                Result = (ResultCode)result,
+                                Content = (RoadMapPosition)contentAsObject
+                            });
+                            break;
+                        }
+                    case TraCIConstants.TYPE_BOUNDINGBOX:
+                        {
+                            variableSubscriptionResponce.responseByVariableCode.Add(
+                                variable,
+                            new TraCIResponse<BoundaryBox>
+                            {
+                                Identifier = subResponseCode,
+                                Variable = variable,
+                                Result = (ResultCode)result,
+                                Content = (BoundaryBox)contentAsObject
+                            });
+                            break;
+                        }
+                    case TraCIConstants.TYPE_POLYGON:
+                        {
+                            variableSubscriptionResponce.responseByVariableCode.Add(
+                                variable,
+                            new TraCIResponse<Polygon>
+                            {
+                                Identifier = subResponseCode,
+                                Variable = variable,
+                                Result = (ResultCode)result,
+                                Content = (Polygon)contentAsObject
+                            });
+                            break;
+                        }
+                    case TraCIConstants.TYPE_UBYTE:
+                        {
+                            variableSubscriptionResponce.responseByVariableCode.Add(
+                                variable,
+                            new TraCIResponse<byte>
+                            {
+                                Identifier = subResponseCode,
+                                Variable = variable,
+                                Result = (ResultCode)result,
+                                Content = (byte)contentAsObject
+                            });
+                            break;
+                        }
+                    case TraCIConstants.TYPE_BYTE:
+                        {
+                            variableSubscriptionResponce.responseByVariableCode.Add(
+                                variable,
+                            new TraCIResponse<byte>
+                            {
+                                Identifier = subResponseCode,
+                                Variable = variable,
+                                Result = (ResultCode)result,
+                                Content = (byte)contentAsObject
+                            });
+                            break;
+                        }
+                    case TraCIConstants.TYPE_INTEGER:
+                        {
+                            variableSubscriptionResponce.responseByVariableCode.Add(
+                                variable,
+                            new TraCIResponse<int>
+                            {
+                                Identifier = subResponseCode,
+                                Variable = variable,
+                                Result = (ResultCode)result,
+                                Content = (int)contentAsObject
+                            });
+                            break;
+                        }
+                    case TraCIConstants.TYPE_FLOAT:
+                        {
+                            variableSubscriptionResponce.responseByVariableCode.Add(
+                                variable,
+                            new TraCIResponse<float>
+                            {
+                                Identifier = subResponseCode,
+                                Variable = variable,
+                                Result = (ResultCode)result,
+                                Content = (float)contentAsObject
+                            });
+                            break;
+                        }
+                    case TraCIConstants.TYPE_DOUBLE:
+                        {
+                            variableSubscriptionResponce.responseByVariableCode.Add(
+                                variable,
+                            new TraCIResponse<double>
+                            {
+                                Identifier = subResponseCode,
+                                Variable = variable,
+                                Result = (ResultCode)result,
+                                Content = (double)contentAsObject
+                            });
+                            break;
+                        }
+                    case TraCIConstants.TYPE_STRING:
+                        {
+                            variableSubscriptionResponce.responseByVariableCode.Add(
+                                variable,
+                            new TraCIResponse<string>
+                            {
+                                Identifier = subResponseCode,
+                                Variable = variable,
+                                Result = (ResultCode)result,
+                                Content = (string)contentAsObject
+                            });
+                            break;
+                        }
+                    case TraCIConstants.TYPE_STRINGLIST:
+                        {
+                            variableSubscriptionResponce.responseByVariableCode.Add(
+                                variable,
+                            new TraCIResponse<List<string>>
+                            {
+                                Identifier = subResponseCode,
+                                Variable = variable,
+                                Result = (ResultCode)result,
+                                Content = (List<string>)contentAsObject
+                            });
+                            break;
+                        }
+                    case TraCIConstants.TYPE_COLOR:
+                        {
+                            variableSubscriptionResponce.responseByVariableCode.Add(
+                                variable,
+                            new TraCIResponse<Color>
+                            {
+                                Identifier = subResponseCode,
+                                Variable = variable,
+                                Result = (ResultCode)result,
+                                Content = (Color)contentAsObject
+                            });
+                            break;
+                        }
+                    case TraCIConstants.TYPE_TLPHASELIST:
+                        {
+                            throw new NotImplementedException("There is no handler for Traffic Light Phase List (ubyte identifier: 0x0D). Unclear definition of this datatyp. See http://sumo.dlr.de/wiki/TraCI/Protocol#Data_types");
+                        }
+                    case TraCIConstants.TYPE_COMPOUND:
+                        {
+                            variableSubscriptionResponce.responseByVariableCode.Add(
+                                variable,
+                            new TraCIResponse<CompoundObject>
+                            {
+                                Identifier = subResponseCode,
+                                Variable = variable,
+                                Result = (ResultCode)result,
+                                Content = (CompoundObject)contentAsObject
+                            });
+                            break;
+                        }
+                    default:
+                        {
+                            throw new ArgumentOutOfRangeException();
+                        }
+                }
+            }
+
+            return offset;
         }
 
 

@@ -10,7 +10,7 @@ namespace CodingConnected.TraCI.NET.Types
     {
         public string ObjecId;
 
-        public List<object> Responses;
+        public IEnumerable<object> Responses;
 
         public int Length
         {
@@ -26,9 +26,6 @@ namespace CodingConnected.TraCI.NET.Types
                 }
             }
         }
-        public SubscriptionEventArgs()
-        {
-
-        }
+        public SubscriptionEventArgs() { }
     }
 }

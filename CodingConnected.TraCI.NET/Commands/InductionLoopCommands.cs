@@ -4,8 +4,13 @@ using CodingConnected.TraCI.NET.Helpers;
 
 namespace CodingConnected.TraCI.NET.Commands
 {
-	public class InductionLoopCommands : TraCICommandsBase
+	public class InductionLoopCommands : TraCIContextSubscribableCommands
 	{
+        #region Protected Override Methods
+        protected override byte ContextSubscribeCommand => TraCIConstants.CMD_SUBSCRIBE_INDUCTIONLOOP_CONTEXT;
+
+        #endregion Protected Override Methods
+
         #region Public Methods
 
         /// <summary>

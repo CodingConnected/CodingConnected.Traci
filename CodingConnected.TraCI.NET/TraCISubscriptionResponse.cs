@@ -6,15 +6,18 @@ using System.Threading.Tasks;
 
 namespace CodingConnected.TraCI.NET
 {
-    public class TraCISubscriptionResponse
+    public abstract class TraCISubscriptionResponse
     {
-        public string ObjectId;
-        public byte ResponseCode;
-        public List<object> Responses;
+        public byte ResponseCode { get; }
 
-        public TraCISubscriptionResponse()
+        public string ObjectId { get; }
+
+        public abstract IEnumerable<object> Responses { get; }
+
+        public TraCISubscriptionResponse(string objectId, byte responseCode)
         {
-            Responses = new List<object>();
+            ObjectId = objectId;
+            ResponseCode = responseCode;
         }
     }
 }
