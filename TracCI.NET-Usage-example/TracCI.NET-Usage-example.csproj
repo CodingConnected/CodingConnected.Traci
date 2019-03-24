@@ -7,7 +7,7 @@
     <ProjectGuid>{C510A87A-1B59-4B12-B915-66BC7F19D02F}</ProjectGuid>
     <OutputType>Exe</OutputType>
     <RootNamespace>TracCI.NET_Usage_example</RootNamespace>
-    <AssemblyName>TracCI.NET_Usage_example</AssemblyName>
+    <AssemblyName>TracCI.NET-Usage-example</AssemblyName>
     <TargetFrameworkVersion>v4.6.1</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <AutoGenerateBindingRedirects>true</AutoGenerateBindingRedirects>
@@ -48,6 +48,12 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\CodingConnected.Traci.NET\CodingConnected.TraCI.NET.csproj">
+      <Project>{2e2f7244-3e8c-41f0-8ad2-567acf862b75}</Project>
+      <Name>CodingConnected.TraCI.NET</Name>
+    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

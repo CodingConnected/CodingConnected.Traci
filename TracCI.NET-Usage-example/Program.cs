@@ -9,6 +9,8 @@ namespace CodingConnected.TraCI.UsageExample
 {
     class Program
     {
+        #region Creating SMO process and serving it
+
         static Process ServeSumo(string sumoCfgFile, int remotePort,
             bool useSumoGui = true, bool quitOnEnd = true, bool redirectOutputToConsole = false)
         {
@@ -58,7 +60,7 @@ namespace CodingConnected.TraCI.UsageExample
                 }
 
                 Console.WriteLine("Arguments: " + args);
-                Console.WriteLine("Sumo Executable used " + sumoExecutable);
+                Console.WriteLine("Sumo Executable used: " + sumoExecutable);
                 Console.WriteLine(sumoProcess.ToString());
 
             }
@@ -88,112 +90,56 @@ namespace CodingConnected.TraCI.UsageExample
             Console.WriteLine("SUMO stderr : " + e.Data);
         }
 
-        private static string DEFAULT_SUMOCFG = @"Path\To\Configurationfile\<name>.sumocfg";
+        #endregion
 
-        static void Main(string[] args)
+        #region static variables
+
+        private static string DEFAULT_SUMOCFG = @".\sumo-scenarios\usage-example\run.sumocfg";
+
+        /* The Variables used for Variable and Context Subscription for this example */
+        private static List<byte> variablesToSubscribeTo = new List<byte>()
         {
-            var client = new TraCIClient();
-            var sumoCfgPath = args[0] != null ? args[0] : DEFAULT_SUMOCFG;
+            TraCIConstants.VAR_SPEED,
+            TraCIConstants.VAR_ACCEL,
+            TraCIConstants.VAR_ANGLE,
+            TraCIConstants.VAR_ROUTE_ID
+        };
 
-            var sumoProcess = ServeSumo(@"", 4321);
-            if (sumoProcess == null)
+        private static List<string> vehicleIds;
+
+        #endregion
+
+        #region subscription listeners
+
+        private static void Client_VehicleSubscriptionOldWay(object sender, SubscriptionEventArgs e)
+        {
+
+            var objectID = e.ObjecId;
+            Console.WriteLine("*** Vehicle Variable Subscription OLD WAY for compatability ***");
+            Console.WriteLine("Subscription Object Id: " + objectID);
+
+            foreach (var r in e.Responses)
             {
-                Console.WriteLine("Something went wrong launching SUMO server. Maybe .sumocfg path is wrong" +
-                    "or sumo executables not defined in PATH.\n Sumo Configuration Path provided " + sumoCfgPath);
-            }
+                var variableCode = (r as TraCIResponse<object>).Variable;
 
-            /* Connecting to Sumo Server is async but we wait for the task to complete for simplicity */
-            var task = Connect(client);
-            while (!task.IsCompleted)
-            {
-
-            }
-
-            /* The Variables used for Variable and Context Subscription */
-            List<byte> variablesToSubscribeTo = new List<byte>();
-            variablesToSubscribeTo.AddRange(new byte[] {
-                TraCIConstants.VAR_SPEED,
-                TraCIConstants.VAR_ACCEL,
-                TraCIConstants.VAR_ANGLE,
-                TraCIConstants.VAR_ROUTE_ID
-            });
-
-            /* Variable Subscriptions Listeners */
-            //client.VehicleSubscription += Client_VehicleSubscriptionOldWay;
-            client.VehicleSubscription += Client_VehicleSubscriptionNewWay;
-
-            /* Context Subscriptions Listeners*/
-            client.VehicleContextSubscription += Client_VehicleContextSubscriptionOldWay;
-            client.VehicleContextSubscription += Client_VehicleContextSubscriptionNewWay;
-
-            string id;
-            Console.WriteLine("");
-            Console.WriteLine(
-                @"
-                ************************************************************
-                * Press:                                                   *
-                *   Enter - to make Simulation Step                        *
-                *   V - to make Variable Subscription                      *
-                *   C - to make Context Subscription                       *
-                *   P - to print Vehicles                                  *
-                *   T - to print Simulation Time                           *
-                *   ESC - to stop the simulation.                          *
-                ************************************************************");
-
-            bool isEscapePressed = false;
-            Console.WriteLine("************************************************************");
-            Console.Write($"Current Simulation time {client.Simulation.GetCurrentTime("ignored").Content}");
-            do
-            {
-                Console.Write("\n>");
-                var curTime = client.Simulation.GetCurrentTime("ignored").Content;
-                //PrintVehicles(client);
-
-                var keyPressed = Console.ReadKey(false).Key;
-
-                switch (keyPressed)
+                switch (variableCode)
                 {
-                    case ConsoleKey.Enter:
-                        Console.WriteLine("************************************************************");
-                        Console.Write($"Current Simulation time {curTime}");
-                        client.Control.SimStep();
+                    case TraCIConstants.VAR_SPEED:
+                        Console.Write("     VAR_SPEED  " + (r as TraCIResponse<float>).Content);
                         break;
-                    case ConsoleKey.Escape:
-                        isEscapePressed = true;
+                    case TraCIConstants.VAR_ACCEL:
+                        Console.Write("     VAR_ACCEL  " + (r as TraCIResponse<float>).Content);
                         break;
-                    case ConsoleKey.V:
-                        Console.Write(" id for vehicle subscripition: >");
-                        id = Console.ReadLine();
-                        Console.Write("Attempted to subscrible to vehicle with id " + id + " (see sumo output if it failed)");
-                        client.Vehicle.Subscribe(id, 0, 1000, variablesToSubscribeTo);
+                    case TraCIConstants.VAR_ANGLE:
+                        Console.Write("     VAR_ANGLE  " + (r as TraCIResponse<float>).Content);
                         break;
-                    case ConsoleKey.C:
-                        Console.Write(" id for vehicle context subscrption: >");
-                        id = Console.ReadLine();
-                        client.Vehicle.SubscribeContext(id, 0, 1000, TraCIConstants.CMD_GET_VEHICLE_VARIABLE, 1000f, variablesToSubscribeTo);
-                        Console.Write("Attempted to subscrible to vehicle with id " + id + " (see sumo output if it failed. " +
-                            "Context subscription ends the simulation if it fails)");
+                    case TraCIConstants.VAR_ROUTE:
+                        Console.Write("     VAR_ROUTE  " + (r as TraCIResponse<string>).Content);
                         break;
-                    case ConsoleKey.P:
-                        Console.WriteLine();
-                        PrintActiveVehicles(client);
-                        PrintDepartedVehicles(client);
-                        PrintLoadedVehicles(client);
-                        PrintArrivedVehicles(client);
-                        break;
-                    case ConsoleKey.T:
-                        Console.WriteLine();
-                        Console.WriteLine("Current Simulation time " + curTime);
-                        break;
-                    default:
-                        Console.Write("No such command press esc to cancel.");
-                        break;
-                }
-            } while (!isEscapePressed);
 
-            client.Control.Close();
-            Console.WriteLine("Simulation ended. Press any key to quit");
-            Console.ReadKey();
+                }
+            }
+
         }
 
         /// <summary>
@@ -244,10 +190,7 @@ namespace CodingConnected.TraCI.UsageExample
             }
         }
 
-        private static List<string> vehicleIds;
-
-
-        private static void Client_VehicleContextSubscriptionOldWay(object sender, ContextSubscriptionEventArgs e)
+        private static void Client_VehicleContextSubscriptionOneWay(object sender, ContextSubscriptionEventArgs e)
         {
             Console.WriteLine("*** Vehicle Context Subscription Second way ***");
             var objectCount = 0;
@@ -290,6 +233,10 @@ namespace CodingConnected.TraCI.UsageExample
             }
         }
 
+        #endregion
+
+        #region Printing vehicle ids methods
+    
         private static void PrintActiveVehicles(TraCIClient client)
         {
             vehicleIds = client.Vehicle.GetIdList().Content;
@@ -311,6 +258,7 @@ namespace CodingConnected.TraCI.UsageExample
             }
             Console.WriteLine("]");
         }
+
         private static void PrintLoadedVehicles(TraCIClient client)
         {
             vehicleIds = client.Simulation.GetLoadedIDList("ignored").Content;
@@ -333,41 +281,121 @@ namespace CodingConnected.TraCI.UsageExample
             Console.WriteLine("]");
         }
 
-        private static void Client_VehicleSubscriptionOldWay(object sender, SubscriptionEventArgs e)
+        #endregion Printing vehicle ids methods
+
+        static void Main(string[] args)
         {
+            /* Create a TraCIClient for the commands */
+            var client = new TraCIClient();
 
-            var objectID = e.ObjecId;
-            Console.WriteLine("*** Vehicle Variable Subscription OLD WAY for compatability ***");
-            Console.WriteLine("Subscription Object Id: " + objectID);
+            var sumoCfgPath = DEFAULT_SUMOCFG;
 
-            foreach (var r in e.Responses)
+            #region handling arguments
+            if (args.Length > 0)
             {
-                var variableCode = (r as TraCIResponse<object>).Variable;
+                sumoCfgPath = args[0];
+                Console.WriteLine("Using sumocfg located at " + sumoCfgPath);
+            }
+            else
+            {
+                Console.WriteLine("No sumocfg file provided. Using default sumocfg: " + DEFAULT_SUMOCFG + "]");
+            }
+            #endregion
 
-                switch (variableCode)
-                {
-                    case TraCIConstants.VAR_SPEED:
-                        Console.Write("     VAR_SPEED  " + (r as TraCIResponse<float>).Content);
-                        break;
-                    case TraCIConstants.VAR_ACCEL:
-                        Console.Write("     VAR_ACCEL  " + (r as TraCIResponse<float>).Content);
-                        break;
-                    case TraCIConstants.VAR_ANGLE:
-                        Console.Write("     VAR_ANGLE  " + (r as TraCIResponse<float>).Content);
-                        break;
-                    case TraCIConstants.VAR_ROUTE:
-                        Console.Write("     VAR_ROUTE  " + (r as TraCIResponse<string>).Content);
-                        break;
+            /*Create a new sumo process so the client can connect to it. This step is optional if 
+             a sumo server is already running. */
+            var sumoProcess = ServeSumo(sumoCfgPath, 4321, redirectOutputToConsole:true);
 
-                }
+            if (sumoProcess == null)
+            {
+                Console.WriteLine("Something went wrong launching SUMO server. Maybe .sumocfg path is wrong" +
+                    "or sumo executables not defined in PATH.\n Sumo Configuration Path provided " + sumoCfgPath);
             }
 
-        }
+            /* Connecting to Sumo Server is async but we wait for the task to complete for simplicity */
+            var task = client.ConnectAsync("127.0.0.1", 4321);
+            while (!task.IsCompleted) { /*  Wait for task to be completed before using traci commands */ }
 
-        static async System.Threading.Tasks.Task Connect(TraCIClient client)
-        {
-            await client.ConnectAsync("127.0.0.1", 4321);
+            /* Subscribe to Variable Subscriptions Events 
+             * (triggered each step if the vehicle that was subscribed to exists )*/
+            //client.VehicleSubscription += Client_VehicleSubscriptionOldWay;
+            client.VehicleSubscription += Client_VehicleSubscriptionNewWay;
 
+            /* Subscribe to Context Subscriptions Events*/
+            client.VehicleContextSubscription += Client_VehicleContextSubscriptionOneWay;
+            client.VehicleContextSubscription += Client_VehicleContextSubscriptionNewWay;
+
+            string id;
+            Console.WriteLine("");
+            var instructions =
+                @"
+                ************************************************************
+                * Press:                                                   *
+                *   Enter - to make a Simulation Step                      *
+                *   V - to make Variable Subscription                      *
+                *   C - to make Context Subscription                       *
+                *   P - to print Vehicles                                  *
+                *   T - to print Simulation Time                           *
+                *   ESC - to stop the simulation                           *
+                *   H - to print this instruction menu                     *
+                ************************************************************";
+            Console.WriteLine(instructions);
+
+            bool isEscapePressed = false;
+
+            do
+            {
+                Console.Write("\n>");
+                var curTime = client.Simulation.GetCurrentTime("ignored").Content;
+
+                var keyPressed = Console.ReadKey(false).Key;
+                switch (keyPressed)
+                {
+                    case ConsoleKey.Enter:
+                        Console.WriteLine("************************************************************");
+                        Console.Write($"Current Simulation time: {curTime} ms");
+                        client.Control.SimStep();
+                        break;
+                    case ConsoleKey.Escape:
+                        isEscapePressed = true;
+                        break;
+                    case ConsoleKey.V:
+                        Console.Write(" enter vehicle id for subscripition: >");
+                        id = Console.ReadLine();
+                        Console.WriteLine("Attempted to subscrible to vehicle with id \"" + id + "\" (see SUMO output to know if it failed)");
+                        client.Vehicle.Subscribe(id, 0, 1000, variablesToSubscribeTo);
+                        break;
+                    case ConsoleKey.C:
+                        Console.Write(" enter vehicle id for subscripition: >");
+                        id = Console.ReadLine();
+                        client.Vehicle.SubscribeContext(id, 0, 1000, TraCIConstants.CMD_GET_VEHICLE_VARIABLE, 1000f, variablesToSubscribeTo);
+                        Console.WriteLine("Attempted to subscrible to vehicle with id \"" + id + "\" (see SUMO output to know  if it failed) \n" +
+                            "!Warning: Context subscription ends the simulation if it fails!");
+                        break;
+                    case ConsoleKey.P:
+                        Console.WriteLine();
+                        PrintActiveVehicles(client);
+                        PrintDepartedVehicles(client);
+                        PrintLoadedVehicles(client);
+                        PrintArrivedVehicles(client);
+                        break;
+                    case ConsoleKey.T:
+                        Console.WriteLine();
+                        Console.WriteLine("Current Simulation time: " + curTime + " ms");
+                        break;
+                    case ConsoleKey.H:
+                        Console.WriteLine(instructions);
+                        break;
+                    default:
+                        Console.Write("\n        No such command. \n");
+                        Console.WriteLine(instructions);
+                        break;
+                }
+            } while (!isEscapePressed);
+
+            client.Control.Close();
+            Console.WriteLine("Simulation ended. Press any key to quit");
+            Console.ReadKey();
         }
     }
 }
