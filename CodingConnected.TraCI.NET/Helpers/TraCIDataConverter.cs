@@ -1220,7 +1220,8 @@ namespace CodingConnected.TraCI.NET.Helpers
 
                         }
 
-                        //change to trresult.Length = len - 1 to test context subscription;
+                        // CHANGE BACK to trresult.Length = --len; to support REGULAR VARIABLE SUBSCRIPTIONS
+                        // THIS CHANGE IS ONLY FOR DEMONSTRATING ONE CONTEXT SUBSCRIPTION
                         trresult.Length = len - 1;
                     }
 
