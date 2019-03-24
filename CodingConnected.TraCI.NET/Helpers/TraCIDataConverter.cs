@@ -1220,7 +1220,8 @@ namespace CodingConnected.TraCI.NET.Helpers
 
                         }
 
-                        trresult.Length = --len;
+                        //change to trresult.Length = len - 1 to test context subscription;
+                        trresult.Length = len - 1;
                     }
 
                     var cmd = new List<byte>();
