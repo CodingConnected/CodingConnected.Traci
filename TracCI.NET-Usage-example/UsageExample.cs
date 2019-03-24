@@ -7,7 +7,7 @@ using CodingConnected.TraCI.NET.Types;
 
 namespace CodingConnected.TraCI.UsageExample
 {
-    class Program
+    class UsageExample
     {
         #region Creating SMO process and serving it
 
@@ -111,124 +111,149 @@ namespace CodingConnected.TraCI.UsageExample
 
         #region subscription listeners
 
-        private static void Client_VehicleSubscriptionOldWay(object sender, SubscriptionEventArgs e)
+        private static void Client_VehicleSubscriptionUsingResponses(object sender, SubscriptionEventArgs e)
         {
-
             var objectID = e.ObjecId;
-            Console.WriteLine("*** Vehicle Variable Subscription OLD WAY for compatability ***");
+            Console.WriteLine("*** Vehicle Variable Subscription OLD WAY for compatability. (using Responses) ***");
             Console.WriteLine("Subscription Object Id: " + objectID);
 
             foreach (var r in e.Responses)
             {
-                var variableCode = (r as TraCIResponse<object>).Variable;
+                /* Responses are object that can be casted to IResponseInfo so we can retrieve 
+                 the variable type. */
+                var respInfo = (r as IResponseInfo); 
+                var variableCode = respInfo.Variable;
 
+                /*We can then cast to TraCIResponse to get the Content
+                 We can also use IResponseInfo.GetContentAs<> ()s*/
+                // WARNING using TraCIResponse<> we must use the exact type (i.e for speed, accel, angle, is double and not float)
                 switch (variableCode)
                 {
                     case TraCIConstants.VAR_SPEED:
-                        Console.Write("     VAR_SPEED  " + (r as TraCIResponse<float>).Content);
-                        break;
-                    case TraCIConstants.VAR_ACCEL:
-                        Console.Write("     VAR_ACCEL  " + (r as TraCIResponse<float>).Content);
+                        Console.WriteLine(" VAR_SPEED  " + (r as TraCIResponse<double>).Content);
                         break;
                     case TraCIConstants.VAR_ANGLE:
-                        Console.Write("     VAR_ANGLE  " + (r as TraCIResponse<float>).Content);
+                        Console.WriteLine(" VAR_ANGLE  " + respInfo.GetContentAs<float> ());
                         break;
-                    case TraCIConstants.VAR_ROUTE:
-                        Console.Write("     VAR_ROUTE  " + (r as TraCIResponse<string>).Content);
+                    case TraCIConstants.VAR_ROUTE_ID:
+                        Console.WriteLine(" VAR_ROUTE_ID  " + (r as TraCIResponse<string>).Content);
                         break;
-
+                    default:
+                        /* Intentionaly ommit VAR_ACCEL*/
+                        Console.WriteLine($" Variable with code {ByteToHex(variableCode)} not handled ");
+                        break;
                 }
             }
 
         }
 
+        private static string ByteToHex(byte? b)
+        {
+            return $"0x{((byte)b).ToString("X2")}";
+        }
         /// <summary>
         /// Event Args are still SubscriptionEventArgs for backwards compatability but 
         /// can be casted to VariableSubscriptionEventArgs for ResponseByVariableCode support.
         /// </summary>
         /// <param name="sender"></param>
         /// <param name="e"></param>
-        private static void Client_VehicleSubscriptionNewWay(object sender, SubscriptionEventArgs e)
+        private static void Client_VehicleSubscriptionUsingDictionary(object sender, SubscriptionEventArgs e)
         {
-
+            Console.WriteLine("*** Vehicle Variable Subscription using dictionary ***");
+            /* Get the subscribed object id */
             var objectID = e.ObjecId;
+
+            /* We can cast to VariableSubscriptionEventArgs to use the new features where 
+             we can get the response by the Variable Type */
             var eventArgsNew = e as VariableSubscriptionEventArgs;
 
-            Console.WriteLine("*** Vehicle Variable Subscription NEW WAY ***");
             Console.WriteLine("Subscription Object Id: " + objectID);
-
             var responseInfo = eventArgsNew.ResponseByVariableCode[TraCIConstants.VAR_SPEED];
             Console.WriteLine(" VAR_SPEED  " + responseInfo.GetContentAs<float>());
+
             responseInfo = eventArgsNew.ResponseByVariableCode[TraCIConstants.VAR_ACCEL];
             Console.WriteLine(" VAR_SPEED  " + responseInfo.GetContentAs<float>());
-            // Can still retrieve using TraCIResult<double> 
+
+            // We can Can still retrieve using TraCIResult. 
+            // TraCIResult implements IResponseInfo. 
+            // WARNING using TraCIResponse<> we must use the exact type (i.e for angle is double)
             var traCIResponse = (TraCIResponse<double>)eventArgsNew.ResponseByVariableCode[TraCIConstants.VAR_ANGLE];
             Console.WriteLine(" VAR_ANGLE  " + traCIResponse.Content);
+
             Console.WriteLine(" VAR_ROUTE_ID " + eventArgsNew.ResponseByVariableCode[TraCIConstants.VAR_ROUTE_ID].GetContentAs<string>());
 
         }
 
-        private static void Client_VehicleContextSubscriptionNewWay(object sender, ContextSubscriptionEventArgs e)
+        private static void Client_VehicleContextSubscriptionUsingDictionary(object sender, ContextSubscriptionEventArgs e)
         {
-            Console.WriteLine("*** Vehicle Context Subscription NEW WAY ***");
+            Console.WriteLine("*** Vehicle Context Subscription using Dictionaries ***");
             var egoObjectID = e.ObjecId;
             Console.WriteLine("EGO Object " + " id: " + egoObjectID);
 
+            Console.WriteLine("Iterating responses:");
             foreach (var r in e.Responses) /* Responses are TraCIVariableSubscriptionResponse */
             {
                 var variableSubscriptionResponse = r as TraCIVariableSubscriptionResponse;
                 var vehicleID = variableSubscriptionResponse.ObjectId;
-
-                Console.Write("     VAR_SPEED  " +
+                Console.WriteLine(" Object inside ego object range id: " + vehicleID);
+                Console.WriteLine("     VAR_SPEED  " +
                     (variableSubscriptionResponse.ResponseByVariableCode[TraCIConstants.VAR_SPEED]).GetContentAs<float>());
-                Console.Write("     VAR_ACCEL  " +
+                Console.WriteLine("     VAR_ACCEL  " +
                     (variableSubscriptionResponse.ResponseByVariableCode[TraCIConstants.VAR_ACCEL]).GetContentAs<float>());
-                Console.Write("     VAR_ANGLE  " +
-                    (variableSubscriptionResponse.ResponseByVariableCode[TraCIConstants.VAR_ANGLE]).GetContentAs<float>());
-                Console.Write("     VAR_ROUTE  " +
+                Console.WriteLine("     VAR_ANGLE  " +
+                    /* We can also use TraCIResult<> (). Warning using TraCIResponse<> we must use the exact type (i.e for angle is double) */
+                    (variableSubscriptionResponse.ResponseByVariableCode[TraCIConstants.VAR_ANGLE] as TraCIResponse<double>).Content);
+                Console.WriteLine("     VAR_ROUTE  " +
                     (variableSubscriptionResponse.ResponseByVariableCode[TraCIConstants.VAR_ROUTE_ID]).GetContentAs<string>());
+            }
+
+            //We can also get TraCIVariableSubscriptionResponse by objectID
+            Console.WriteLine("Iterating objectIds of dictionary with objects inside context range:" +
+                "\n Printing VAR_SPEED for demonstration");
+            foreach (var id in e.VariableSubscriptionByObjectId.Keys)
+            {
+                Console.WriteLine(" Object inside ego object range id: " + id);
+                var varResp = e.VariableSubscriptionByObjectId[id];
+                /* We can handle variable responses like before either iterating responses or
+                 by using value by variable type */
+                //*Printing VAR_SPEED just for demostration 
+                Console.WriteLine("     VAR_SPEED" + varResp.ResponseByVariableCode[TraCIConstants.VAR_SPEED].GetContentAs<float>());
             }
         }
 
-        private static void Client_VehicleContextSubscriptionOneWay(object sender, ContextSubscriptionEventArgs e)
+        private static void Client_VehicleContextSubscriptionUsingResponses(object sender, ContextSubscriptionEventArgs e)
         {
-            Console.WriteLine("*** Vehicle Context Subscription Second way ***");
-            var objectCount = 0;
+            Console.WriteLine("*** Vehicle Context Subscription using responses ***");
             var egoObjectID = e.ObjecId;
             Console.WriteLine("EGO Object " + " id: " + egoObjectID);
 
             foreach (var r in e.Responses) /* Responses are TraCIVariableSubscriptionResponse */
             {
-                var variableCount = 0;
                 var variableSubscriptionResponse = r as TraCIVariableSubscriptionResponse;
                 var vehicleID = variableSubscriptionResponse.ObjectId;
 
-                Console.WriteLine(" Object in contaxt range " + objectCount++ + " id: " + vehicleID);
-
+                Console.WriteLine(" Object in context range id: " + vehicleID);
                 foreach (var response in variableSubscriptionResponse.Responses)
                 {
-                    Console.Write("     Variable Count  " + variableCount++);
                     var variableResponse = ((IResponseInfo)response);
-                    byte? varType = variableResponse.Variable;
+                    var variableCode = variableResponse.Variable;
 
-                    switch (varType)
+                    switch (variableCode)
                     {
                         case TraCIConstants.VAR_SPEED: // Returns the speed of the named vehicle within the last step [m/s]; error value: -2^30
-                            Console.Write("     VAR_SPEED  " + ((TraCIResponse<double>)response).Content);
-                            break;
-                        case TraCIConstants.VAR_ACCEL: // Returns the acceleration in the previous time step [m/s^2]	
-                            Console.Write("     VAR_ACCEL  " + ((TraCIResponse<double>)variableResponse).Content);
+                            Console.WriteLine("     VAR_SPEED  " + ((TraCIResponse<double>)response).Content);
                             break;
                         case TraCIConstants.VAR_ANGLE: // Returns the angle of the named vehicle within the last step [°]; error value: -2^30
-                            Console.Write("     VAR_ANGLE  " + ((TraCIResponse<double>)variableResponse).Content);
+                            Console.WriteLine("     VAR_ANGLE  " + ((TraCIResponse<double>)variableResponse).Content);
                             break;
                         case TraCIConstants.VAR_ROUTE_ID:
-                            Console.Write("     VAR_ROUTE_ID " + ((TraCIResponse<string>)variableResponse).Content);
+                            Console.WriteLine("     VAR_ROUTE_ID " + ((TraCIResponse<string>)variableResponse).Content);
                             break;
                         default:
-                            throw new ArgumentOutOfRangeException(" " + varType);
+                            /* Intentionaly ommit VAR_ACCEL*/
+                            Console.WriteLine($" Variable with code {ByteToHex(variableCode)} not handled ");
+                            break;
                     }
-                    Console.WriteLine();
                 }
             }
         }
@@ -318,12 +343,12 @@ namespace CodingConnected.TraCI.UsageExample
 
             /* Subscribe to Variable Subscriptions Events 
              * (triggered each step if the vehicle that was subscribed to exists )*/
-            //client.VehicleSubscription += Client_VehicleSubscriptionOldWay;
-            client.VehicleSubscription += Client_VehicleSubscriptionNewWay;
+            client.VehicleSubscription += Client_VehicleSubscriptionUsingResponses;
+            client.VehicleSubscription += Client_VehicleSubscriptionUsingDictionary;
 
             /* Subscribe to Context Subscriptions Events*/
-            client.VehicleContextSubscription += Client_VehicleContextSubscriptionOneWay;
-            client.VehicleContextSubscription += Client_VehicleContextSubscriptionNewWay;
+            client.VehicleContextSubscription += Client_VehicleContextSubscriptionUsingDictionary;
+            client.VehicleContextSubscription += Client_VehicleContextSubscriptionUsingDictionary;
 
             string id;
             Console.WriteLine("");
@@ -353,7 +378,7 @@ namespace CodingConnected.TraCI.UsageExample
                 {
                     case ConsoleKey.Enter:
                         Console.WriteLine("************************************************************");
-                        Console.Write($"Current Simulation time: {curTime} ms");
+                        Console.WriteLine($"Current Simulation time: {curTime} ms");
                         client.Control.SimStep();
                         break;
                     case ConsoleKey.Escape:
