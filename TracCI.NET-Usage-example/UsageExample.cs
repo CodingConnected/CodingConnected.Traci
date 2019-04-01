@@ -329,7 +329,7 @@ namespace CodingConnected.TraCI.UsageExample
 
             /*Create a new sumo process so the client can connect to it. This step is optional if 
              a sumo server is already running. */
-            var sumoProcess = ServeSumo(sumoCfgPath, 4321, redirectOutputToConsole:true);
+            var sumoProcess = ServeSumo(sumoCfgPath, 4321, useSumoGui: true, redirectOutputToConsole:false);
 
             if (sumoProcess == null)
             {

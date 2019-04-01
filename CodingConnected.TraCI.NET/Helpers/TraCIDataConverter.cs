@@ -1214,15 +1214,20 @@ namespace CodingConnected.TraCI.NET.Helpers
                         len += 5;
                         for (int n = 0; n < subCount; n++)
                         {
-                            var revSubResponseLength = response.Skip(i + len).Take(4).Reverse().ToArray();
-                            var SubResponseLength = BitConverter.ToInt32(revSubResponseLength, 0);
-                            len += SubResponseLength;
+                            var offset = i + len;
+                            var revSubResponseLength = response.Skip(offset).Take(4).Reverse().ToArray();
+                            offset += 4;
+                            var subResponseLength = BitConverter.ToInt32(revSubResponseLength, 0);
+                            len += subResponseLength;
 
+                            // For some reason when the subscription is context subscription
+                            // we need one extra byte in the len than simply adding SubResponseLength
+                            var identifier = response.Skip(offset).First();
+                            var identifierHighPart = identifier >> 4;
+                            if (identifierHighPart == 0x09)
+                                len++;
                         }
-
-                        // CHANGE BACK to trresult.Length = --len; to support REGULAR VARIABLE SUBSCRIPTIONS
-                        // THIS CHANGE IS ONLY FOR DEMONSTRATING ONE CONTEXT SUBSCRIPTION
-                        trresult.Length = len - 1;
+                        trresult.Length = --len;
                     }
 
                     var cmd = new List<byte>();

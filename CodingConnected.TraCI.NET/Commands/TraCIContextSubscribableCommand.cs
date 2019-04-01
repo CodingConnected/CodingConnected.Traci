@@ -23,6 +23,8 @@ namespace CodingConnected.TraCI.NET.Commands
         /// </summary>
         protected abstract byte ContextSubscribeCommand { get; }
 
+
+
         protected TraCIContextSubscribableCommands(TraCIClient client) : base(client)
         {
         }
