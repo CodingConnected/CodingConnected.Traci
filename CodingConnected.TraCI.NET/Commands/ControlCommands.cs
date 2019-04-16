@@ -78,16 +78,27 @@ namespace CodingConnected.TraCI.NET.Commands
                     var subscription = item as TraCIVariableSubscriptionResponse;
                     if (subscription != null)
                     {
-                        eventArgs = new VariableSubscriptionEventArgs(subscription.ResponseByVariableCode);
+                        eventArgs = new VariableSubscriptionEventArgs(
+                            item.ObjectId,
+                            item.VariableCount,
+                            subscription.ResponseByVariableCode
+                            );
                         isVariableSubscription = true;
                     }
                     else
                     {
-                        eventArgs = new ContextSubscriptionEventArgs((item as TraCIContextSubscriptionResponse).VariableSubscriptionByObjectId);
+                        var i = (item as TraCIContextSubscriptionResponse);
+                        eventArgs = new ContextSubscriptionEventArgs
+                            (
+                            i.ObjectId,
+                            i.VariableSubscriptionByObjectId,
+                            i.ContextDomain,
+                            i.VariableCount,
+                            i.ObjectCount
+                            );
                         isVariableSubscription = false;
                     }
 
-                    eventArgs.ObjecId = item.ObjectId;
                     eventArgs.Responses = item.Responses;
 
                     switch (item.ResponseCode)

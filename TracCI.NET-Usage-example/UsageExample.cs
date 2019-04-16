@@ -100,22 +100,34 @@ namespace CodingConnected.TraCI.UsageExample
         private static List<byte> variablesToSubscribeTo = new List<byte>()
         {
             TraCIConstants.VAR_SPEED,
-            TraCIConstants.VAR_ACCEL,
             TraCIConstants.VAR_ANGLE,
+            TraCIConstants.VAR_ACCEL,
             TraCIConstants.VAR_ROUTE_ID
         };
+        
+        private static List<byte> globlVariablesToSubscribeTo = new List<byte>
+        {
+            TraCIConstants.ID_COUNT
+        };
 
+        private static int NumberOfVehcicles;
         private static List<string> vehicleIds;
 
         #endregion
+
+        private static string ByteToHex(byte? b)
+        {
+            return $"0x{((byte)b).ToString("X2")}";
+        }
 
         #region subscription listeners
 
         private static void Client_VehicleSubscriptionUsingResponses(object sender, SubscriptionEventArgs e)
         {
-            var objectID = e.ObjecId;
+            var objectID = e.ObjectId;
             Console.WriteLine("*** Vehicle Variable Subscription OLD WAY for compatability. (using Responses) ***");
             Console.WriteLine("Subscription Object Id: " + objectID);
+            Console.WriteLine("Variable Count        : " + e.VariableCount); // Prints the number of variables that were subscribed to
 
             foreach (var r in e.Responses)
             {
@@ -129,6 +141,9 @@ namespace CodingConnected.TraCI.UsageExample
                 // WARNING using TraCIResponse<> we must use the exact type (i.e for speed, accel, angle, is double and not float)
                 switch (variableCode)
                 {
+                    case TraCIConstants.ID_COUNT:
+                        NumberOfVehcicles = respInfo.GetContentAs<int>();
+                        break;
                     case TraCIConstants.VAR_SPEED:
                         Console.WriteLine(" VAR_SPEED  " + (r as TraCIResponse<double>).Content);
                         break;
@@ -147,10 +162,6 @@ namespace CodingConnected.TraCI.UsageExample
 
         }
 
-        private static string ByteToHex(byte? b)
-        {
-            return $"0x{((byte)b).ToString("X2")}";
-        }
         /// <summary>
         /// Event Args are still SubscriptionEventArgs for backwards compatability but 
         /// can be casted to VariableSubscriptionEventArgs for ResponseByVariableCode support.
@@ -161,13 +172,15 @@ namespace CodingConnected.TraCI.UsageExample
         {
             Console.WriteLine("*** Vehicle Variable Subscription using dictionary ***");
             /* Get the subscribed object id */
-            var objectID = e.ObjecId;
+            var objectID = e.ObjectId;
 
             /* We can cast to VariableSubscriptionEventArgs to use the new features where 
              we can get the response by the Variable Type */
             var eventArgsNew = e as VariableSubscriptionEventArgs;
 
             Console.WriteLine("Subscription Object Id: " + objectID);
+            Console.WriteLine("Variable Count        : " + e.VariableCount);
+
             var responseInfo = eventArgsNew.ResponseByVariableCode[TraCIConstants.VAR_SPEED];
             Console.WriteLine(" VAR_SPEED  " + responseInfo.GetContentAs<float>());
 
@@ -177,25 +190,31 @@ namespace CodingConnected.TraCI.UsageExample
             // We can Can still retrieve using TraCIResult. 
             // TraCIResult implements IResponseInfo. 
             // WARNING using TraCIResponse<> we must use the exact type (i.e for angle is double)
-            var traCIResponse = (TraCIResponse<double>)eventArgsNew.ResponseByVariableCode[TraCIConstants.VAR_ANGLE];
-            Console.WriteLine(" VAR_ANGLE  " + traCIResponse.Content);
+            var traCIResponse = (TraCIResponse<double>)eventArgsNew.ResponseByVariableCode?[TraCIConstants.VAR_ANGLE];
+            Console.WriteLine(" VAR_ANGLE  " + traCIResponse?.Content);
 
-            Console.WriteLine(" VAR_ROUTE_ID " + eventArgsNew.ResponseByVariableCode[TraCIConstants.VAR_ROUTE_ID].GetContentAs<string>());
+            Console.WriteLine(" VAR_ROUTE_ID " + eventArgsNew.ResponseByVariableCode?[TraCIConstants.VAR_ROUTE_ID].GetContentAs<string>());
 
         }
 
         private static void Client_VehicleContextSubscriptionUsingDictionary(object sender, ContextSubscriptionEventArgs e)
         {
             Console.WriteLine("*** Vehicle Context Subscription using Dictionaries ***");
-            var egoObjectID = e.ObjecId;
+            Console.WriteLine("EGO Object id              : " + e.ObjectId);
+            Console.WriteLine("Context Domain             : " + ByteToHex(e.ContextDomain));
+            Console.WriteLine("Variable Count             : " + e.VariableCount);
+            Console.WriteLine("Number of objects in range : " + e.ObjectCount);
+
+            var egoObjectID = e.ObjectId;
             Console.WriteLine("EGO Object " + " id: " + egoObjectID);
 
-            Console.WriteLine("Iterating responses:");
+            Console.WriteLine("Iterating responses...");
+            Console.WriteLine("Objects inside Context Range:");
             foreach (var r in e.Responses) /* Responses are TraCIVariableSubscriptionResponse */
             {
                 var variableSubscriptionResponse = r as TraCIVariableSubscriptionResponse;
                 var vehicleID = variableSubscriptionResponse.ObjectId;
-                Console.WriteLine(" Object inside ego object range id: " + vehicleID);
+                Console.WriteLine(" Object id: " + vehicleID);
                 Console.WriteLine("     VAR_SPEED  " +
                     (variableSubscriptionResponse.ResponseByVariableCode[TraCIConstants.VAR_SPEED]).GetContentAs<float>());
                 Console.WriteLine("     VAR_ACCEL  " +
@@ -224,15 +243,18 @@ namespace CodingConnected.TraCI.UsageExample
         private static void Client_VehicleContextSubscriptionUsingResponses(object sender, ContextSubscriptionEventArgs e)
         {
             Console.WriteLine("*** Vehicle Context Subscription using responses ***");
-            var egoObjectID = e.ObjecId;
-            Console.WriteLine("EGO Object " + " id: " + egoObjectID);
+            Console.WriteLine("EGO Object id              : " + e.ObjectId);
+            Console.WriteLine("Context Domain             : " + ByteToHex(e.ContextDomain));
+            Console.WriteLine("Variable Count             : " + e.VariableCount);
+            Console.WriteLine("Number of objects in range : " + e.ObjectCount);
 
+            Console.WriteLine("Objects inside Context Range:");
             foreach (var r in e.Responses) /* Responses are TraCIVariableSubscriptionResponse */
             {
                 var variableSubscriptionResponse = r as TraCIVariableSubscriptionResponse;
                 var vehicleID = variableSubscriptionResponse.ObjectId;
 
-                Console.WriteLine(" Object in context range id: " + vehicleID);
+                Console.WriteLine(" Object id: " + vehicleID);
                 foreach (var response in variableSubscriptionResponse.Responses)
                 {
                     var variableResponse = ((IResponseInfo)response);
@@ -251,7 +273,7 @@ namespace CodingConnected.TraCI.UsageExample
                             break;
                         default:
                             /* Intentionaly ommit VAR_ACCEL*/
-                            Console.WriteLine($" Variable with code {ByteToHex(variableCode)} not handled ");
+                            Console.WriteLine($"    Variable with code {ByteToHex(variableCode)} not handled ");
                             break;
                     }
                 }
@@ -327,10 +349,9 @@ namespace CodingConnected.TraCI.UsageExample
             }
             #endregion
 
-            /*Create a new sumo process so the client can connect to it. This step is optional if 
-             a sumo server is already running. */
+            /* Create a new sumo process so the client can connect to it. 
+             * This step is optional if a sumo server is already running. */
             var sumoProcess = ServeSumo(sumoCfgPath, 4321, useSumoGui: true, redirectOutputToConsole:false);
-
             if (sumoProcess == null)
             {
                 Console.WriteLine("Something went wrong launching SUMO server. Maybe .sumocfg path is wrong" +
@@ -348,9 +369,9 @@ namespace CodingConnected.TraCI.UsageExample
 
             /* Subscribe to Context Subscriptions Events*/
             client.VehicleContextSubscription += Client_VehicleContextSubscriptionUsingDictionary;
-            client.VehicleContextSubscription += Client_VehicleContextSubscriptionUsingDictionary;
+            client.VehicleContextSubscription += Client_VehicleContextSubscriptionUsingResponses;
 
-            string id;
+            string id; // id that will be used for subscriptions.
             Console.WriteLine("");
             var instructions =
                 @"
@@ -371,6 +392,7 @@ namespace CodingConnected.TraCI.UsageExample
             do
             {
                 Console.Write("\n>");
+
                 var curTime = client.Simulation.GetCurrentTime("ignored").Content;
 
                 var keyPressed = Console.ReadKey(false).Key;
@@ -385,7 +407,7 @@ namespace CodingConnected.TraCI.UsageExample
                         isEscapePressed = true;
                         break;
                     case ConsoleKey.V:
-                        Console.Write(" enter vehicle id for subscripition: >");
+                        Console.Write(" enter vehicle id for subscription: >");
                         id = Console.ReadLine();
                         Console.WriteLine("Attempted to subscrible to vehicle with id \"" + id + "\" (see SUMO output to know if it failed)");
                         client.Vehicle.Subscribe(id, 0, 1000, variablesToSubscribeTo);

@@ -175,10 +175,17 @@ namespace CodingConnected.TraCI.NET.Helpers
 
                         // extract the number of objects that are inside the context range
                         offset = GetInteger(r1.Response, offset, out var countObject);
+                        var objectCount = countObject.Value;
 
-                        var subContextResponse = new TraCIContextSubscriptionResponse(objectId.Value, subResponseCode);
+                        var subContextResponse = new TraCIContextSubscriptionResponse(
+                            objectId.Value, 
+                            subResponseCode,
+                            contextDomain,
+                            countVariables,
+                            objectCount
+                            );
 
-                        for (int objectNum = 0; objectNum < countObject.Value; objectNum++)
+                        for (int objectNum = 0; objectNum < objectCount; objectNum++)
                         {
                             offset = GetString(r1.Response, offset, out var curObjectId);
 
@@ -203,7 +210,7 @@ namespace CodingConnected.TraCI.NET.Helpers
 
         private static int CreateVariableSubscriptionResponse(TraCIString objectId, TraCIResult r1, byte subResponseCode, byte countVariables, int offset, out TraCIVariableSubscriptionResponse variableSubscriptionResponce)
         {
-            variableSubscriptionResponce = new TraCIVariableSubscriptionResponse(objectId.Value, subResponseCode);
+            variableSubscriptionResponce = new TraCIVariableSubscriptionResponse(objectId.Value, countVariables, subResponseCode);
 
             for (int varNum = 0; varNum < countVariables; varNum++)
             {

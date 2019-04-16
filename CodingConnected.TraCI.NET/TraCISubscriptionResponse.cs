@@ -10,14 +10,16 @@ namespace CodingConnected.TraCI.NET
     {
         public byte ResponseCode { get; }
 
+        public int VariableCount { get; }
         public string ObjectId { get; }
 
         public abstract IEnumerable<object> Responses { get; }
 
-        public TraCISubscriptionResponse(string objectId, byte responseCode)
+        public TraCISubscriptionResponse(string objectId, int variableCount, byte responseCode )
         {
             ObjectId = objectId;
             ResponseCode = responseCode;
+            VariableCount = variableCount;
         }
     }
 }
