@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Diagnostics;
-
+using System.IO;
 using CodingConnected.TraCI.NET;
 using CodingConnected.TraCI.NET.Types;
 
@@ -94,7 +94,8 @@ namespace CodingConnected.TraCI.UsageExample
 
         #region static variables
 
-        private static string DEFAULT_SUMOCFG = @"..\..\sumo-scenarios\usage-example\run.sumocfg";
+        private static string DEFAULT_SUMOCFG =
+            Path.Combine("..", "..", "sumo-scenarios", "usage-example", "run.sumocfg");
 
         /* The Variables used for Variable and Context Subscription for this example */
         private static List<byte> variablesToSubscribeTo = new List<byte>()
@@ -351,7 +352,7 @@ namespace CodingConnected.TraCI.UsageExample
 
             /* Create a new sumo process so the client can connect to it. 
              * This step is optional if a sumo server is already running. */
-            var sumoProcess = ServeSumo(sumoCfgPath, 4321, useSumoGui: true, redirectOutputToConsole:false);
+            var sumoProcess = ServeSumo(sumoCfgPath, 4321, useSumoGui: false, redirectOutputToConsole:false);
             if (sumoProcess == null)
             {
                 Console.WriteLine("Something went wrong launching SUMO server. Maybe .sumocfg path is wrong" +
