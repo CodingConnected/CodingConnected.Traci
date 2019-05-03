@@ -9,6 +9,9 @@ namespace CodingConnected.TraCI.NET.Commands
 {
     public abstract class TraCIContextSubscribableCommands : TraCICommandsBase
     {
+        // Cache an empty list of bytes to unsubscribe. Prevents allocation when multiple unsubscribe occur.
+        private static readonly List<byte> EmptyVariableSubscriptionList = new List<byte>();
+        
         /// <summary>
         /// Should be overriden and return TraCIConstants.CMD_SUBSCRIBE_&lt; Command Domain &gt;_CONTEXT 
         /// for the corresponding domain.
@@ -58,5 +61,19 @@ namespace CodingConnected.TraCI.NET.Commands
             ContextSubscribeCommand,
             ListOfVariablesToSubsribeTo);
         }
+        
+        public void UnsubscribeContext(string objectId, byte contextDomain)
+        {
+            TraCICommandHelper.ExecuteSubscribeContextCommand(
+                Client,
+                TraCIConstants.INVALID_DOUBLE_VALUE, 
+            TraCIConstants.INVALID_DOUBLE_VALUE,
+            objectId,
+            contextDomain,
+            TraCIConstants.INVALID_DOUBLE_VALUE,
+            ContextSubscribeCommand,
+            EmptyVariableSubscriptionList);
+        }
+        
     }
 }

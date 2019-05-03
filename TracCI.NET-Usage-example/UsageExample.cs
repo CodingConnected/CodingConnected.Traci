@@ -381,6 +381,7 @@ namespace CodingConnected.TraCI.UsageExample
                 *   Enter - to make a Simulation Step                      *
                 *   V - to make Variable Subscription                      *
                 *   C - to make Context Subscription                       *
+                *   U - to unsubscribe context                             *
                 *   P - to print Vehicles                                  *
                 *   T - to print Simulation Time                           *
                 *   ESC - to stop the simulation                           *
@@ -410,14 +411,14 @@ namespace CodingConnected.TraCI.UsageExample
                     case ConsoleKey.V:
                         Console.Write(" enter vehicle id for subscription: >");
                         id = Console.ReadLine();
-                        Console.WriteLine("Attempted to subscrible to vehicle with id \"" + id + "\" (see SUMO output to know if it failed)");
+                        Console.WriteLine("Attempted to subscribe to vehicle with id \"" + id + "\" (see SUMO output to know if it failed)");
                         client.Vehicle.Subscribe(id, 0, 1000, variablesToSubscribeTo);
                         break;
                     case ConsoleKey.C:
-                        Console.Write(" enter vehicle id for subscripition: >");
+                        Console.Write(" enter vehicle id for subscription: >");
                         id = Console.ReadLine();
                         client.Vehicle.SubscribeContext(id, 0, 1000, TraCIConstants.CMD_GET_VEHICLE_VARIABLE, 1000f, variablesToSubscribeTo);
-                        Console.WriteLine("Attempted to subscrible to vehicle with id \"" + id + "\" (see SUMO output to know  if it failed) \n" +
+                        Console.WriteLine("Attempted to subscribe to vehicle with id \"" + id + "\" (see SUMO output to know  if it failed) \n" +
                             "!Warning: Context subscription ends the simulation if it fails!");
                         break;
                     case ConsoleKey.P:
@@ -434,6 +435,12 @@ namespace CodingConnected.TraCI.UsageExample
                     case ConsoleKey.H:
                         Console.WriteLine(instructions);
                         break;
+                    case ConsoleKey.U:
+                        Console.Write(" enter vehicle id to unsubscribe context");
+                        id = Console.ReadLine();
+                        client.Vehicle.UnsubscribeContext(id, TraCIConstants.CMD_GET_VEHICLE_VARIABLE); 
+                        Console.WriteLine("Attempted to unsubscribe context to vehicle with id \"" + id + "\" (see SUMO output to know if it failed)");
+                        break;    
                     default:
                         Console.Write("\n        No such command. \n");
                         Console.WriteLine(instructions);
