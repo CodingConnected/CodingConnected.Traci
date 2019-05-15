@@ -78,9 +78,9 @@ void TraCIControlSimStep()
 {
     TraCICommand command;
     command.Identifier = CMD_SIMSTEP;
-    command.Contents = (char *)malloc(sizeof(char) * 4);
-    command.ContentsLength = 4;
-    for (int i = 0; i < 4; i++)
+    command.Contents = (char *)malloc(sizeof(char) * 8);
+    command.ContentsLength = 8;
+    for (int i = 0; i < 8; i++)
     {
         *(command.Contents + i) = 0;
     }
