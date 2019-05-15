@@ -21,6 +21,12 @@ namespace CodingConnected.TraCI.NET.Commands
 			Client = client;
 		}
 
-		#endregion // Constructor
-	}
+        #endregion // Constructor
+
+        #region Abstract Methods
+
+        #endregion
+
+        
+    }
 }

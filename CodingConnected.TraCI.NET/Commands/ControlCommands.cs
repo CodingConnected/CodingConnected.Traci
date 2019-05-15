@@ -71,8 +71,34 @@ namespace CodingConnected.TraCI.NET.Commands
                 var listOfSubscriptions = tmp.Content as List<TraCISubscriptionResponse>;
                 foreach (var item in listOfSubscriptions)
                 {
-                    var eventArgs = new SubscriptionEventArgs();
-                    eventArgs.ObjecId = item.ObjectId;
+                    bool isVariableSubscription = true;
+                    SubscriptionEventArgs eventArgs;
+
+                    // subscription can only be Variable or Context Subrciption. If it isnt the first then it is the latter
+                    var subscription = item as TraCIVariableSubscriptionResponse;
+                    if (subscription != null)
+                    {
+                        eventArgs = new VariableSubscriptionEventArgs(
+                            item.ObjectId,
+                            item.VariableCount,
+                            subscription.ResponseByVariableCode
+                            );
+                        isVariableSubscription = true;
+                    }
+                    else
+                    {
+                        var i = (item as TraCIContextSubscriptionResponse);
+                        eventArgs = new ContextSubscriptionEventArgs
+                            (
+                            i.ObjectId,
+                            i.VariableSubscriptionByObjectId,
+                            i.ContextDomain,
+                            i.VariableCount,
+                            i.ObjectCount
+                            );
+                        isVariableSubscription = false;
+                    }
+
                     eventArgs.Responses = item.Responses;
 
                     switch (item.ResponseCode)
@@ -121,6 +147,27 @@ namespace CodingConnected.TraCI.NET.Commands
                             break;
                         case TraCIConstants.RESPONSE_SUBSCRIBE_PERSON_VARIABLE:
                             Client.OnPersonSubscription(eventArgs);
+                            break;
+                        case TraCIConstants.RESPONSE_SUBSCRIBE_INDUCTIONLOOP_CONTEXT:
+                            Client.OnInductionLoopContextSubscription(eventArgs as ContextSubscriptionEventArgs);
+                            break;
+                        case TraCIConstants.RESPONSE_SUBSCRIBE_LANE_CONTEXT:
+                            Client.OnLaneContextSubscription(eventArgs as ContextSubscriptionEventArgs);
+                            break;
+                        case TraCIConstants.RESPONSE_SUBSCRIBE_VEHICLE_CONTEXT:
+                            Client.OnVehicleContextSubscription(eventArgs as ContextSubscriptionEventArgs);
+                            break;
+                        case TraCIConstants.RESPONSE_SUBSCRIBE_POI_CONTEXT:
+                            Client.OnPOIContextSubscription(eventArgs as ContextSubscriptionEventArgs);
+                            break;
+                        case TraCIConstants.RESPONSE_SUBSCRIBE_POLYGON_CONTEXT:
+                            Client.OnPolygonContextSubscription(eventArgs as ContextSubscriptionEventArgs);
+                            break;
+                        case TraCIConstants.RESPONSE_SUBSCRIBE_JUNCTION_CONTEXT:
+                            Client.OnJunctionContextSubscription(eventArgs as ContextSubscriptionEventArgs);
+                            break;
+                        case TraCIConstants.RESPONSE_SUBSCRIBE_EDGE_CONTEXT:
+                            Client.OnEdgeContextSubscription(eventArgs as ContextSubscriptionEventArgs);
                             break;
                         default:
                             throw new ArgumentOutOfRangeException();

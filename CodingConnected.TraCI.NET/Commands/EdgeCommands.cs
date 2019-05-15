@@ -4,8 +4,13 @@ using CodingConnected.TraCI.NET.Types;
 
 namespace CodingConnected.TraCI.NET.Commands
 {
-	public class EdgeCommands : TraCICommandsBase
+	public class EdgeCommands : TraCIContextSubscribableCommands
 	{
+        #region Protected Override Methods
+        protected override byte ContextSubscribeCommand => TraCIConstants.CMD_SUBSCRIBE_EDGE_CONTEXT;
+       
+        #endregion Protected Override Methods
+
         #region Public Methods
 
         /// <summary>

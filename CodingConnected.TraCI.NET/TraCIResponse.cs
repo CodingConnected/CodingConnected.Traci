@@ -13,7 +13,7 @@ namespace CodingConnected.TraCI.NET
         NotImplemented = 0x01
     }
 
-    public class TraCIResponse<T>
+    public class TraCIResponse<T> : IResponseInfo
     {
         public byte Identifier { get; set; }
 
@@ -27,5 +27,9 @@ namespace CodingConnected.TraCI.NET
 
         public byte? Variable { get; set; }
 
+        public U GetContentAs<U>()
+        {
+            return (U)Convert.ChangeType(Content, typeof(U));
+        }
     }
 }

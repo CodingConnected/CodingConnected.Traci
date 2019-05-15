@@ -57,20 +57,25 @@
     <Compile Include="Commands\RouteCommands.cs" />
     <Compile Include="Commands\SimulationCommands.cs" />
     <Compile Include="Commands\TraCICommandsBase.cs" />
+    <Compile Include="Commands\TraCIContextSubscribableCommand.cs" />
     <Compile Include="Commands\TrafficLightCommands.cs" />
     <Compile Include="Commands\VehicleCommands.cs" />
     <Compile Include="Commands\VehicleTypeCommands.cs" />
     <Compile Include="Helpers\TraCICommandHelper.cs" />
     <Compile Include="Helpers\TraCIDataConverter.cs" />
+    <Compile Include="IResponseInfo.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="TraCIClient.cs" />
     <Compile Include="TraCICommand.cs" />
     <Compile Include="TraCICommandException.cs" />
     <Compile Include="TraCIConstants.cs" />
+    <Compile Include="TraCIContextSubscriptionResponse.cs" />
     <Compile Include="TraCIResponse.cs" />
     <Compile Include="TraCIResult.cs" />
     <Compile Include="TraCISubscriptionResponse.cs" />
+    <Compile Include="TraCIVariableSubscriptionResponse.cs" />
     <Compile Include="Types\CompoundObject.cs" />
+    <Compile Include="Types\ContextSubscriptionEventArgs.cs" />
     <Compile Include="Types\ControlledLinks.cs" />
     <Compile Include="Types\EdgeInformation.cs" />
     <Compile Include="Types\SubscriptionEventArgs.cs" />
@@ -93,6 +98,7 @@
     <Compile Include="Types\Position2D.cs" />
     <Compile Include="Types\TrafficLightPhaseList.cs" />
     <Compile Include="Types\TrafficLightSystem.cs" />
+    <Compile Include="Types\VariableSubscriptionEventArgs.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="LICENSE.md" />

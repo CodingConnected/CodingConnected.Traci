@@ -43,8 +43,16 @@ namespace CodingConnected.TraCI.NET
         public event EventHandler<SubscriptionEventArgs> PersonSubscription;
         public event EventHandler<SubscriptionEventArgs> LaneAreaSubscription;
         public event EventHandler<SubscriptionEventArgs> GUISubscription;
+
+        public event EventHandler<ContextSubscriptionEventArgs> InductionLoopContextSubscription;
+        public event EventHandler<ContextSubscriptionEventArgs> LaneContextSubscription;
+        public event EventHandler<ContextSubscriptionEventArgs> VehicleContextSubscription;
+        public event EventHandler<ContextSubscriptionEventArgs> PointOfInterestContextSubscription;
+        public event EventHandler<ContextSubscriptionEventArgs> PolygonContextSubscription;
+        public event EventHandler<ContextSubscriptionEventArgs> JunctionContextSubscription;
+        public event EventHandler<ContextSubscriptionEventArgs> EdgeContextSubscription;
         #endregion
-        
+
         #region Fields
 
         private TcpClient _client;
@@ -326,6 +334,40 @@ namespace CodingConnected.TraCI.NET
         internal virtual void OnInductionLoopSubscription(SubscriptionEventArgs eventArgs)
         {
             InductionLoopSubscription?.Invoke(this, eventArgs);
+        }
+
+        internal protected virtual void OnInductionLoopContextSubscription(ContextSubscriptionEventArgs eventArgs)
+        {
+            InductionLoopContextSubscription?.Invoke(this, eventArgs);
+        }
+        internal protected virtual void OnLaneContextSubscription(ContextSubscriptionEventArgs eventArgs)
+        {
+            LaneContextSubscription?.Invoke(this, eventArgs);
+        }
+
+        internal protected virtual void OnVehicleContextSubscription(ContextSubscriptionEventArgs eventArgs)
+        {
+            VehicleContextSubscription?.Invoke(this, eventArgs);
+        }
+
+        internal protected virtual void OnPOIContextSubscription(ContextSubscriptionEventArgs eventArgs)
+        {
+            PointOfInterestContextSubscription?.Invoke(this, eventArgs);
+        }
+
+        internal protected virtual void OnPolygonContextSubscription(ContextSubscriptionEventArgs eventArgs)
+        {
+            PolygonContextSubscription?.Invoke(this, eventArgs);
+        }
+
+        internal protected virtual void OnJunctionContextSubscription(ContextSubscriptionEventArgs eventArgs)
+        {
+            JunctionContextSubscription?.Invoke(this, eventArgs);
+        }
+
+        internal protected virtual void OnEdgeContextSubscription(ContextSubscriptionEventArgs eventArgs)
+        {
+            EdgeContextSubscription?.Invoke(this, eventArgs);
         }
         #endregion
     }
