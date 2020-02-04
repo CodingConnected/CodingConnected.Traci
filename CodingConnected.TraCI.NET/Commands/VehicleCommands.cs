@@ -1516,7 +1516,7 @@ namespace CodingConnected.TraCI.NET.Commands
         /// <param name="personCapacity"></param>
         /// <param name="personNumber"></param>
         /// <returns></returns>
-        public TraCIResponse<object> AddFull(string id, string routeId, string vehicleTypeId, string departTime, string departLane, string departPosition,string departSpeed, string arrivalPosition, string arrivalSpeed, string fromTaz, string toTaz, string line, int personCapacity, int personNumber)
+        public TraCIResponse<object> AddFull(string id, string routeId, string vehicleTypeId, string departTime, string departLane, string departPosition,string departSpeed, string arrivalLane, string arrivalPosition, string arrivalSpeed, string fromTaz, string toTaz, string line, int personCapacity, int personNumber)
         {
             var tmp = new CompoundObject();
             tmp.Value.Add(new TraCIString() { Value = routeId });
@@ -1525,6 +1525,7 @@ namespace CodingConnected.TraCI.NET.Commands
             tmp.Value.Add(new TraCIString() { Value = departLane });
             tmp.Value.Add(new TraCIString() { Value = departPosition });
             tmp.Value.Add(new TraCIString() { Value = departSpeed });
+            tmp.Value.Add(new TraCIString() { Value = arrivalLane });
             tmp.Value.Add(new TraCIString() { Value = arrivalPosition });
             tmp.Value.Add(new TraCIString() { Value = arrivalSpeed });
             tmp.Value.Add(new TraCIString() { Value = fromTaz });
