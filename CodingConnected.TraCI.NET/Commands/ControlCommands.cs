@@ -224,7 +224,7 @@ namespace CodingConnected.TraCI.NET.Commands
 		{
 			var command = new TraCICommand
 			{
-				Identifier = TraCIConstants.CMD_GETVERSION, 
+				Identifier = TraCIConstants.CMD_SETORDER, 
 				Contents = BitConverter.GetBytes(index).Reverse().ToArray()
 			};
 			var response = Client.SendMessage(command);
