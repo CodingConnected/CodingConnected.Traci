@@ -20,7 +20,7 @@ namespace CodingConnected.TraCI.NET
     /// A simple )and yet incomplete) client-side implementation of TraCI, for using SUMO
     /// with .NET applications.
     /// </summary>
-    public class TraCIClient
+    public class TraCIClient : IDisposable
     {
 
 #if NLOG
@@ -158,6 +158,15 @@ namespace CodingConnected.TraCI.NET
             {
                 return false;
             }
+        }
+
+        public void Dispose()
+        {
+            if (_client != null)
+                _client.Close();
+
+            if (_stream != null)
+                _stream.Dispose();
         }
 
         #endregion // Public Methods
