@@ -408,7 +408,7 @@ namespace CodingConnected.TraCI.NET.Helpers
             var bytes = new List<byte> { messageType };
             bytes.AddRange(TraCIDataConverter.GetTraCIBytesFromASCIIString(id));
             bytes.Add(TraCIConstants.TYPE_BYTE);
-            bytes.AddRange(TraCIDataConverter.GetTraCIBytesFromByte(value));
+            bytes.Add(value);
             var command = new TraCICommand
             {
                 Identifier = commandType,
