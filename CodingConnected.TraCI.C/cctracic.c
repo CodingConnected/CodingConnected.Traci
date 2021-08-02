@@ -63,7 +63,7 @@ int TraCIConnect(char * hostname, char * port)
     return 0;
 }
 
-void TraCICloseConnection()
+void TraCICloseConnection(void)
 {
     if(!Connected)
     {
@@ -78,18 +78,16 @@ void TraCIControlSimStep()
 {
     TraCICommand command;
     command.Identifier = CMD_SIMSTEP;
-    command.Contents = (char *)malloc(sizeof(char) * 8);
+    command.Contents = (unsigned char *)malloc(sizeof(unsigned char) * 8);
     command.ContentsLength = 8;
     for (int i = 0; i < 8; i++)
     {
         *(command.Contents + i) = 0;
     }
-   
-    TraCIResults results = SendTraCIMessage(command);
-    // TODO: handle response
 
-    // Free!
-    free(command.Contents);
+    const TraCIResults results = SendTraCIMessage(command);
+
+    FreeCommand(command);
     FreeResults(results);
 }
 
@@ -97,20 +95,18 @@ void TraCISetOrder(int order)
 {
     TraCICommand command;
     command.Identifier = 0x03;
-    command.Contents = (char *)malloc(sizeof(char) * 4);
+    command.Contents = (unsigned char *)malloc(sizeof(unsigned char) * 4);
     command.ContentsLength = 4;
-    
-    int n = order;
+
+    const int n = order;
     *(command.Contents + 3) = n & 0xFF;
     *(command.Contents + 2) = (n >> 8) & 0xFF;
     *(command.Contents + 1) = (n >> 16) & 0xFF;
     *(command.Contents) = (n >> 24) & 0xFF;
 
-    TraCIResults results = SendTraCIMessage(command);
-    // TODO: handle response
+    const TraCIResults results = SendTraCIMessage(command);
 
-    // Free!
-    free(command.Contents);
+    FreeCommand(command);
     FreeResults(results);
 }
 
@@ -118,7 +114,7 @@ int TraCIGetInductionLoopLastStepVehicleNumber(const char * id, const char * veh
 {
 	TraCICommand command;
 	command.Identifier = CMD_GET_INDUCTIONLOOP_VARIABLE;
-	int n = strlen(id);
+	const unsigned int n = strlen(id);
 	command.ContentsLength = 5 + n;
 	command.Contents = (unsigned char *)malloc(sizeof(unsigned char) * command.ContentsLength);
 	*command.Contents = LAST_STEP_VEHICLE_NUMBER;
@@ -131,34 +127,41 @@ int TraCIGetInductionLoopLastStepVehicleNumber(const char * id, const char * veh
 		*(command.Contents + i) = *(id + (i - 5));
 	}
 
-	TraCIResults results = SendTraCIMessage(command);
+	const TraCIResults results = SendTraCIMessage(command);
 
 	if (results.Count > 0)
 	{
 		for (int i = 0; i < results.Count; ++i)
 		{
-			TraCIResult result = *(results.Results + i);
+			const TraCIResult result = *(results.Results + i);
 			if (result.Identifier == RESPONSE_GET_INDUCTIONLOOP_VARIABLE &&
 				*result.Contents == LAST_STEP_VEHICLE_NUMBER)
 			{
-				int32_t idLength = 0;
+				int32_t id_length = 0;
 				for (int j = 0; j < 4; ++j) {
-					idLength <<= 4;
-					idLength |= *(result.Contents + j + 1);
+					id_length <<= 4;
+					id_length |= *(result.Contents + j + 1);
 				}
-				//var ids = BitConverter.ToString(r.Response, 5, idl);
-				unsigned char type = *(result.Contents + 5 + idLength);
-				int perNumVeh = 0;
+				unsigned char type = *(result.Contents + 5 + id_length);
+				int per_num_veh = 0;
 				unsigned char integer[4];
-				integer[3] = *(result.Contents + 6 + idLength);
-				integer[2] = *(result.Contents + 7 + idLength);
-				integer[1] = *(result.Contents + 8 + idLength);
-				integer[0] = *(result.Contents + 9 + idLength);
-				memcpy(&perNumVeh, integer, 4);
-				return perNumVeh;
+				integer[3] = *(result.Contents + 6 + id_length);
+				integer[2] = *(result.Contents + 7 + id_length);
+				integer[1] = *(result.Contents + 8 + id_length);
+				integer[0] = *(result.Contents + 9 + id_length);
+				memcpy(&per_num_veh, integer, 4);
+
+				FreeCommand(command);
+				FreeResults(results);
+				
+				return per_num_veh;
 			}
 		}
 	}
+
+	FreeCommand(command);
+	FreeResults(results);
+	
 	return 0;
 }
 
@@ -240,7 +243,7 @@ double TraCIGetLaneAreaLastStepOccupancy(const char * id)
 {
     TraCICommand command;
     command.Identifier = CMD_GET_LANEAREA_VARIABLE;
-    int n = strlen(id);
+    const unsigned int n = strlen(id);
     command.ContentsLength = 5 + n;
     command.Contents = (unsigned char *)malloc(sizeof(unsigned char) * command.ContentsLength);
     *command.Contents = LAST_STEP_OCCUPANCY;
@@ -253,38 +256,45 @@ double TraCIGetLaneAreaLastStepOccupancy(const char * id)
         *(command.Contents + i) = *(id + (i - 5));
     }
 
-    TraCIResults results = SendTraCIMessage(command);
+    const TraCIResults results = SendTraCIMessage(command);
 
     if (results.Count > 0)
     {
         for (int i = 0; i < results.Count; i++)
         {
-            TraCIResult result = *(results.Results + i);
+	        const TraCIResult result = *(results.Results + i);
             if (result.Identifier == RESPONSE_GET_LANEAREA_VARIABLE &&
                 *result.Contents == LAST_STEP_OCCUPANCY)
             {
-                int32_t idLength = 0;
+                int32_t id_length = 0;
                 for (int j = 0; j < 4; ++j) {
-                    idLength <<= 4;
-                    idLength |= *(result.Contents + j + 1);
+                    id_length <<= 4;
+                    id_length |= *(result.Contents + j + 1);
                 }
-                //var ids = BitConverter.ToString(r.Response, 5, idl);
-                unsigned char type = *(result.Contents + 5 + idLength);
-                double perOcc = 0;
+                unsigned char type = *(result.Contents + 5 + id_length);
+                double per_occ = 0;
                 unsigned char dbl[8];
-                dbl[7] = *(result.Contents + 6 + idLength);
-                dbl[6] = *(result.Contents + 7 + idLength);
-                dbl[5] = *(result.Contents + 8 + idLength);
-                dbl[4] = *(result.Contents + 9 + idLength);
-                dbl[3] = *(result.Contents + 10 + idLength);
-                dbl[2] = *(result.Contents + 11 + idLength);
-                dbl[1] = *(result.Contents + 12 + idLength);
-                dbl[0] = *(result.Contents + 13 + idLength);
-                memcpy(&perOcc, dbl, 8);
-                return perOcc;
+                dbl[7] = *(result.Contents + 6 + id_length);
+                dbl[6] = *(result.Contents + 7 + id_length);
+                dbl[5] = *(result.Contents + 8 + id_length);
+                dbl[4] = *(result.Contents + 9 + id_length);
+                dbl[3] = *(result.Contents + 10 + id_length);
+                dbl[2] = *(result.Contents + 11 + id_length);
+                dbl[1] = *(result.Contents + 12 + id_length);
+                dbl[0] = *(result.Contents + 13 + id_length);
+                memcpy(&per_occ, dbl, 8);
+            	
+				FreeCommand(command);
+				FreeResults(results);
+
+            	return per_occ;
             }
         }
     }
+
+	FreeCommand(command);
+	FreeResults(results);
+	
     return -1;
 }
 
@@ -292,26 +302,26 @@ void TraCISetTrafficLightState(const char * trafficLightId, const char * state)
 {
     TraCICommand command;
     command.Identifier = CMD_SET_TL_VARIABLE;
-    int idLen = strlen(trafficLightId);
-    int stLen = strlen(state);
-    command.ContentsLength = 10 + idLen + stLen;
+    const int id_len = strlen(trafficLightId);
+    const int st_len = strlen(state);
+    command.ContentsLength = 10 + id_len + st_len;
     command.Contents = (unsigned char *)malloc(sizeof(unsigned char) * command.ContentsLength);
     *command.Contents = TL_RED_YELLOW_GREEN_STATE;
-    *(command.Contents + 1) = (idLen >> 24) & 0xFF;
-    *(command.Contents + 2) = (idLen >> 16) & 0xFF;
-    *(command.Contents + 3) = (idLen >> 8) & 0xFF;
-    *(command.Contents + 4) = idLen & 0xFF;
+    *(command.Contents + 1) = (id_len >> 24) & 0xFF;
+    *(command.Contents + 2) = (id_len >> 16) & 0xFF;
+    *(command.Contents + 3) = (id_len >> 8) & 0xFF;
+    *(command.Contents + 4) = id_len & 0xFF;
     int i = 5;
-    for (; i < idLen + 5; i++)
+    for (; i < id_len + 5; i++)
     {
         *(command.Contents + i) = *(trafficLightId + (i - 5));
     }
     *(command.Contents + i) = TYPE_STRING;
-    *(command.Contents + i + 1) = (stLen >> 24) & 0xFF;
-    *(command.Contents + i + 2) = (stLen >> 16) & 0xFF;
-    *(command.Contents + i + 3) = (stLen >> 8) & 0xFF;
-    *(command.Contents + i + 4) = stLen & 0xFF;
-    int p = idLen + stLen + 10;
+    *(command.Contents + i + 1) = (st_len >> 24) & 0xFF;
+    *(command.Contents + i + 2) = (st_len >> 16) & 0xFF;
+    *(command.Contents + i + 3) = (st_len >> 8) & 0xFF;
+    *(command.Contents + i + 4) = st_len & 0xFF;
+    const int p = id_len + st_len + 10;
     int k = 0;
     for (i = i + 5; i < p; i++)
     {
@@ -319,54 +329,57 @@ void TraCISetTrafficLightState(const char * trafficLightId, const char * state)
         k++;
     }
 
-    TraCIResults results = SendTraCIMessage(command);
+    const TraCIResults results = SendTraCIMessage(command);
+
+	FreeCommand(command);
+	FreeResults(results);
 }
 
 TraCIResults SendTraCIMessage(TraCICommand command)
 {
     if (!Connected)
     {
-        TraCIResults results = { -1, NULL };
+	    const TraCIResults results = { -1, NULL };
         return results;
     }
 
-    int messageLength = GetMessageBytes(command, OutgoingBytesBuffer);
+    int message_length = GetMessageBytes(command, OutgoingBytesBuffer);
     
-    iResult = send(ConnectSocket, OutgoingBytesBuffer, messageLength, 0);
+    iResult = send(ConnectSocket, OutgoingBytesBuffer, message_length, 0);
     if (iResult == SOCKET_ERROR) {
         printf("send failed with error: %d\n", WSAGetLastError());
-        TraCIResults results = { -2, NULL };
+        const TraCIResults results = { -2, NULL };
         return results;
     }
 
     iResult = recv(ConnectSocket, IncomingBytesBuffer, MAXTCPBUFFER, 0);
     if (iResult > 0)
     {
-        messageLength = 0;
+        message_length = 0;
         for (int i = 0; i < 4; i++) {
-            messageLength <<= 4;
-            messageLength |= IncomingBytesBuffer[i];
+            message_length <<= 4;
+            message_length |= IncomingBytesBuffer[i];
         }
 
         TraCIResults results;
 
         TraCIResult temp[32];
-        int resultIndex = 0;
-        for (int curIndex = 4; curIndex < messageLength; )
+        int result_index = 0;
+        for (int cur_index = 4; cur_index < message_length; )
         {
-            int curMsgIndex = 0;
-            int len = IncomingBytesBuffer[curIndex + curMsgIndex++];
+            int cur_msg_index = 0;
+            const int len = IncomingBytesBuffer[cur_index + cur_msg_index++];
             if (len == 0)
             {
-                if (curMsgIndex + 3 < len)
+                if (cur_msg_index + 3 < len)
                 {
                     int32_t _curMsgLength = 0;
                     for (int i = 0; i < 4; i++) {
                         _curMsgLength <<= 4;
-                        _curMsgLength |= IncomingBytesBuffer[curIndex + curMsgIndex + i];
+                        _curMsgLength |= IncomingBytesBuffer[cur_index + cur_msg_index + i];
                     }
-                    temp[resultIndex].ContentsLength = _curMsgLength - 6;
-                    curMsgIndex += 4;
+                    temp[result_index].ContentsLength = _curMsgLength - 6;
+                    cur_msg_index += 4;
                 }
                 else
                 {
@@ -375,50 +388,55 @@ TraCIResults SendTraCIMessage(TraCICommand command)
             }
             else
             {
-                temp[resultIndex].ContentsLength = len - 2; // bytes lenght will be: msg - length - id
+                temp[result_index].ContentsLength = len - 2; // bytes lenght will be: msg - length - id
             }
-            if (temp[resultIndex].ContentsLength > 0)
-                temp[resultIndex].Contents = (unsigned char *)malloc(sizeof(unsigned char) * temp[resultIndex].ContentsLength);
-            temp[resultIndex].Identifier = (unsigned char)IncomingBytesBuffer[curIndex + curMsgIndex++];
+            if (temp[result_index].ContentsLength > 0)
+                temp[result_index].Contents = (unsigned char *)malloc(sizeof(unsigned char) * temp[result_index].ContentsLength);
+            temp[result_index].Identifier = (unsigned char)IncomingBytesBuffer[cur_index + cur_msg_index++];
             int k = 0;
-            while (curMsgIndex < len)
+            while (cur_msg_index < len)
             {
-                *(temp[resultIndex].Contents + k) = IncomingBytesBuffer[curIndex + curMsgIndex++];
+                *(temp[result_index].Contents + k) = IncomingBytesBuffer[cur_index + cur_msg_index++];
                 k++;
             }
-            curIndex += curMsgIndex;
-            resultIndex++;
+            cur_index += cur_msg_index;
+            result_index++;
         }
-        TraCIResult * ttemp = (TraCIResult *)malloc(sizeof(TraCIResult) * (resultIndex + 1));
-        for (int i = 0; i < resultIndex; i++)
+        TraCIResult * ttemp = (TraCIResult *)malloc(sizeof(TraCIResult) * (result_index + 1));
+        for (int i = 0; i < result_index; i++)
         {
             *(ttemp + i) = temp[i];
         }
-        results.Count = resultIndex;
+        results.Count = result_index;
         results.Results = ttemp;
         return results;
     }
     printf("receive failed with error: %d\n", WSAGetLastError());
-    TraCIResults results = { -2, NULL };
+    const TraCIResults results = { -2, NULL };
     return results;
 }
 
 static void FreeResults(TraCIResults results)
 {
-    for (int i = 0; i < results.Count; i++)
+	for (int i = 0; i < results.Count; i++)
     {
-        TraCIResult result = *(results.Results + i);
+	    const TraCIResult result = *(results.Results + i);
         if (result.ContentsLength > 0)
             free(result.Contents);
     }
     free(results.Results);
 }
 
+static void FreeCommand(TraCICommand command)
+{
+	if (command.ContentsLength > 0) free(command.Contents);
+}
+
 static int GetMessageBytes(TraCICommand command, char * bytesBuffer)
 {
     TraCICommand * commands = (TraCICommand *)malloc(sizeof(TraCICommand));
     *commands = command;
-    int bytesNum = GetMessagesBytes(commands, 1, bytesBuffer);
+    const int bytesNum = GetMessagesBytes(commands, 1, bytesBuffer);
     free(commands);
     return bytesNum;
 }
@@ -428,7 +446,7 @@ static int GetMessagesBytes(TraCICommand * commands, int commandsCount, char * b
     int curIndex = 4;
     for (int curCommandIndex = 0; curCommandIndex < commandsCount; ++curCommandIndex)
     {
-        TraCICommand curCommand = *(commands + curCommandIndex);
+	    const TraCICommand curCommand = *(commands + curCommandIndex);
         if (curCommand.ContentsLength == 0)
         {
             *(bytesBuffer + curIndex) = 2; // no contents: only length self and id => 2
@@ -443,7 +461,7 @@ static int GetMessagesBytes(TraCICommand * commands, int commandsCount, char * b
         {
             *(bytesBuffer + curIndex) = 0;
             ++curIndex;
-            int n = curCommand.ContentsLength + 6;
+            const int n = curCommand.ContentsLength + 6;
             *(bytesBuffer + curIndex) = (n >> 24) & 0xFF;
             ++curIndex;
             *(bytesBuffer + curIndex) = (n >> 16) & 0xFF;
@@ -463,7 +481,7 @@ static int GetMessagesBytes(TraCICommand * commands, int commandsCount, char * b
                 ++curIndex;
             }
         }
-        int n = curCommand.ContentsLength + 6;
+	    const int n = curCommand.ContentsLength + 6;
         *(bytesBuffer + 3) = n & 0xFF;
         *(bytesBuffer + 2) = (n >> 8) & 0xFF;
         *(bytesBuffer + 1) = (n >> 16) & 0xFF;

@@ -24,7 +24,7 @@ typedef struct TraCIResultsStruct
 } TraCIResults;
 
 int TraCIConnect(char * hostname, char * port);
-void TraCICloseConnection();
+void TraCICloseConnection(void);
 
 void TraCIControlSimStep();
 void TraCISetOrder(int order);
@@ -35,5 +35,6 @@ void TraCISetTrafficLightState(const char * trafficLightId, const char * state);
 TraCIResults SendTraCIMessage(TraCICommand command);
 
 static void FreeResults(TraCIResults results);
+static void FreeCommand(TraCICommand command);
 static int GetMessageBytes(TraCICommand command, char * bytesBuffer);
 static int GetMessagesBytes(TraCICommand * commands, int commandsCount, char * bytesBuffer);
