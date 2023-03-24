@@ -1226,13 +1226,6 @@ namespace CodingConnected.TraCI.NET.Helpers
                             offset += 4;
                             var subResponseLength = BitConverter.ToInt32(revSubResponseLength, 0);
                             len += subResponseLength;
-
-                            // For some reason when the subscription is context subscription
-                            // we need one extra byte in the len than simply adding SubResponseLength
-                            var identifier = response.Skip(offset).First();
-                            var identifierHighPart = identifier >> 4;
-                            if (identifierHighPart == 0x09)
-                                len++;
                         }
                         trresult.Length = --len;
                     }
